@@ -1,7 +1,6 @@
 package baguni.api.application.pick.controller;
 
 import java.util.List;
-import java.util.Objects;
 
 import org.springframework.data.domain.Slice;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import baguni.common.annotation.MeasureTime;
-import baguni.common.event.events.CrawlingEvent;
+import baguni.common.event.events.LinkCrawlingEvent;
 import baguni.common.event.messenger.CrawlingEventMessenger;
 import baguni.common.event.messenger.RankingEventMessenger;
 import io.swagger.v3.oas.annotations.Operation;
@@ -188,9 +187,9 @@ public class PickApiController {
 		var command = pickApiMapper.toExtensionCommand(userId, request.title(), request.url());
 		var result = pickService.savePickToUnclassified(command);
 		var rankingEvent = new PickCreateEvent(userId, result.id(), request.url());
-		var crawlingEvent = new CrawlingEvent(result.linkId(), request.url(), request.title());
+		var linkCrawlingEvent = new LinkCrawlingEvent(request.url());
 		rankingEventMessenger.send(rankingEvent);
-		crawlingEventMessenger.send(crawlingEvent);
+		crawlingEventMessenger.send(linkCrawlingEvent);
 		var response = pickApiMapper.toApiExtensionResponse(result);
 		return ResponseEntity.ok(response);
 	}

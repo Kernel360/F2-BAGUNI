@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import baguni.common.event.events.LinkEvent;
+import baguni.common.event.events.LinkCrawlingEvent;
 import baguni.common.event.messenger.CrawlingEventMessenger;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -103,7 +103,7 @@ public class ChromeBookmarkController {
 		int maxThreadPoolSize = 5;
 		ExecutorService executor = Executors.newFixedThreadPool(maxThreadPoolSize);
 		for (String url : result.ogTagUpdateUrls()) {
-			CompletableFuture.runAsync(() -> crawlingEventMessenger.send(new LinkEvent(url)), executor)
+			CompletableFuture.runAsync(() -> crawlingEventMessenger.send(new LinkCrawlingEvent(url)), executor)
 							 .orTimeout(60, TimeUnit.SECONDS);
 		}
 

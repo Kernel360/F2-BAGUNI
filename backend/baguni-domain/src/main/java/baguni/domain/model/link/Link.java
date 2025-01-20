@@ -58,19 +58,11 @@ public class Link extends BaseEntity {
 		return new Link(url, title, "", "", null);
 	}
 
-	// null 값이 아닌 필드만 업데이트
-	// 이미 값이 있으면 업데이트하지 않음.
-	public Link updateMetadata(String title, String description, String imageUrl) {
-		if (StringUtils.isEmpty(this.title)) {
-			this.title = title;
-		}
-		if (StringUtils.isEmpty(this.description)) {
-			this.description = description;
-		}
-		if (StringUtils.isEmpty(this.imageUrl)) {
-			this.imageUrl = imageUrl;
-		}
-		return this;
+	// 업데이트 조건은 서비스 로직에서 명시
+	public void updateMetadata(String title, String description, String imageUrl) {
+		this.title = title;
+		this.description = description;
+		this.imageUrl = imageUrl;
 	}
 
 	public Link markAsInvalid() {
