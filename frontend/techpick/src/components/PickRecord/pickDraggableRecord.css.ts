@@ -9,7 +9,3 @@ export const selectedDragItemStyle = style({
 export const isActiveDraggingItemStyle = style({
   opacity: 0,
 });
-
-export const searchedItemStyle = style({
-  background: colorVars.orange4,
-});

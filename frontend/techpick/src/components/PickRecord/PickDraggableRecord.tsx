@@ -1,6 +1,5 @@
 'use client';
 
-import useSearchElementId from '@/hooks/useSearchElementId';
 import { useFetchPickListByFolderId } from '@/queries/useFetchPickListByFolderId';
 import { usePickStore } from '@/stores/pickStore';
 import { useUpdatePickStore } from '@/stores/updatePickStore';
@@ -14,11 +13,8 @@ import { PickContextMenu } from './PickContextMenu';
 import { PickRecord } from './PickRecord';
 import {
   isActiveDraggingItemStyle,
-  searchedItemStyle,
   selectedDragItemStyle,
 } from './pickDraggableRecord.css';
-
-// ref={index === pickList.length - 10 ? ref : null}
 
 export function PickDraggableRecord({
   pickInfo,
@@ -37,7 +33,7 @@ export function PickDraggableRecord({
     currentUpdateTitlePickId,
     currentUpdateTagPickId,
   } = useUpdatePickStore();
-  const { searchElementId, isOccurClickEvent } = useSearchElementId();
+
   const { id: pickId, parentFolderId } = pickInfo;
   const isSelected = selectedPickIdList.includes(pickId);
   const {
@@ -60,8 +56,6 @@ export function PickDraggableRecord({
       currentUpdateTagPickId === pickInfo.id,
   });
   const pickElementId = `pickId-${pickId}`;
-  const isSearchedPickHighlight =
-    searchElementId === pickElementId && !isOccurClickEvent;
 
   const style: CSSProperties = {
     transform: CSS.Transform.toString(transform),
@@ -116,7 +110,6 @@ export function PickDraggableRecord({
 
   return (
     <div
-      className={`${isSearchedPickHighlight ? searchedItemStyle : ''}`}
       ref={setNodeRef}
       {...attributes}
       {...listeners}

@@ -1,11 +1,13 @@
+import { useOpenUrlInNewTab } from '@/hooks/useOpenUrlInNewTab';
+import { useFetchBasicFolders } from '@/queries/useFetchBasicFolders';
 import { useFetchFolders } from '@/queries/useFetchFolders';
 import { useSearchPickStore } from '@/stores/searchPickStore';
 import type { PickInfoType } from '@/types/PickInfoType';
 import { formatDateString } from '@/utils/formatDateString';
+import { getBasicFolderInfoByFolderId } from '@/utils/getBasicFolderInfoByFolderId';
 import { getFolderInfoByFolderId } from '@/utils/getFolderInfoByFolderId';
-import { useRouter } from 'next/navigation';
 import type { CSSProperties } from 'react';
-import { CurrentPathIndicator } from '../FolderContentHeader/CurrentPathIndicator';
+import { CurrentPathIndicator } from './CurrentPathIndicator';
 import * as styles from './searchItemRenderer.css';
 
 export default function SearchItemRenderer({
@@ -13,29 +15,24 @@ export default function SearchItemRenderer({
   style,
   onClose,
 }: ItemRendererProps) {
-  const router = useRouter();
   const { setHoverPickInfo } = useSearchPickStore();
   const { data: folderRecord } = useFetchFolders();
-  const folderInfo = getFolderInfoByFolderId({
+  const { data: basicFolderRecord } = useFetchBasicFolders();
+  let folderInfo = getFolderInfoByFolderId({
     folderId: item.parentFolderId,
     folderRecord,
   });
+  const { openUrlInNewTab } = useOpenUrlInNewTab(item.linkInfo.url);
+
+  if (!folderInfo) {
+    folderInfo = getBasicFolderInfoByFolderId({
+      folderId: item.parentFolderId,
+      basicFolderRecord,
+    });
+  }
 
   const handleMouseEnter = () => {
     setHoverPickInfo(item);
-  };
-
-  const handleClick = () => {
-    onClose();
-
-    const targetLocation = item.parentFolderId;
-    /**
-     * @description
-     */
-    const date = new Date();
-    router.push(
-      `/folders/${targetLocation}?searchId=pickId-${item.id}&dateId=${date.getMilliseconds()}`,
-    );
   };
 
   if (!item) {
@@ -49,7 +46,7 @@ export default function SearchItemRenderer({
         ...style,
       }}
       className={styles.searchListItemContainer}
-      onClick={handleClick}
+      onClick={openUrlInNewTab}
     >
       <div
         className={styles.searchListItemTextContainer}
@@ -60,7 +57,7 @@ export default function SearchItemRenderer({
           {formatDateString(item.createdAt)}
         </span>
       </div>
-      <CurrentPathIndicator folderInfo={folderInfo} />
+      <CurrentPathIndicator folderInfo={folderInfo} onClose={onClose} />
     </div>
   );
 }
