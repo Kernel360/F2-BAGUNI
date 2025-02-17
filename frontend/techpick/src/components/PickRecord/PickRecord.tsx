@@ -32,15 +32,18 @@ import {
 } from './pickRecord.css';
 
 export function PickRecord({ pickInfo }: PickViewItemComponentProps) {
-  const pick = pickInfo;
   const link = pickInfo.linkInfo;
   const { mutate: updatePickInfo } = useUpdatePickInfo();
   const { openUrlInNewTab } = useOpenUrlInNewTab(link.url);
-  const {
-    currentUpdateTitlePickId,
-    setCurrentUpdateTitlePickId,
-    setCurrentUpdateTitlePickIdToNull,
-  } = useUpdatePickStore();
+  const currentUpdateTitlePickId = useUpdatePickStore(
+    (state) => state.currentUpdateTitlePickId,
+  );
+  const setCurrentUpdateTitlePickId = useUpdatePickStore(
+    (state) => state.setCurrentUpdateTitlePickId,
+  );
+  const setCurrentUpdateTitlePickIdToNull = useUpdatePickStore(
+    (state) => state.setCurrentUpdateTitlePickIdToNull,
+  );
   const [isHovered, setIsHovered] = useState(false);
   const isUpdateTitle = currentUpdateTitlePickId === pickInfo.id;
   const isDragging = usePickStore((state) => state.isDragging);
@@ -55,7 +58,7 @@ export function PickRecord({ pickInfo }: PickViewItemComponentProps) {
   const onClickLink = async () => {
     try {
       openUrlInNewTab();
-      await postUserPickViewEventLog({ url: link.url, pickId: pick.id });
+      await postUserPickViewEventLog({ url: link.url, pickId: pickInfo.id });
     } catch {
       /*empty */
     }
@@ -112,14 +115,14 @@ export function PickRecord({ pickInfo }: PickViewItemComponentProps) {
             event.stopPropagation();
           }}
         >
-          {pick.title}
+          {pickInfo.title}
         </div>
         {isUpdateTitle && (
           <PickRecordTitleInput
-            initialValue={pick.title}
+            initialValue={pickInfo.title}
             onSubmit={(newTitle) => {
               updatePickInfo({
-                pickParentFolderId: pick.parentFolderId,
+                pickParentFolderId: pickInfo.parentFolderId,
                 updatePickInfo: {
                   ...pickInfo,
                   title: newTitle,
@@ -146,7 +149,9 @@ export function PickRecord({ pickInfo }: PickViewItemComponentProps) {
       <Separator />
 
       <PickDateColumnLayout>
-        <div className={dateTextStyle}>{formatDateString(pick.updatedAt)}</div>
+        <div className={dateTextStyle}>
+          {formatDateString(pickInfo.updatedAt)}
+        </div>
       </PickDateColumnLayout>
     </div>
   );

@@ -1,6 +1,6 @@
 'use client';
 
-import { useFetchAllPickListByFolderId } from '@/queries/useFetchAllPickListByFolderId';
+import { useFetchPickListByFolderId } from '@/queries/useFetchPickListByFolderId';
 import { usePickStore } from '@/stores/pickStore';
 import type { PickViewDraggableItemListLayoutComponentProps } from '@/types/PickViewDraggableItemListLayoutComponentProps';
 import {
@@ -17,7 +17,8 @@ export function PickListSortableContextProvider({
   const selectedPickIdList = usePickStore((state) => state.selectedPickIdList);
   const isDragging = usePickStore((state) => state.isDragging);
   const focusPickId = usePickStore((state) => state.focusPickId);
-  const { data: pickList = [] } = useFetchAllPickListByFolderId(folderId);
+  const { data } = useFetchPickListByFolderId(folderId);
+  const pickList = data?.pages.flatMap((page) => page.content) ?? [];
   const pickListWithoutSelectedIdList = isDragging
     ? pickList.filter(
         (pickInfo) =>

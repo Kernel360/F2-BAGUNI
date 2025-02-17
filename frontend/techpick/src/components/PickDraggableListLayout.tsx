@@ -1,6 +1,15 @@
+'use client';
+
 import type { PickViewDraggableItemListLayoutComponentProps } from '@/types/PickViewDraggableItemListLayoutComponentProps';
-import { PickListSortableContextProvider } from './PickListSortableContextProvider';
+import dynamic from 'next/dynamic';
 import { pickDraggableListLayoutStyle } from './pickDraggableListLayout.css';
+const PickListSortableContextProvider = dynamic(
+  () =>
+    import('./PickListSortableContextProvider').then(
+      (mod) => mod.PickListSortableContextProvider,
+    ),
+  { ssr: true },
+);
 
 export function PickDraggableListLayout({
   viewType = 'record',

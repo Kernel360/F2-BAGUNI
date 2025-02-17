@@ -1,11 +1,13 @@
 'use client';
 
 import { movePicks } from '@/apis/pick/movePicks';
+import { PICK_LIST_SIZE } from '@/constants/pickListSize';
+import type { GetPickListResponseType } from '@/types/GetPickListResponseType';
 import type { MutateOptionType } from '@/types/MutateOptionType';
-import type { PickListType } from '@/types/PickListType';
 import type { UseMovePicksMutationFnParamType } from '@/types/UseMovePicksMutationFnParamType';
+import { convertToInfiniteDataFromPickList } from '@/utils/convertToInfiniteDataFromPickList';
 import { getMovedToEqualFolderPickList } from '@/utils/getMovedToEqualFolderPickList';
-import { useQueryClient } from '@tanstack/react-query';
+import { type InfiniteData, useQueryClient } from '@tanstack/react-query';
 import { pickKeys } from './pickKeys';
 
 export function useMovePicksToEqualFolder() {
@@ -18,10 +20,11 @@ export function useMovePicksToEqualFolder() {
     const { toPickId, sourceFolderId, fromPickId, movePicksInfo } =
       movePicksParam;
 
+    const prevInfiniteData = queryClient.getQueryData<
+      InfiniteData<GetPickListResponseType>
+    >(pickKeys.folderInfinite(sourceFolderId));
     const prevPickList =
-      queryClient.getQueryData<PickListType>(
-        pickKeys.folderId(sourceFolderId),
-      ) ?? [];
+      prevInfiniteData?.pages.flatMap((page) => page.content) ?? [];
 
     const nextPickList = getMovedToEqualFolderPickList({
       prevPickList,
@@ -30,18 +33,36 @@ export function useMovePicksToEqualFolder() {
       movePicksInfo,
     });
 
-    queryClient.setQueryData(pickKeys.folderId(sourceFolderId), nextPickList);
+    const nextInfiniteData = convertToInfiniteDataFromPickList({
+      pickList: nextPickList,
+      contentSize: PICK_LIST_SIZE,
+      oldData: prevInfiniteData,
+    });
+
+    queryClient.setQueryData<InfiniteData<GetPickListResponseType>>(
+      pickKeys.folderInfinite(sourceFolderId),
+      (oldData) => {
+        if (!oldData) {
+          return oldData;
+        }
+
+        return nextInfiniteData;
+      },
+    );
 
     try {
       await movePicks(movePicksInfo);
       onSuccess();
     } catch {
-      queryClient.setQueryData(pickKeys.folderId(sourceFolderId), prevPickList);
+      queryClient.setQueryData(
+        pickKeys.folderInfinite(sourceFolderId),
+        prevInfiniteData,
+      );
       onError();
     }
 
     queryClient.invalidateQueries({
-      queryKey: pickKeys.folderId(sourceFolderId),
+      queryKey: pickKeys.folderInfinite(sourceFolderId),
     });
   };
 

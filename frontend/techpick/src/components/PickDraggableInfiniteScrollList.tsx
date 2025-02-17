@@ -1,5 +1,7 @@
 'use client';
 
+import { PICK_LIST_SIZE } from '@/constants/pickListSize';
+import { usePickDndRenderTrigger } from '@/hooks/usePickDndRenderTrigger';
 import { useFetchPickListByFolderId } from '@/queries/useFetchPickListByFolderId';
 import type { FolderIdType } from '@/types/FolderIdType';
 import dynamic from 'next/dynamic';
@@ -18,8 +20,9 @@ export function PickDraggableInfiniteScrollList({
   folderId,
 }: PickDraggableInfiniteScrollListProps) {
   const { data, fetchNextPage, isFetchingNextPage, hasNextPage, isLoading } =
-    useFetchPickListByFolderId(folderId);
+    useFetchPickListByFolderId(folderId, PICK_LIST_SIZE);
   const pickList = data?.pages.flatMap((page) => page.content) ?? [];
+  usePickDndRenderTrigger();
 
   const { ref, inView } = useInView({
     threshold: 0,
@@ -45,11 +48,16 @@ export function PickDraggableInfiniteScrollList({
 
   return (
     <PickDraggableListLayout folderId={folderId} viewType="record">
-      {pickList.map((pick, index) => (
-        <div key={pick.id} ref={index === pickList.length - 10 ? ref : null}>
-          <PickDraggableRecord pickInfo={pick} />
-        </div>
-      ))}
+      {pickList.map((pick, index) => {
+        return (
+          <div
+            key={pick.id}
+            ref={index === pickList.length - 10 ? ref : undefined}
+          >
+            <PickDraggableRecord pickInfo={pick} />
+          </div>
+        );
+      })}
     </PickDraggableListLayout>
   );
 }
