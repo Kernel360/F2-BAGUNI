@@ -37,11 +37,7 @@ public class RequestLoggingFilter extends OncePerRequestFilter {
 			CachedHttpServletRequest cachedRequest = new CachedHttpServletRequest(request);
 
 			// TODO: 아래 로그로 남기고, Thread Local에 저장하는 Request Holder를 제거.
-			log.info(
-				"{} {} {} {}",
-				cachedRequest.getMethod(), cachedRequest.getRequestURI(), cachedRequest.getQueryString(),
-				cachedRequest.getRequestBody()
-			);
+			log.info("{}", request);
 
 			// TODO: 아래 부분 + try catch 삭제
 			requestHolder.setRequest(cachedRequest);
