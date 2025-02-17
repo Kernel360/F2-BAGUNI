@@ -41,6 +41,18 @@ public class CachedHttpServletRequest extends HttpServletRequestWrapper {
 		}
 	}
 
+	public String getRequestBody() {
+		return infoMap.get("requestBody").toString();
+	}
+
+	public String getRequestMethod() {
+		return infoMap.get("method").toString();
+	}
+
+	public String getRequestURI() {
+		return infoMap.get("requestURI").toString();
+	}
+
 	public CachedHttpServletRequest(HttpServletRequest request) throws IOException {
 		super(request);
 

@@ -12,6 +12,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 요청을 로깅하기 위한 Filter<br>
@@ -19,6 +20,7 @@ import lombok.RequiredArgsConstructor;
  * 요청 내용을 RequestHolder에 저장
  * @author psh
  * */
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class RequestLoggingFilter extends OncePerRequestFilter {
@@ -26,17 +28,27 @@ public class RequestLoggingFilter extends OncePerRequestFilter {
 	private final RequestHolder requestHolder;
 
 	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
-		FilterChain filterChain) throws ServletException, IOException {
+	protected void doFilterInternal(
+		HttpServletRequest request,
+		HttpServletResponse response,
+		FilterChain filterChain
+	) throws ServletException, IOException {
 		try {
-			MDC.put("requestId", UUID.randomUUID().toString()); // for logback
 			CachedHttpServletRequest cachedRequest = new CachedHttpServletRequest(request);
+
+			// TODO: 아래 로그로 남기고, Thread Local에 저장하는 Request Holder를 제거.
+			log.info(
+				"{} {} {} {}",
+				cachedRequest.getMethod(), cachedRequest.getRequestURI(), cachedRequest.getQueryString(),
+				cachedRequest.getRequestBody()
+			);
+
+			// TODO: 아래 부분 + try catch 삭제
 			requestHolder.setRequest(cachedRequest);
 			filterChain.doFilter(cachedRequest, response);
 		} finally {
 			// 요청이 마무리되면 무조건 ThreadLocal에 저장한 요청정보를 초기화
 			requestHolder.clearRequest();
-			MDC.remove("requestId"); // MDC 또한 ThreadLocal 기반이므로 반드시 해제해줘야함
 		}
 	}
 }
