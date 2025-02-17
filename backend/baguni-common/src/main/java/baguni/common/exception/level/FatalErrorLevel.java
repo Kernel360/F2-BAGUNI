@@ -12,7 +12,20 @@ public class FatalErrorLevel extends ErrorLevel {
 	}
 
 	@Override
+	public void logByLevel(Exception exception, String requestURI, String requestMethod) {
+		log.error(
+			"message={} requestURI={} requestMethod={}",
+			exception.getMessage(), requestURI, requestMethod,
+			exception // stack trace 출력
+		);
+	}
+
+	@Override
 	public void logByLevel(Exception exception) {
-		log.error(exception.getMessage(), exception);
+		log.error(
+			"message={}",
+			exception.getMessage(),
+			exception // stack trace 출력
+		);
 	}
 }

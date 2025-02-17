@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import baguni.common.event.messenger.EventMessenger;
 import baguni.common.util.ErrorLogEventBuilder;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import baguni.common.exception.level.ErrorLevel;
@@ -28,9 +29,11 @@ public class GlobalServiceExceptionHandler {
 	 * 모두 5xx 코드 오류 입니다.
 	 */
 	@ExceptionHandler(Exception.class)
-	public ApiErrorResponse handleGlobalException(Exception exception) {
-		ErrorLevel.MUST_NEVER_HAPPEN().logByLevel(exception, requestHolder.getRequest());
+	public ApiErrorResponse handleGlobalException(Exception exception, HttpServletRequest request) {
+		// TODO: 얘가 신규 로그 수정 작업. 테스트가 완료되면, 아래쪽 슬랙 코드 + Request Holder 삭제
+		ErrorLevel.MUST_NEVER_HAPPEN().logByLevel(exception, request.getRequestURI(), request.getMethod());
 
+		// TODO: 기존 슬랙 알림 로그. 얘는 혹시 모를 작업을 위해 남긴다.
 		var errLogMessage = errorLogEventBuilder.buildWithException(
 			exception,
 			requestHolder.getRequest(),
@@ -49,9 +52,10 @@ public class GlobalServiceExceptionHandler {
 	 * ServiceException 을 공통 Response 형태로 변환 합니다.
 	 */
 	@ExceptionHandler(ServiceException.class)
-	public ApiErrorResponse handleApiException(ServiceException exception) {
+	public ApiErrorResponse handleApiException(ServiceException exception, HttpServletRequest request) {
 		ErrorCode errorCode = exception.getErrorCode();
 
+		// TODO: 기존 슬랙 알림 로그. 얘는 혹시 모를 작업을 위해 남긴다.
 		if (exception.isFatal()) {
 			var errLogMessage = errorLogEventBuilder.buildWithServiceException(
 				exception,
@@ -60,7 +64,9 @@ public class GlobalServiceExceptionHandler {
 			eventMessenger.send(errLogMessage);
 		}
 
-		errorCode.getErrorLevel().logByLevel(exception, requestHolder.getRequest());
+		// TODO: 얘가 신규 로그 수정 작업. 테스트가 완료되면, 위쪽 슬랙 코드 + Request Holder 삭제
+		errorCode.getErrorLevel().logByLevel(exception, request.getRequestURI(), request.getMethod());
+
 		return ApiErrorResponse.fromErrorCode(errorCode);
 	}
 
@@ -69,7 +75,9 @@ public class GlobalServiceExceptionHandler {
 	 */
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public ApiErrorResponse handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
+		// TODO: 작업이 다 되면 request holder 제거
 		ErrorLevel.SHOULD_NOT_HAPPEN().logByLevel(exception, requestHolder.getRequest());
+
 		return new ApiErrorResponse(
 			"VALIDATION ERROR",
 			exception.getBindingResult().getFieldError().getDefaultMessage(),
@@ -83,6 +91,7 @@ public class GlobalServiceExceptionHandler {
 	 */
 	@ExceptionHandler(HttpMessageNotReadableException.class)
 	public ApiErrorResponse handleHttpMessageNotReadableException(HttpMessageNotReadableException exception) {
+		// TODO: 작업이 다 되면 request holder 제거
 		ErrorLevel.SHOULD_NOT_HAPPEN().logByLevel(exception, requestHolder.getRequest());
 
 		return new ApiErrorResponse(
@@ -96,6 +105,7 @@ public class GlobalServiceExceptionHandler {
 	@ExceptionHandler(MissingServletRequestParameterException.class)
 	public ApiErrorResponse handleMissingServletRequestParameterException(
 		MissingServletRequestParameterException exception) {
+		// TODO: 작업이 다 되면 request holder 제거
 		ErrorLevel.SHOULD_NOT_HAPPEN().logByLevel(exception, requestHolder.getRequest());
 		return new ApiErrorResponse(
 			"INVALID REQUEST PARAMETER",

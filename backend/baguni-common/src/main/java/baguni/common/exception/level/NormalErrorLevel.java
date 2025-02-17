@@ -14,9 +14,22 @@ public class NormalErrorLevel extends ErrorLevel {
 	}
 
 	@Override
+	public void logByLevel(Exception exception, String requestURI, String requestMethod) {
+		// TODO: 에러 알림 작업 끝나면 복구
+		log.error(
+			"message={} requestURI={} requestMethod={}",
+			exception.getMessage(), requestURI, requestMethod,
+			exception // stack trace 출력
+		);
+	}
+
+	@Override
 	public void logByLevel(Exception exception) {
 		// TODO: 에러 알림 작업 끝나면 복구
-		// log.error(exception.getMessage(), exception);
-		log.info(exception.getMessage(), exception);
+		log.error(
+			"message={}",
+			exception.getMessage(),
+			exception // stack trace 출력
+		);
 	}
 }

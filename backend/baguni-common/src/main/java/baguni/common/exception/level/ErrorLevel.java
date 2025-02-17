@@ -32,5 +32,7 @@ public abstract class ErrorLevel {
 
 	public abstract void logByLevel(Exception exception, CachedHttpServletRequest request);
 
+	public abstract void logByLevel(Exception exception, String requestURI, String requestMethod);
+
 	public abstract void logByLevel(Exception exception);
 }
