@@ -44,7 +44,7 @@ public class TestUserAuthenticationFilter extends OncePerRequestFilter {
 									.map(this::mapToAuthenticationToken)
 									.ifPresent(securityContext::setAuthentication);
 		} catch (Exception e) {
-			log.error("Test 유저용 ID_토큰으로 인증을 시도했으나 실패했습니다! 보안에 주의 필요! {}", e.getMessage(), e);
+			log.error("Test 유저용 ID 토큰 인증 실패. {}", e.getMessage(), e);
 		} finally {
 			filterChain.doFilter(request, response);
 		}

@@ -8,11 +8,11 @@ public class NormalErrorLevel extends ErrorLevel {
 
 	@Override
 	public void logByLevel(Exception exception, CachedHttpServletRequest request) {
-		log.info("{}{}", exception.getMessage(), request); // stack trace 미출력
+		log.error("{}{}", exception.getMessage(), request); // stack trace 미출력
 	}
 
 	@Override
 	public void logByLevel(Exception exception) {
-		log.info(exception.getMessage(), exception);
+		log.error(exception.getMessage(), exception);
 	}
 }
