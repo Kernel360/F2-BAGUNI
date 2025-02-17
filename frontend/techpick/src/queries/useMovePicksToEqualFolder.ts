@@ -2,6 +2,7 @@
 
 import { movePicks } from '@/apis/pick/movePicks';
 import { PICK_LIST_SIZE } from '@/constants/pickListSize';
+import { syncUpdate } from '@/libs/@react-query/taskScheduler';
 import type { GetPickListResponseType } from '@/types/GetPickListResponseType';
 import type { MutateOptionType } from '@/types/MutateOptionType';
 import type { UseMovePicksMutationFnParamType } from '@/types/UseMovePicksMutationFnParamType';
@@ -39,16 +40,18 @@ export function useMovePicksToEqualFolder() {
       oldData: prevInfiniteData,
     });
 
-    queryClient.setQueryData<InfiniteData<GetPickListResponseType>>(
-      pickKeys.folderInfinite(sourceFolderId),
-      (oldData) => {
-        if (!oldData) {
-          return oldData;
-        }
+    syncUpdate(() => {
+      queryClient.setQueryData<InfiniteData<GetPickListResponseType>>(
+        pickKeys.folderInfinite(sourceFolderId),
+        (oldData) => {
+          if (!oldData) {
+            return oldData;
+          }
 
-        return nextInfiniteData;
-      },
-    );
+          return nextInfiniteData;
+        },
+      );
+    });
 
     try {
       await movePicks(movePicksInfo);

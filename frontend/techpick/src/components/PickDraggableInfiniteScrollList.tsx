@@ -1,7 +1,6 @@
 'use client';
 
 import { PICK_LIST_SIZE } from '@/constants/pickListSize';
-import { usePickDndRenderTrigger } from '@/hooks/usePickDndRenderTrigger';
 import { useFetchPickListByFolderId } from '@/queries/useFetchPickListByFolderId';
 import type { FolderIdType } from '@/types/FolderIdType';
 import dynamic from 'next/dynamic';
@@ -22,7 +21,6 @@ export function PickDraggableInfiniteScrollList({
   const { data, fetchNextPage, isFetchingNextPage, hasNextPage, isLoading } =
     useFetchPickListByFolderId(folderId, PICK_LIST_SIZE);
   const pickList = data?.pages.flatMap((page) => page.content) ?? [];
-  usePickDndRenderTrigger();
 
   const { ref, inView } = useInView({
     threshold: 0,
