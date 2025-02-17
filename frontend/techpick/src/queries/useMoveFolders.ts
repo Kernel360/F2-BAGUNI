@@ -1,6 +1,7 @@
 'use client';
 
 import { moveFoldersMutation } from '@/apis/folder/moveFoldersMutation';
+import { syncUpdate } from '@/libs/@react-query/taskScheduler';
 import type { FolderRecordType } from '@/types/FolderRecordType';
 import type { MutateOptionType } from '@/types/MutateOptionType';
 import type { UseMoveFoldersMutationParamType } from '@/types/UseMoveFoldersMutationParamType';
@@ -51,7 +52,9 @@ export function useMoveFolders() {
       }
     });
 
-    queryClient.setQueryData(folderKeys.root(), nextFolders);
+    syncUpdate(() => {
+      queryClient.setQueryData(folderKeys.root(), nextFolders);
+    });
 
     try {
       await moveFoldersMutation(moveFoldersParam);

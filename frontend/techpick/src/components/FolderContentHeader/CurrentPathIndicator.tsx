@@ -2,15 +2,15 @@
 import { ROUTES } from '@/constants/route';
 import { useFetchFolders } from '@/queries/useFetchFolders';
 import type { FolderType } from '@/types/FolderType';
-import { getAncestorFolderListFromLeaf } from '@/utils/getAncestorFolderListFromLeaf';
-import Link from 'next/link';
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbSeparator,
-} from './Breadcrumb';
+} from '@/ui/Breadcrumb';
+import { getAncestorFolderListFromLeaf } from '@/utils/getAncestorFolderListFromLeaf';
+import Link from 'next/link';
 import {
   breadcrumbItemLayout,
   breadcrumbItemStyle,

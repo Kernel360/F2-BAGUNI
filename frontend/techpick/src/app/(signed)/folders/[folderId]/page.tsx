@@ -3,7 +3,7 @@
 import { FolderContentHeader } from '@/components/FolderContentHeader/FolderContentHeader';
 import { FolderContentLayout } from '@/components/FolderContentLayout';
 import { PickContentLayout } from '@/components/PickContentLayout';
-import { PickDraggableRecordList } from '@/components/PickDraggableRecordList';
+import { PickDraggableInfiniteScrollList } from '@/components/PickDraggableInfiniteScrollList';
 import { useClearSelectedPickIdsOnMount } from '@/hooks/useClearSelectedPickIdsOnMount';
 import { useResetPickFocusOnOutsideClick } from '@/hooks/useResetPickFocusOnOutsideClick';
 import { useParams } from 'next/navigation';
@@ -18,7 +18,7 @@ export default function FolderDetailPage() {
     <FolderContentLayout>
       <FolderContentHeader folderId={folderId} />
       <PickContentLayout>
-        <PickDraggableRecordList folderId={folderId} />
+        <PickDraggableInfiniteScrollList folderId={folderId} />
       </PickContentLayout>
     </FolderContentLayout>
   );

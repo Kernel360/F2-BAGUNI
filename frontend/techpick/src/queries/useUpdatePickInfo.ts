@@ -1,10 +1,17 @@
 'use client';
 
 import { updatePick } from '@/apis/pick/updatePick';
+import { PICK_LIST_SIZE } from '@/constants/pickListSize';
+import { microtaskUpdate } from '@/libs/@react-query/taskScheduler';
 import type { FolderIdType } from '@/types/FolderIdType';
-import type { PickListType } from '@/types/PickListType';
+import type { GetPickListResponseType } from '@/types/GetPickListResponseType';
 import type { UpdatePickRequestType } from '@/types/UpdatePickRequestType';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { convertToInfiniteDataFromPickList } from '@/utils/convertToInfiniteDataFromPickList';
+import {
+  type InfiniteData,
+  useMutation,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { pickKeys } from './pickKeys';
 
 export function useUpdatePickInfo() {
@@ -15,13 +22,14 @@ export function useUpdatePickInfo() {
       updatePick(updatePickInfo),
     onMutate: async ({ pickParentFolderId, updatePickInfo }) => {
       await queryClient.cancelQueries({
-        queryKey: pickKeys.folderId(pickParentFolderId),
+        queryKey: pickKeys.folderInfinite(pickParentFolderId),
       });
 
+      const prevInfiniteData = queryClient.getQueryData<
+        InfiniteData<GetPickListResponseType>
+      >(pickKeys.folderInfinite(pickParentFolderId));
       const prevPickList =
-        queryClient.getQueryData<PickListType>(
-          pickKeys.folderId(pickParentFolderId),
-        ) ?? [];
+        prevInfiniteData?.pages.flatMap((page) => page.content) ?? [];
 
       const nextPickList = prevPickList.map((pickInfo) => {
         if (pickInfo.id === updatePickInfo.id) {
@@ -33,25 +41,38 @@ export function useUpdatePickInfo() {
 
         return pickInfo;
       });
+      const nextInfiniteData = convertToInfiniteDataFromPickList({
+        pickList: nextPickList,
+        contentSize: PICK_LIST_SIZE,
+        oldData: prevInfiniteData,
+      });
 
-      queryClient.setQueryData(
-        pickKeys.folderId(pickParentFolderId),
-        nextPickList,
-      );
+      microtaskUpdate(() => {
+        queryClient.setQueryData<InfiniteData<GetPickListResponseType>>(
+          pickKeys.folderInfinite(pickParentFolderId),
+          (oldData) => {
+            if (!oldData) {
+              return oldData;
+            }
 
-      return { prevPickList };
+            return nextInfiniteData;
+          },
+        );
+      });
+
+      return { prevInfiniteData };
     },
     onError(_error, { pickParentFolderId }, context) {
-      const prevPickList = context?.prevPickList ?? [];
+      const prevInfiniteData = context?.prevInfiniteData ?? [];
 
       queryClient.setQueryData(
-        pickKeys.folderId(pickParentFolderId),
-        prevPickList,
+        pickKeys.folderInfinite(pickParentFolderId),
+        prevInfiniteData,
       );
     },
     onSettled: (_data, _error, { pickParentFolderId }) => {
       queryClient.invalidateQueries({
-        queryKey: pickKeys.folderId(pickParentFolderId),
+        queryKey: pickKeys.folderInfinite(pickParentFolderId),
       });
     },
   });

@@ -71,7 +71,6 @@ export function SearchInfiniteScrollList({
     </div>
   );
 }
-
 interface SearchInfiniteScrollListProps {
   onClose: () => void;
 }

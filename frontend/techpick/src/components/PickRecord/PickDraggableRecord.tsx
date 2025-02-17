@@ -1,7 +1,6 @@
 'use client';
 
-import useSearchElementId from '@/hooks/useSearchElementId';
-import { useFetchAllPickListByFolderId } from '@/queries/useFetchAllPickListByFolderId';
+import { useFetchPickListByFolderId } from '@/queries/useFetchPickListByFolderId';
 import { usePickStore } from '@/stores/pickStore';
 import { useUpdatePickStore } from '@/stores/updatePickStore';
 import type { PickViewDraggableItemComponentProps } from '@/types/PickViewDraggableItemComponentProps';
@@ -14,16 +13,14 @@ import { PickContextMenu } from './PickContextMenu';
 import { PickRecord } from './PickRecord';
 import {
   isActiveDraggingItemStyle,
-  searchedItemStyle,
   selectedDragItemStyle,
 } from './pickDraggableRecord.css';
 
 export function PickDraggableRecord({
   pickInfo,
 }: PickViewDraggableItemComponentProps) {
-  const { data: pickList = [] } = useFetchAllPickListByFolderId(
-    pickInfo.parentFolderId,
-  );
+  const { data } = useFetchPickListByFolderId(pickInfo.parentFolderId);
+  const pickList = data?.pages.flatMap((page) => page.content) ?? [];
   const selectedPickIdList = usePickStore((state) => state.selectedPickIdList);
   const selectSinglePick = usePickStore((state) => state.selectSinglePick);
   const focusPickId = usePickStore((state) => state.focusPickId);
@@ -36,7 +33,7 @@ export function PickDraggableRecord({
     currentUpdateTitlePickId,
     currentUpdateTagPickId,
   } = useUpdatePickStore();
-  const { searchElementId, isOccurClickEvent } = useSearchElementId();
+
   const { id: pickId, parentFolderId } = pickInfo;
   const isSelected = selectedPickIdList.includes(pickId);
   const {
@@ -59,8 +56,6 @@ export function PickDraggableRecord({
       currentUpdateTagPickId === pickInfo.id,
   });
   const pickElementId = `pickId-${pickId}`;
-  const isSearchedPickHighlight =
-    searchElementId === pickElementId && !isOccurClickEvent;
 
   const style: CSSProperties = {
     transform: CSS.Transform.toString(transform),
@@ -115,7 +110,6 @@ export function PickDraggableRecord({
 
   return (
     <div
-      className={`${isSearchedPickHighlight ? searchedItemStyle : ''}`}
       ref={setNodeRef}
       {...attributes}
       {...listeners}
@@ -131,7 +125,10 @@ export function PickDraggableRecord({
         onMouseDown={handleMouseDown}
       >
         <PickContextMenu pickInfo={pickInfo}>
-          <PickRecord pickInfo={pickInfo} />
+          <PickRecord
+            pickInfo={pickInfo}
+            key={`${pickInfo.id}-${pickInfo.title}`}
+          />
         </PickContextMenu>
       </div>
     </div>

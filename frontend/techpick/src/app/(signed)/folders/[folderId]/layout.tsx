@@ -1,5 +1,5 @@
-import { getAllPickListByFolderId } from '@/apis/pick/getAllPickListByFolderId';
 import { getPickListByFolderId } from '@/apis/pick/getPickListByFolderId';
+import { PICK_LIST_SIZE } from '@/constants/pickListSize';
 import { ROUTES } from '@/constants/route';
 import { getQueryClient } from '@/libs/@react-query/getQueryClient';
 import { pickKeys } from '@/queries/pickKeys';
@@ -24,7 +24,7 @@ export default async function FolderDetailLayout({
   queryClient.prefetchInfiniteQuery({
     queryKey: pickKeys.folderInfinite(folderId),
     queryFn: ({ pageParam = 0 }) => {
-      return getPickListByFolderId(folderId, pageParam);
+      return getPickListByFolderId(folderId, pageParam, PICK_LIST_SIZE);
     },
     initialPageParam: 0,
     getNextPageParam: (lastPage: { hasNext: boolean; lastCursor: number }) => {
@@ -39,11 +39,6 @@ export default async function FolderDetailLayout({
       </HydrationBoundary>
     );
   }
-
-  await queryClient.prefetchQuery({
-    queryKey: pickKeys.folderId(folderId),
-    queryFn: () => getAllPickListByFolderId(folderId),
-  });
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

@@ -1,5 +1,4 @@
 'use client';
-import { useFolderDndRenderTrigger } from '@/hooks/useFolderDndRenderTrigger';
 import { useFetchFolders } from '@/queries/useFetchFolders';
 import type { FolderIdType } from '@/types/FolderIdType';
 import { getChildFolderListByParentFolderId } from '@/utils/getChildFolderListByParentFolderId';
@@ -31,7 +30,6 @@ export function EditableFolderNavigationItemList({
     folderId,
   });
   const childDepth = typeof depth === 'number' ? depth + 1 : 0;
-  useFolderDndRenderTrigger();
 
   return (
     <UpdateFolderStatusProvider>

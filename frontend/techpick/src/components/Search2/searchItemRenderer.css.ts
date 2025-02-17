@@ -7,6 +7,7 @@ export const searchListItemContainer = style({
   borderBottom: `1px solid ${colorVars.gray4}`,
   padding: '4px 8px',
   borderRadius: '4px',
+  cursor: 'pointer',
   ':hover': {
     backgroundColor: colorVars.gold2,
   },
