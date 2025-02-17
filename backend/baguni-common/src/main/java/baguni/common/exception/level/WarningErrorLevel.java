@@ -8,15 +8,17 @@ public class WarningErrorLevel extends ErrorLevel {
 
 	@Override
 	public void logByLevel(Exception exception, CachedHttpServletRequest request) {
-		log.warn("{}{}", exception.getMessage(), request); // stack trace 미출력
+		log.warn(
+			"{}{}",
+			exception.getMessage(), request
+		);
 	}
 
 	@Override
 	public void logByLevel(Exception exception, String requestURI, String requestMethod) {
 		log.warn(
 			"{} requestURI={} requestMethod={}",
-			exception.getMessage(), requestURI, requestMethod,
-			exception // stack trace 출력
+			exception.getMessage(), requestURI, requestMethod
 		);
 	}
 
@@ -24,8 +26,7 @@ public class WarningErrorLevel extends ErrorLevel {
 	public void logByLevel(Exception exception) {
 		log.warn(
 			"{}",
-			exception.getMessage(),
-			exception // stack trace 출력
+			exception.getMessage()
 		);
 	}
 }

@@ -8,28 +8,25 @@ public class NormalErrorLevel extends ErrorLevel {
 
 	@Override
 	public void logByLevel(Exception exception, CachedHttpServletRequest request) {
-		// TODO: 에러 알림 작업 끝나면 복구
-		// log.info("{}{}", exception.getMessage(), request); // stack trace 미출력
-		log.error("{}{}", exception.getMessage(), request, exception); // stack trace 출력
+		log.info(
+			"{}{}",
+			exception.getMessage(), request
+		);
 	}
 
 	@Override
 	public void logByLevel(Exception exception, String requestURI, String requestMethod) {
-		// TODO: 에러 알림 작업 끝나면 복구
-		log.error(
+		log.info(
 			"{} requestURI={} requestMethod={}",
-			exception.getMessage(), requestURI, requestMethod,
-			exception // stack trace 출력
+			exception.getMessage(), requestURI, requestMethod
 		);
 	}
 
 	@Override
 	public void logByLevel(Exception exception) {
-		// TODO: 에러 알림 작업 끝나면 복구
-		log.error(
+		log.info(
 			"{}",
-			exception.getMessage(),
-			exception // stack trace 출력
+			exception.getMessage()
 		);
 	}
 }

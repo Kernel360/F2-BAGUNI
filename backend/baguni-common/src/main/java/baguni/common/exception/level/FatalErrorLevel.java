@@ -8,7 +8,11 @@ public class FatalErrorLevel extends ErrorLevel {
 
 	@Override
 	public void logByLevel(Exception exception, CachedHttpServletRequest request) {
-		log.error("{}{}", exception.getMessage(), request, exception); // stack trace 출력
+		log.error(
+			"{}{}",
+			exception.getMessage(), request,
+			exception // stack trace 출력
+		);
 	}
 
 	@Override
