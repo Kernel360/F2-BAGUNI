@@ -114,11 +114,15 @@ public class OpenGraphReaderSelenium implements OpenGraphReader {
 		options.addArguments("--start-maximized");
 		options.addArguments("--disable-popup-blocking"); // 팝업 안뜨게
 		options.addArguments("--remote-allow-origins=*"); // 모든 출처에서의 연결을 허용, 자동화된 테스트나 CORS 제한을 우회할 때 유용
-		options.addArguments(
-			"--disable-dev-shm-usage"); // Chrome이 /dev/shm 대신 /tmp 디렉토리를 사용, /tmp는 일반적인 파일 시스템으로, 크기 제한이 없어 메모리 부족
-		// 문제를 방지
+		options.addArguments("--disable-dev-shm-usage"); // Chrome이 /dev/shm 대신 /tmp 디렉토리를 사용, /tmp는 일반적인 파일 시스템으로, 크기 제한이 없어 메모리 부족
+		options.addArguments("--disable-blink-features=AutomationControlled"); // 자동화 탐지 방지
 
 		// WebDriver 생성
-		return new ChromeDriver(options);
+		WebDriver driver = new ChromeDriver(options);
+
+		// navigator.webdriver 감지 방지
+		((JavascriptExecutor) driver).executeScript("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})");
+
+		return driver;
 	}
 }
