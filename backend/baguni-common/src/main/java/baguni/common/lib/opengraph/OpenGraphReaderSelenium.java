@@ -46,14 +46,17 @@ public class OpenGraphReaderSelenium implements OpenGraphReader {
 		try {
 			// 페이지 로딩 타임아웃 설정
 			driver.manage().timeouts().pageLoadTimeout(openGraphOption.getHttpRequestTimeoutyDuration());
+			log.info("Selenium 페이지 로딩 타임아웃 설정");
 
 			// 3. 페이지 로딩
 			driver.get(uri.toString());
+			log.info("Selenium 페이지 로딩");
 
 			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 			wait.until(webDriver -> ((JavascriptExecutor)driver)
 				.executeScript("return document.readyState").equals("complete")); // 초기 로딩 완료될 때까지 대기
 			Thread.sleep(300);
+			log.info("Selenium 페이지 초기 로딩 완료 및 Threed sleep 종료");
 
 			// 제목 저장
 			String title = driver.getTitle();
