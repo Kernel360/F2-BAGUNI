@@ -15,8 +15,6 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class MeasureTimeAspect {
 
-	private final RequestHolder requestHolder;
-
 	@Pointcut("@annotation(baguni.common.annotation.MeasureTime)")
 	public void pointcut() {
 	}
@@ -24,11 +22,10 @@ public class MeasureTimeAspect {
 	@Around("pointcut()")
 	public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
 		var methodName = joinPoint.getSignature().getName();
-		// 필요하다면 StopWatch 클래스 도입 고려
 		long startTime = System.currentTimeMillis();
 		var result = joinPoint.proceed();
 		long endTime = System.currentTimeMillis();
-		log.info("{} 실행 시간 : {} ms \n request : {} ", methodName, endTime - startTime, requestHolder.getRequest());
+		log.info("{} 실행 시간 : {} ms", methodName, endTime - startTime);
 		return result;
 	}
 }
