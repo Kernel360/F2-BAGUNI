@@ -18,6 +18,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import baguni.common.util.RequestLoggingFilter;
 import baguni.security.filter.TestUserAuthenticationFilter;
 import baguni.security.handler.BaguniOAuth2FlowFailureHandler;
 import baguni.security.handler.BaguniApiAuthExceptionEntrypoint;
@@ -36,14 +37,17 @@ import baguni.security.service.CustomOAuth2Service;
 @EnableConfigurationProperties(SecurityProperties.class)
 public class SecurityConfig {
 
-	private final CustomOAuth2Service customOAuth2Service;
-	private final OAuth2SuccessHandler oAuth2SuccessHandler;
 	private final TokenAuthenticationFilter tokenAuthenticationFilter;
 	private final TestUserAuthenticationFilter testUserAuthenticationFilter;
+	private final RequestLoggingFilter requestLoggingFilter;
+
+	private final CustomOAuth2Service customOAuth2Service;
+	private final OAuth2SuccessHandler oAuth2SuccessHandler;
 	private final BaguniLogoutHandler logoutHandler;
 	private final BaguniOAuth2FlowFailureHandler loginFailureHandler;
 	private final BaguniAuthorizationRequestRepository requestRepository;
 	private final BaguniApiAuthExceptionEntrypoint authExceptionEntrypoint;
+
 	private final SecurityProperties properties;
 
 	/* ********************************************
@@ -64,6 +68,7 @@ public class SecurityConfig {
 					  .logoutSuccessHandler(logoutHandler);
 			})
 			.sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+			.addFilterBefore(requestLoggingFilter, UsernamePasswordAuthenticationFilter.class)
 			.addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 			.authorizeHttpRequests(
 				authRequest -> authRequest
@@ -122,6 +127,7 @@ public class SecurityConfig {
 					  .logoutSuccessHandler(logoutHandler);
 			})
 			.sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+			.addFilterBefore(requestLoggingFilter, UsernamePasswordAuthenticationFilter.class)
 			.addFilterBefore(testUserAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 			.addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 			.authorizeHttpRequests(
