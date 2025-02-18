@@ -3,7 +3,6 @@ package baguni.common.exception.base;
 import baguni.common.exception.level.FatalErrorLevel;
 import baguni.common.exception.level.NormalErrorLevel;
 import baguni.common.exception.level.WarningErrorLevel;
-import baguni.common.util.CachedHttpServletRequest;
 import lombok.Getter;
 
 @Getter
@@ -19,6 +18,10 @@ public class ServiceException extends RuntimeException {
 	public ServiceException(ErrorCode errorCode, String additionalHint) {
 		super(errorCode.toString() + ": " + additionalHint);
 		this.errorCode = errorCode;
+	}
+
+	public void logByLevel() {
+		this.errorCode.getErrorLevel().logByLevel(this);
 	}
 
 	public final boolean isFatal() {
