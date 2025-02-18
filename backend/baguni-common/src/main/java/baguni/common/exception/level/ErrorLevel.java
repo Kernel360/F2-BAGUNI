@@ -30,8 +30,14 @@ public abstract class ErrorLevel {
 		return new FatalErrorLevel();
 	}
 
+	/**
+	 * @deprecated 필터에서 로그를 남기고 삭제할 예정
+	 */
 	public abstract void logByLevel(Exception exception, CachedHttpServletRequest request);
 
+	/**
+	 * @deprecated 필터에서 로그를 남기고 삭제할 예정 (슬랙 알림 대시보드 클릭시 바로 묶어서 볼 수 있게 변경)
+	 */
 	public abstract void logByLevel(Exception exception, String requestURI, String requestMethod);
 
 	public abstract void logByLevel(Exception exception);
