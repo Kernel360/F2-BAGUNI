@@ -34,11 +34,15 @@ export const apiClient = ky.create({
             url: httpError.request.url,
             method: httpError.request.method,
           });
-          Sentry.captureException(error);
+
           const parsedErrorMessage = error.message.split(' ');
           const errorCode = parsedErrorMessage.shift();
 
           if (errorCode && ERROR_MESSAGE_JSON[errorCode]) {
+            if (errorCode === 'UNKNOWN') {
+              Sentry.captureMessage('500 서버 에러', 'error');
+            }
+
             if (errorCode === 'AU-001') {
               if (isServer) {
                 redirect('/login');
