@@ -13,8 +13,6 @@ spring:
       on-profile: local
 server:
   port: 8081
-slack-config:
-  webhook-url: "" # 로컬은 알림 없음
 ---
 spring:
   config:
@@ -22,8 +20,6 @@ spring:
       on-profile: dev
 server:
   port: 8080
-slack-config:
-  webhook-url: ${SLACK_DEV_WEBHOOK_URL}
 ---
 spring:
   config:
@@ -31,5 +27,3 @@ spring:
       on-profile: prod
 server:
   port: 8080
-slack-config:
-  webhook-url: ${SLACK_PROD_WEBHOOK_URL}
