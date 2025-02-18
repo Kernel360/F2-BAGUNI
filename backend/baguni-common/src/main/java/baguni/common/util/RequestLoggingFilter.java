@@ -15,17 +15,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * 요청을 로깅하기 위한 Filter<br>
- * UUID 를 MDC에 저장하여 Logback에서 활용<br>
- * 요청 내용을 RequestHolder에 저장
- * @author psh
- * */
+ * 스프링 컨테이너 진입 전에 요청을 로깅하는 Filter
+ */
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class RequestLoggingFilter extends OncePerRequestFilter {
-
-	private final RequestHolder requestHolder;
 
 	@Override
 	protected void doFilterInternal(
@@ -33,18 +28,10 @@ public class RequestLoggingFilter extends OncePerRequestFilter {
 		HttpServletResponse response,
 		FilterChain filterChain
 	) throws ServletException, IOException {
-		try {
-			CachedHttpServletRequest cachedRequest = new CachedHttpServletRequest(request);
 
-			// TODO: 아래 로그로 남기고, Thread Local에 저장하는 Request Holder를 제거.
-			log.info("{}", request);
+		CachedHttpServletRequest cachedRequest = new CachedHttpServletRequest(request);
+		log.info("{}", cachedRequest);
 
-			// TODO: 아래 부분 + try catch 삭제
-			requestHolder.setRequest(cachedRequest);
-			filterChain.doFilter(cachedRequest, response);
-		} finally {
-			// 요청이 마무리되면 무조건 ThreadLocal에 저장한 요청정보를 초기화
-			requestHolder.clearRequest();
-		}
+		filterChain.doFilter(cachedRequest, response);
 	}
 }

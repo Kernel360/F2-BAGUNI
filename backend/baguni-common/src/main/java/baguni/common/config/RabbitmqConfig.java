@@ -30,7 +30,6 @@ public class RabbitmqConfig {
 	public static final class QUEUE {
 		public static final String LINK_RANKING = "queue.link-ranking";
 		public static final String LINK_UPDATE = "queue.link-analyze";
-		public static final String SLACK_NOTIFICATION = "queue.slack-notification";
 	}
 
 	@Value("${spring.application.name}")
@@ -65,21 +64,14 @@ public class RabbitmqConfig {
 	}
 
 	@Bean
-	Queue slackNotification() {
-		return new Queue(QUEUE.SLACK_NOTIFICATION, false);
-	}
-
-	@Bean
 	Declarables bindings() {
 		return new Declarables(
-			// ranking
+			// link ranking
 			BindingBuilder.bind(linkRanking()).to(exchange()).with("bookmark.create"),
 			BindingBuilder.bind(linkRanking()).to(exchange()).with("link.read"),
-			// link update
+			// link analyze
 			BindingBuilder.bind(linkUpdate()).to(exchange()).with("bookmark.create"),
-			BindingBuilder.bind(linkUpdate()).to(exchange()).with("link.*"),
-			// slack notify
-			BindingBuilder.bind(slackNotification()).to(exchange()).with("log.*")
+			BindingBuilder.bind(linkUpdate()).to(exchange()).with("link.*")
 		);
 	}
 
@@ -137,14 +129,13 @@ public class RabbitmqConfig {
 	 */
 	@Bean
 	public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory(
-		CachingConnectionFactory cachingConnectionFactory,
-		RabbitmqCustomErrorHandler rabbitmqCustomErrorHandler
+		CachingConnectionFactory cachingConnectionFactory
 	) {
 		var containerFactory = new SimpleRabbitListenerContainerFactory();
 		containerFactory.setConnectionFactory(cachingConnectionFactory);
 		containerFactory.setDefaultRequeueRejected(false); // 그냥 바로 폐기
 		containerFactory.setMessageConverter(messageConverter());
-		containerFactory.setErrorHandler(rabbitmqCustomErrorHandler);
+		containerFactory.setErrorHandler(new RabbitmqCustomErrorHandler());
 		containerFactory.setObservationEnabled(true);
 		return containerFactory;
 	}
