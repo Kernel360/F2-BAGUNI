@@ -30,7 +30,7 @@ public class OpenGraphReaderSelenium implements OpenGraphReader {
 
 	/**
 	 * @author sangwon
-	 * Selenium을 이용하여 JavaScript에 의해 동적으로 만들어지는 OG 데이터가 있는 경우도 처리가 가능
+	 * Selenium을 이용하여 JavaScript에 의해 동적으로 만들어지는 OG 데이터가 있는 경우도 처리가 가능.
 	 */
 	@Override
 	public Map<String, String> read(URI uri) throws OpenGraphException {
