@@ -2,7 +2,6 @@
 
 import { postLogout } from '@/apis/postLogout';
 import { FolderContentLayout } from '@/components/FolderContentLayout';
-import { ImportBookmarkDialog } from '@/components/ImportBookmarkDialog';
 import MyPageContentContainer from '@/components/MyPage/MyPageContentContainer';
 import MyPageShareFolderContent from '@/components/MyPage/MyPageShareFolderContent';
 import { TutorialDialog } from '@/components/TutorialDialog';
@@ -42,7 +41,6 @@ export default function MyPage() {
         <div className={myPageContentContainerLayoutStyle}>
           <MyPageContentContainer title="내 계정">
             <div className={buttonSectionStyle}>
-              <ImportBookmarkDialog />
               {/* biome-ignore lint/a11y/useButtonType: <explanation> */}
               <button className={logoutButtonStyle} onClick={handleLogout}>
                 로그아웃
