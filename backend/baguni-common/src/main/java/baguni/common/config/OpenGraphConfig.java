@@ -10,6 +10,6 @@ public class OpenGraphConfig {
 
 	@Bean
 	public OpenGraphOption openGraphOption() {
-		return new OpenGraphOption(2 * 60);
+		return new OpenGraphOption(5 * 60);
 	}
 }

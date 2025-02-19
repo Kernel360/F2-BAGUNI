@@ -42,6 +42,7 @@ export function CreateRootChildFolderInput({
           !containerRef.current.contains(event.target as Node)
         ) {
           onSubmit();
+          onClose();
         }
       };
 
@@ -50,7 +51,7 @@ export function CreateRootChildFolderInput({
         document.removeEventListener('mousedown', handleClickOutside);
       };
     },
-    [onSubmit],
+    [onSubmit, onClose],
   );
 
   useEffect(() => {
