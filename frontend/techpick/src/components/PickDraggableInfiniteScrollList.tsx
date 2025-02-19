@@ -8,7 +8,6 @@ import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { PickDraggableListLayout } from './PickDraggableListLayout';
 import { PickDraggableRecord } from './PickRecord/PickDraggableRecord';
-import { PickRecordHeader } from './PickRecord/PickRecordHeader';
 const EmptyPickRecordImage = dynamic(() =>
   import('@/components/EmptyPickRecordImage').then(
     (mod) => mod.EmptyPickRecordImage,
@@ -36,12 +35,7 @@ export function PickDraggableInfiniteScrollList({
   );
 
   if (!isLoading && pickList.length === 0) {
-    return (
-      <div>
-        <PickRecordHeader />
-        <EmptyPickRecordImage />
-      </div>
-    );
+    return <EmptyPickRecordImage />;
   }
 
   return (
