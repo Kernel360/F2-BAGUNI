@@ -53,6 +53,7 @@ export function CreateChildFolderInput({
           !containerRef.current.contains(event.target as Node)
         ) {
           onSubmit();
+          onCloseCreateFolderInput();
         }
       };
 
@@ -61,7 +62,7 @@ export function CreateChildFolderInput({
         document.removeEventListener('mousedown', handleClickOutside);
       };
     },
-    [onSubmit],
+    [onSubmit, onCloseCreateFolderInput],
   );
 
   if (!isCreateChildFolderOpen) {
