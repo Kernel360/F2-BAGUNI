@@ -23,7 +23,14 @@ export function MobileSharedPickRecord({
   const link = pickInfo.linkInfo;
   const { openUrlInNewTab } = useOpenUrlInNewTab(link.url);
   const { imageStatus } = useImageLoader(link.imageUrl);
-  const filteredSelectedTagList = tagList.slice(0, 5);
+  const filteredSelectedTagList = pickInfo.tagIdxList
+    ?.map((tagIdx) => {
+      if (tagList[tagIdx]) {
+        return tagList[tagIdx];
+      }
+    })
+    .filter((value) => value !== undefined)
+    .slice(0, 5);
 
   const onClickLink = async () => {
     try {
