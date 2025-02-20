@@ -1,5 +1,6 @@
 package baguni.batch.domain.link.service;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +34,9 @@ public class LinkService {
 	public void analyzeAndUpdateLink(String url) {
 		Link link = linkDataHandler.getLink(url);
 		LinkAnalyzeResult result = linkAnalyzer.analyze(url);
-		link.updateMetadata(result.title(), result.description(), result.imageUrl());
+
+		if (StringUtils.isNotEmpty(result.title())) {
+			link.updateMetadata(result.title(), result.description(), result.imageUrl());
+		}
 	}
 }
