@@ -1,5 +1,3 @@
-'use client';
-
 import { useCreateTag } from '@/queries/useCreateTag';
 import { useFetchTagList } from '@/queries/useFetchTagList';
 import { useUpdatePickInfo } from '@/queries/useUpdatePickInfo';
@@ -8,6 +6,10 @@ import { useUpdatePickStore } from '@/stores/updatePickStore';
 import type { PickInfoType } from '@/types/PickInfoType';
 import type { TagType } from '@/types/TagType';
 import { numberToRandomColor } from '@/utils/numberToRandomColor';
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
 import * as Dialog from '@radix-ui/react-dialog';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 import { Command } from 'cmdk';
@@ -19,12 +21,12 @@ import { SelectedTagItem } from '../SelectedTagItem/SelectedTagItem';
 import { SelectedTagListLayout } from '../SelectedTagListLayout/SelectedTagListLayout';
 import { DeleteTagDialog } from './DeleteTagDialog';
 import { DeselectTagButton } from './DeselectTagButton';
-import {
-  CREATABLE_TAG_KEYWORD,
-  filterCommandItems,
-  getRandomInt,
-} from './PickTagAutocompleteDialog.lib';
+import { getRandomInt } from './PickTagAutocompleteDialog.lib';
+import { NON_EXISTENT_TAG_ID } from './PickTagPicker.constants';
+import { TagDndContext } from './TagDndContext';
 import { TagInfoEditPopoverButton } from './TagInfoEditPopoverButton';
+import { TagSortableDraggable } from './TagSortableDraggable';
+import { getTagSortableContextId } from './getTagSortableContextId';
 import {
   commandInputStyle,
   dialogOverlayStyle,
@@ -35,6 +37,7 @@ import {
   tagListLoadingStyle,
   tagListStyle,
 } from './pickTagAutocompleteDialog.css';
+import { convertToFuzzyItems, useFuzzyFilter } from './useFuzzyFilter';
 
 export function PickTagAutocompleteDialog({
   open,
@@ -59,6 +62,23 @@ export function PickTagAutocompleteDialog({
   const setCurrentUpdateTagPickIdToNull = useUpdatePickStore(
     (state) => state.setCurrentUpdateTagPickIdToNull,
   );
+  const tagListWithOrder = tagList.map((tag, index) => ({ ...tag, index }));
+  const fuzzyFilter = useFuzzyFilter();
+  const fuzzyTagList = convertToFuzzyItems({
+    items: tagListWithOrder,
+    getId: (tag) => tag.id ?? 0,
+    getValue: (tag) => tag.name ?? '',
+    getKeywords: (tag) => [tag.name ?? ''],
+  });
+  const filteredTagList = fuzzyFilter(fuzzyTagList, tagInputValue);
+  const sortableContextIdList = canCreateTag
+    ? [
+        ...filteredTagList.map((tag) => getTagSortableContextId(tag.id)),
+        `tag-${NON_EXISTENT_TAG_ID}`,
+      ]
+    : filteredTagList.map((tag) => getTagSortableContextId(tag.id));
+  const createTagOrder =
+    filteredTagList[filteredTagList.length - 1]?.index ?? NON_EXISTENT_TAG_ID;
 
   const focusTagInput = () => {
     tagInputRef.current?.focus();
@@ -161,6 +181,7 @@ export function PickTagAutocompleteDialog({
         }
         onOpenChange(open);
       }}
+      modal
     >
       <Dialog.Portal container={container}>
         <Dialog.Overlay className={dialogOverlayStyle} />
@@ -174,7 +195,7 @@ export function PickTagAutocompleteDialog({
             <Dialog.Description>select tag</Dialog.Description>
           </VisuallyHidden.Root>
 
-          <Command filter={filterCommandItems}>
+          <Command shouldFilter={false}>
             {/**선택한 태그 리스트 */}
             <SelectedTagListLayout ref={selectedTagListRef} focusStyle="focus">
               {selectedTagList.map((tag) => (
@@ -203,7 +224,6 @@ export function PickTagAutocompleteDialog({
             </SelectedTagListLayout>
 
             {/**전체 태그 리스트 */}
-
             <Command.List className={tagListStyle}>
               {isLoading && (
                 <Command.Loading className={tagListLoadingStyle}>
@@ -211,46 +231,66 @@ export function PickTagAutocompleteDialog({
                 </Command.Loading>
               )}
 
-              {(!isLoading || tagInputValue.trim()) !== '' && (
-                <Command.Empty className={tagListItemStyle}>
-                  태그를 만들어보세요!
-                </Command.Empty>
-              )}
+              {!isLoading &&
+                tagInputValue.trim() === '' &&
+                tagList.length === 0 && (
+                  <Command.Empty className={tagListItemStyle}>
+                    태그를 만들어보세요!
+                  </Command.Empty>
+                )}
 
-              {tagList.map((tag) => (
-                <Command.Item
-                  key={tag.id}
-                  className={tagListItemStyle}
-                  onSelect={() => onSelectTag(tag)}
-                  keywords={[tag.name]}
+              <TagDndContext>
+                <SortableContext
+                  items={sortableContextIdList}
+                  strategy={verticalListSortingStrategy}
                 >
-                  <SelectedTagItem key={tag.id} tag={tag} />
-                  <TagInfoEditPopoverButton tag={tag} container={container} />
-                </Command.Item>
-              ))}
+                  {filteredTagList.map((tag) => (
+                    <TagSortableDraggable
+                      key={tag.id}
+                      tagId={tag.id}
+                      tagOrder={tag.index}
+                    >
+                      <Command.Item
+                        className={tagListItemStyle}
+                        onSelect={() => {
+                          onSelectTag(tag);
+                        }}
+                      >
+                        <SelectedTagItem key={tag.id} tag={tag} />
+                        <TagInfoEditPopoverButton
+                          tag={tag}
+                          container={container}
+                        />
+                      </Command.Item>
+                    </TagSortableDraggable>
+                  ))}
 
-              {canCreateTag && (
-                <Command.Item
-                  className={tagListItemStyle}
-                  value={tagInputValue}
-                  keywords={[CREATABLE_TAG_KEYWORD]}
-                  onSelect={onSelectCreatableTag}
-                  disabled={!canCreateTag}
-                >
-                  <span
-                    className={tagListItemContentStyle}
-                    style={{
-                      backgroundColor: numberToRandomColor(
-                        randomNumber.current,
-                        isDarkMode ? 'dark' : 'light',
-                      ),
-                    }}
-                  >
-                    {tagInputValue}
-                  </span>
-                  <span className={tagCreateTextStyle}>생성</span>
-                </Command.Item>
-              )}
+                  {canCreateTag && (
+                    <TagSortableDraggable
+                      tagId={NON_EXISTENT_TAG_ID}
+                      tagOrder={createTagOrder}
+                    >
+                      <Command.Item
+                        className={tagListItemStyle}
+                        onSelect={onSelectCreatableTag}
+                      >
+                        <span
+                          className={tagListItemContentStyle}
+                          style={{
+                            backgroundColor: numberToRandomColor(
+                              randomNumber.current,
+                              isDarkMode ? 'dark' : 'light',
+                            ),
+                          }}
+                        >
+                          {tagInputValue}
+                        </span>
+                        <span className={tagCreateTextStyle}>생성</span>
+                      </Command.Item>
+                    </TagSortableDraggable>
+                  )}
+                </SortableContext>
+              </TagDndContext>
             </Command.List>
 
             {/**DeleteTagDialog를 닫고도 Command.Dialog가 켜져있기위해서 Command.Dialog 내부에 있어야합니다.*/}

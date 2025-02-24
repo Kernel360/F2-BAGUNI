@@ -58,6 +58,7 @@ export const tagListItemStyle = style({
     '&[data-disabled="true"]': {
       display: 'none',
     },
+    '&:focus': { backgroundColor: colorVars.gold4 },
   },
 });
 
