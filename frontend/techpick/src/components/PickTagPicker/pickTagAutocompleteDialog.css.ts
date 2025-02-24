@@ -48,7 +48,7 @@ export const tagListItemStyle = style({
   justifyContent: 'space-between',
   alignItems: 'center',
   backgroundColor: 'transparent',
-  padding: '4px',
+  padding: '4px 0',
 
   // 선택된 상태일 때
   selectors: {
@@ -58,9 +58,13 @@ export const tagListItemStyle = style({
     '&[data-disabled="true"]': {
       display: 'none',
     },
-    '&:focus': { backgroundColor: colorVars.gold4 },
   },
 });
+
+export const createTagListItemStyle = style([
+  tagListItemStyle,
+  { justifyContent: 'start' },
+]);
 
 export const tagCreateTextStyle = style({
   width: '28px',
@@ -70,4 +74,22 @@ export const tagCreateTextStyle = style({
 
 export const dialogOverlayStyle = style({
   zIndex: 1,
+});
+
+export const displayFlex = style({
+  display: 'flex',
+});
+
+export const alignItemCenter = style({
+  alignItems: 'center',
+});
+
+export const dragHandlerStyle = style({
+  width: '20px',
+  height: '20px',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  color: '#9F9E9B',
+  cursor: 'pointer',
 });

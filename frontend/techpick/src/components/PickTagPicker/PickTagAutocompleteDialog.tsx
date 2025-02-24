@@ -11,6 +11,7 @@ import {
 import * as Dialog from '@radix-ui/react-dialog';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 import { Command } from 'cmdk';
+import { GripVerticalIcon } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import type { CSSProperties, KeyboardEvent } from 'react';
 import { BarLoader } from 'react-spinners';
@@ -26,8 +27,12 @@ import { TagInfoEditPopoverButton } from './TagInfoEditPopoverButton';
 import { TagSortableDraggable } from './TagSortableDraggable';
 import { getTagSortableContextId } from './getTagSortableContextId';
 import {
+  alignItemCenter,
   commandInputStyle,
+  createTagListItemStyle,
   dialogOverlayStyle,
+  displayFlex,
+  dragHandlerStyle,
   tagCreateTextStyle,
   tagDialogPortalLayout,
   tagListItemStyle,
@@ -256,11 +261,18 @@ export function PickTagAutocompleteDialog({
                           onSelectTag(tag);
                         }}
                       >
-                        <SelectedTagItem
-                          key={tag.id}
-                          name={tag.name}
-                          colorNumber={tag.colorNumber}
-                        />
+                        <div className={`${displayFlex} ${alignItemCenter}`}>
+                          <div className={dragHandlerStyle}>
+                            <GripVerticalIcon size={16} />
+                          </div>
+
+                          <SelectedTagItem
+                            key={tag.id}
+                            name={tag.name}
+                            colorNumber={tag.colorNumber}
+                          />
+                        </div>
+
                         <TagInfoEditPopoverButton
                           tag={tag}
                           container={container}
@@ -275,15 +287,14 @@ export function PickTagAutocompleteDialog({
                       tagOrder={createTagOrder}
                     >
                       <Command.Item
-                        className={tagListItemStyle}
+                        className={createTagListItemStyle}
                         onSelect={onSelectCreatableTag}
                       >
+                        <span className={tagCreateTextStyle}>생성</span>
                         <SelectedTagItem
                           name={tagInputValue}
                           colorNumber={randomNumber.current}
                         />
-
-                        <span className={tagCreateTextStyle}>생성</span>
                       </Command.Item>
                     </TagSortableDraggable>
                   )}
