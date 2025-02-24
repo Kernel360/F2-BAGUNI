@@ -1,11 +1,20 @@
+import { NON_EXISTENT_TAG_ID } from '@/constants/nonExistentTagId';
+import {
+  convertToFuzzyItems,
+  useFuzzyFilter,
+} from '@/libs/@fuzzyFilter/useFuzzyFilter';
 import { notifyError } from '@/libs/@toast/notifyError';
 import { useTagStore } from '@/stores/tagStore';
-import { useThemeStore } from '@/stores/themeStore';
 import type { TagType } from '@/types/TagType';
-import { numberToRandomColor } from '@/utils/numberToRandomColor';
+import { getTagSortableContextId } from '@/utils/getTagSortableContextId';
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
 import * as Dialog from '@radix-ui/react-dialog';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 import { Command } from 'cmdk';
+import { GripVerticalIcon } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import type { KeyboardEvent } from 'react';
 import { BarLoader } from 'react-spinners';
@@ -15,21 +24,22 @@ import { DeselectTagButton } from './DeselectTagButton';
 import { SelectedTagItem } from './SelectedTagItem';
 import { SelectedTagListLayout } from './SelectedTagListLayout';
 import {
+  alignItemCenter,
   commandInputStyle,
+  createTagListItemStyle,
+  displayFlex,
+  dragHandlerStyle,
   tagCreateTextStyle,
   tagDialogPortalLayout,
-  tagListItemContentStyle,
   tagListItemStyle,
   tagListLoadingStyle,
   tagListStyle,
 } from './TagAutocompleteDialog.css';
 import { overlayStyle } from './TagAutocompleteDialog.css';
-import {
-  CREATABLE_TAG_KEYWORD,
-  filterCommandItems,
-  getRandomInt,
-} from './TagAutocompleteDialog.lib';
+import { getRandomInt } from './TagAutocompleteDialog.lib';
+import { TagDndContext } from './TagDndContext';
 import { TagInfoEditPopoverButton } from './TagInfoEditPopoverButton';
+import { TagSortableDraggable } from './TagSortableDraggable';
 
 export function TagAutocompleteDialog({
   open,
@@ -38,12 +48,10 @@ export function TagAutocompleteDialog({
 }: TagSelectionDialogProps) {
   const [tagInputValue, setTagInputValue] = useState('');
   const [canCreateTag, setCanCreateTag] = useState(false);
-
   const tagInputRef = useRef<HTMLInputElement | null>(null);
   const selectedTagListRef = useRef<HTMLDivElement | null>(null);
   const isCreateFetchPendingRef = useRef<boolean>(false);
   const randomNumber = useRef<number>(getRandomInt());
-
   const {
     tagList,
     selectedTagList,
@@ -52,7 +60,23 @@ export function TagAutocompleteDialog({
     createTag,
     popSelectedTag,
   } = useTagStore();
-  const { isDarkMode } = useThemeStore();
+  const tagListWithOrder = tagList.map((tag, index) => ({ ...tag, index }));
+  const fuzzyFilter = useFuzzyFilter();
+  const fuzzyTagList = convertToFuzzyItems({
+    items: tagListWithOrder,
+    getId: (tag) => tag.id ?? 0,
+    getValue: (tag) => tag.name ?? '',
+    getKeywords: (tag) => [tag.name ?? ''],
+  });
+  const filteredTagList = fuzzyFilter(fuzzyTagList, tagInputValue);
+  const sortableContextIdList = canCreateTag
+    ? [
+        ...filteredTagList.map((tag) => getTagSortableContextId(tag.id)),
+        `tag-${NON_EXISTENT_TAG_ID}`,
+      ]
+    : filteredTagList.map((tag) => getTagSortableContextId(tag.id));
+  const createTagOrder =
+    filteredTagList[filteredTagList.length - 1]?.index ?? NON_EXISTENT_TAG_ID;
 
   const focusTagInput = () => {
     if (tagInputRef.current) {
@@ -64,7 +88,7 @@ export function TagAutocompleteDialog({
     }
   };
 
-  const checkIsCreatableTag = (value: string) => {
+  const updateCanCreateTag = (value: string) => {
     const isUnique = !tagList.some((tag) => tag.name === value);
     const isNotInitialValue = value.trim() !== '';
     const isCreatable = isUnique && isNotInitialValue;
@@ -126,6 +150,14 @@ export function TagAutocompleteDialog({
     }
   }, [open]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  useEffect(
+    function checkUpdateCanCreateTag() {
+      updateCanCreateTag(tagInputValue);
+    },
+    [tagList],
+  );
+
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange} modal={false}>
       <Dialog.Portal container={container?.current ?? undefined}>
@@ -138,7 +170,7 @@ export function TagAutocompleteDialog({
             </Dialog.Description>
           </VisuallyHidden.Root>
 
-          <Command filter={filterCommandItems}>
+          <Command shouldFilter={false}>
             {/**선택한 태그 리스트 */}
             <SelectedTagListLayout
               ref={selectedTagListRef}
@@ -146,7 +178,11 @@ export function TagAutocompleteDialog({
               height="fixed"
             >
               {selectedTagList.map((tag) => (
-                <SelectedTagItem key={tag.id} tag={tag}>
+                <SelectedTagItem
+                  key={tag.id}
+                  name={tag.name}
+                  colorNumber={tag.colorNumber}
+                >
                   <DeselectTagButton tag={tag} onClick={focusTagInput} />
                 </SelectedTagItem>
               ))}
@@ -156,7 +192,7 @@ export function TagAutocompleteDialog({
                 ref={tagInputRef}
                 value={tagInputValue}
                 onValueChange={(value) => {
-                  checkIsCreatableTag(value);
+                  updateCanCreateTag(value);
                   setTagInputValue(value);
                 }}
                 onKeyDown={onBackspaceKeyPress}
@@ -177,40 +213,57 @@ export function TagAutocompleteDialog({
                 </Command.Empty>
               )}
 
-              {tagList.map((tag) => (
-                <Command.Item
-                  key={tag.id}
-                  className={tagListItemStyle}
-                  onSelect={() => onSelectTag(tag)}
-                  keywords={[tag.name]}
+              <TagDndContext>
+                <SortableContext
+                  items={sortableContextIdList}
+                  strategy={verticalListSortingStrategy}
                 >
-                  <SelectedTagItem key={tag.id} tag={tag} />
-                  <TagInfoEditPopoverButton tag={tag} />
-                </Command.Item>
-              ))}
+                  {filteredTagList.map((tag) => (
+                    <TagSortableDraggable
+                      key={tag.id}
+                      tagId={tag.id}
+                      tagOrder={tag.index}
+                    >
+                      <Command.Item
+                        key={tag.id}
+                        className={tagListItemStyle}
+                        onSelect={() => onSelectTag(tag)}
+                        keywords={[tag.name]}
+                      >
+                        <div className={`${displayFlex} ${alignItemCenter}`}>
+                          <div className={dragHandlerStyle}>
+                            <GripVerticalIcon size={16} />
+                          </div>
+                          <SelectedTagItem
+                            key={tag.id}
+                            name={tag.name}
+                            colorNumber={tag.colorNumber}
+                          />
+                        </div>
+                        <TagInfoEditPopoverButton tag={tag} />
+                      </Command.Item>
+                    </TagSortableDraggable>
+                  ))}
 
-              {canCreateTag && (
-                <Command.Item
-                  className={tagListItemStyle}
-                  value={tagInputValue}
-                  keywords={[CREATABLE_TAG_KEYWORD]}
-                  onSelect={onSelectCreatableTag}
-                  disabled={!canCreateTag}
-                >
-                  <span
-                    className={tagListItemContentStyle}
-                    style={{
-                      backgroundColor: numberToRandomColor(
-                        randomNumber.current,
-                        isDarkMode ? 'dark' : 'light',
-                      ),
-                    }}
-                  >
-                    {tagInputValue}
-                  </span>
-                  <span className={tagCreateTextStyle}>생성</span>
-                </Command.Item>
-              )}
+                  {canCreateTag && (
+                    <TagSortableDraggable
+                      tagId={NON_EXISTENT_TAG_ID}
+                      tagOrder={createTagOrder}
+                    >
+                      <Command.Item
+                        className={createTagListItemStyle}
+                        onSelect={onSelectCreatableTag}
+                      >
+                        <span className={tagCreateTextStyle}>생성</span>
+                        <SelectedTagItem
+                          name={tagInputValue}
+                          colorNumber={randomNumber.current}
+                        />
+                      </Command.Item>
+                    </TagSortableDraggable>
+                  )}
+                </SortableContext>
+              </TagDndContext>
             </Command.List>
 
             {/**DeleteTagDialog를 닫고도 Command.Dialog가 켜져있기위해서 Command.Dialog 내부에 있어야합니다.*/}

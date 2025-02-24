@@ -1,27 +1,31 @@
 import { useThemeStore } from '@/stores/themeStore';
-import type { TagType } from '@/types/TagType';
 import { numberToRandomColor } from '@/utils/numberToRandomColor';
 import type { CSSProperties } from 'react';
 import { SelectedTagContent } from './SelectedTagContent';
 import { SelectedTagLayout } from './SelectedTagLayout';
 
-export function SelectedTagItem({ tag, children }: SelectedTagItemProps) {
+export function SelectedTagItem({
+  name,
+  colorNumber,
+  children,
+}: SelectedTagItemProps) {
   const { isDarkMode } = useThemeStore();
   const backgroundColor = numberToRandomColor(
-    tag.colorNumber,
+    colorNumber,
     isDarkMode ? 'dark' : 'light',
   );
   const style: CSSProperties = { backgroundColor };
 
   return (
     <SelectedTagLayout style={style}>
-      <SelectedTagContent>{tag.name}</SelectedTagContent>
+      <SelectedTagContent>{name}</SelectedTagContent>
       {children}
     </SelectedTagLayout>
   );
 }
 
 interface SelectedTagItemProps {
-  tag: TagType;
+  name: string;
+  colorNumber: number;
   children?: React.ReactNode;
 }

@@ -1,4 +1,5 @@
 import type { CreateTagRequestType } from '@/types/CreateTagRequestType';
+import type { MoveTagRequestType } from '@/types/MoveTagRequestType';
 import type { TagType } from '@/types/TagType';
 import type { UpdateTagRequestType } from '@/types/UpdateTagRequestType';
 
@@ -19,4 +20,5 @@ export type TagAction = {
   deleteTag: (tagId: TagType['id']) => Promise<void>;
   updateTag: (updatedTagInfo: UpdateTagRequestType) => Promise<void>;
   popSelectedTag: () => void;
+  moveTag: (moveTagInfo: MoveTagRequestType) => Promise<void>;
 };
