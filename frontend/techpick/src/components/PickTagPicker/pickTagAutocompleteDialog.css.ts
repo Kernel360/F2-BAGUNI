@@ -62,19 +62,6 @@ export const tagListItemStyle = style({
   },
 });
 
-export const tagListItemContentStyle = style({
-  maxWidth: 'calc(288px - 38px)', // 26px은 생성 텍스트의 영역 12px는 패딩
-  height: '20px',
-  lineHeight: '20px',
-  borderRadius: '4px',
-  padding: '0 4px',
-  fontSize: '14px',
-  whiteSpace: 'nowrap', // 줄 바꿈 방지
-  overflow: 'hidden', // 넘치는 내용 숨김
-  textOverflow: 'ellipsis', // 생략 부호 추가
-  color: color.font,
-});
-
 export const tagCreateTextStyle = style({
   width: '28px',
   fontSize: '14px',

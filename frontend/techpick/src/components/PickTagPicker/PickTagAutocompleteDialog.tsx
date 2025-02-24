@@ -1,11 +1,9 @@
 import { useCreateTag } from '@/queries/useCreateTag';
 import { useFetchTagList } from '@/queries/useFetchTagList';
 import { useUpdatePickInfo } from '@/queries/useUpdatePickInfo';
-import { useThemeStore } from '@/stores/themeStore';
 import { useUpdatePickStore } from '@/stores/updatePickStore';
 import type { PickInfoType } from '@/types/PickInfoType';
 import type { TagType } from '@/types/TagType';
-import { numberToRandomColor } from '@/utils/numberToRandomColor';
 import {
   SortableContext,
   verticalListSortingStrategy,
@@ -17,10 +15,10 @@ import { useEffect, useRef, useState } from 'react';
 import type { CSSProperties, KeyboardEvent } from 'react';
 import { BarLoader } from 'react-spinners';
 import { colorVars } from 'techpick-shared';
+import { DeselectTagButton } from '../SelectedTagItem/DeselectTagButton';
 import { SelectedTagItem } from '../SelectedTagItem/SelectedTagItem';
 import { SelectedTagListLayout } from '../SelectedTagListLayout/SelectedTagListLayout';
 import { DeleteTagDialog } from './DeleteTagDialog';
-import { DeselectTagButton } from './DeselectTagButton';
 import { getRandomInt } from './PickTagAutocompleteDialog.lib';
 import { NON_EXISTENT_TAG_ID } from './PickTagPicker.constants';
 import { TagDndContext } from './TagDndContext';
@@ -32,7 +30,6 @@ import {
   dialogOverlayStyle,
   tagCreateTextStyle,
   tagDialogPortalLayout,
-  tagListItemContentStyle,
   tagListItemStyle,
   tagListLoadingStyle,
   tagListStyle,
@@ -58,7 +55,6 @@ export function PickTagAutocompleteDialog({
   const { data: tagList = [], isLoading } = useFetchTagList();
   const { mutateAsync: createTag } = useCreateTag();
   const { mutate: updatePickInfo } = useUpdatePickInfo();
-  const isDarkMode = useThemeStore((state) => state.isDarkMode);
   const setCurrentUpdateTagPickIdToNull = useUpdatePickStore(
     (state) => state.setCurrentUpdateTagPickIdToNull,
   );
@@ -199,7 +195,11 @@ export function PickTagAutocompleteDialog({
             {/**선택한 태그 리스트 */}
             <SelectedTagListLayout ref={selectedTagListRef} focusStyle="focus">
               {selectedTagList.map((tag) => (
-                <SelectedTagItem key={tag.id} tag={tag}>
+                <SelectedTagItem
+                  key={tag.id}
+                  name={tag.name}
+                  colorNumber={tag.colorNumber}
+                >
                   <DeselectTagButton
                     tag={tag}
                     onClick={() => {
@@ -256,7 +256,11 @@ export function PickTagAutocompleteDialog({
                           onSelectTag(tag);
                         }}
                       >
-                        <SelectedTagItem key={tag.id} tag={tag} />
+                        <SelectedTagItem
+                          key={tag.id}
+                          name={tag.name}
+                          colorNumber={tag.colorNumber}
+                        />
                         <TagInfoEditPopoverButton
                           tag={tag}
                           container={container}
@@ -274,17 +278,11 @@ export function PickTagAutocompleteDialog({
                         className={tagListItemStyle}
                         onSelect={onSelectCreatableTag}
                       >
-                        <span
-                          className={tagListItemContentStyle}
-                          style={{
-                            backgroundColor: numberToRandomColor(
-                              randomNumber.current,
-                              isDarkMode ? 'dark' : 'light',
-                            ),
-                          }}
-                        >
-                          {tagInputValue}
-                        </span>
+                        <SelectedTagItem
+                          name={tagInputValue}
+                          colorNumber={randomNumber.current}
+                        />
+
                         <span className={tagCreateTextStyle}>생성</span>
                       </Command.Item>
                     </TagSortableDraggable>
