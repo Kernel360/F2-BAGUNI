@@ -12,7 +12,7 @@ import * as Dialog from '@radix-ui/react-dialog';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 import { Command } from 'cmdk';
 import { GripVerticalIcon } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import type { CSSProperties, KeyboardEvent } from 'react';
 import { BarLoader } from 'react-spinners';
 import { colorVars } from 'techpick-shared';
@@ -81,25 +81,28 @@ export function PickTagAutocompleteDialog({
   const createTagOrder =
     filteredTagList[filteredTagList.length - 1]?.index ?? NON_EXISTENT_TAG_ID;
 
-  const focusTagInput = () => {
+  const focusTagInput = useCallback(() => {
     tagInputRef.current?.focus();
     tagInputRef.current?.scrollIntoView({
       behavior: 'smooth',
       block: 'center',
     });
-  };
+  }, []);
 
-  const checkIsCreatableTag = (value: string) => {
-    const isUnique = !tagList.some((tag) => tag.name === value.trim());
-    const isNotInitialValue = value.trim() !== '';
-    const isCreatable = isUnique && isNotInitialValue;
+  const updateCanCreateTag = useCallback(
+    (value: string) => {
+      const isUnique = !tagList.some((tag) => tag.name === value.trim());
+      const isNotInitialValue = value.trim() !== '';
+      const isCreatable = isUnique && isNotInitialValue;
 
-    setCanCreateTag(isCreatable);
-  };
+      setCanCreateTag(isCreatable);
+    },
+    [tagList],
+  );
 
   const clearTagInputValue = () => {
     setTagInputValue('');
-    checkIsCreatableTag('');
+    updateCanCreateTag('');
   };
 
   const onSelectTag = (tag: TagType) => {
@@ -161,7 +164,6 @@ export function PickTagAutocompleteDialog({
     }
   };
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(
     function onOpenPickTagAutocompleteDialog() {
       if (open) {
@@ -170,7 +172,15 @@ export function PickTagAutocompleteDialog({
         });
       }
     },
-    [open],
+    [open, focusTagInput],
+  );
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  useEffect(
+    function checkUpdateCanCreateTag() {
+      updateCanCreateTag(tagInputValue);
+    },
+    [tagList],
   );
 
   return (
@@ -221,7 +231,7 @@ export function PickTagAutocompleteDialog({
                 ref={tagInputRef}
                 value={tagInputValue}
                 onValueChange={(value) => {
-                  checkIsCreatableTag(value);
+                  updateCanCreateTag(value);
                   setTagInputValue(value);
                 }}
                 onKeyDown={onBackspaceKeyPress}
