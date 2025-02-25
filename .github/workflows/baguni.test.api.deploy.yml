@@ -76,7 +76,7 @@ jobs:
         run: |
           echo "🔍 Checking API server status..."
           attempt=0
-          max_attempts=30
+          max_attempts=10
 
           while true; do
             http_status=$(curl -o /dev/null -s -w "%{http_code}" https://v2.minlife.me)
@@ -95,7 +95,6 @@ jobs:
             echo "⏳ API Server still returning 502 (Bad Gateway), retrying in 5 seconds... (Attempt: $attempt)"
             sleep 5
           done
-
 
       # Postman CLI 설치
       - name: Install Postman CLI
