@@ -71,6 +71,16 @@ jobs:
             docker compose down ${{ env.module-name }}
             docker compose up ${{ env.module-name }} -d
 
+      # 서버가 완전히 기동될 때까지 대기하는 단계
+      - name: Wait for API Server to be Ready
+        run: |
+          echo "Waiting for API Server to be ready..."
+          until curl -s --fail https://v2.minlife.me > /dev/null; do
+            echo "API Server not ready, sleeping 5 seconds..."
+            sleep 5
+          done
+          echo "API Server is ready."
+
       # Postman CLI 설치
       - name: Install Postman CLI
         run: |
