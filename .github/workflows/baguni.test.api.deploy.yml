@@ -74,27 +74,28 @@ jobs:
       # 서버가 완전히 기동될 때까지 대기하는 단계
       - name: Wait for API Server to be Ready
         run: |
-          echo "Waiting for API Server to be ready..."
+          echo "🔍 Checking API server status..."
           attempt=0
           max_attempts=30
 
           while true; do
             http_status=$(curl -o /dev/null -s -w "%{http_code}" https://v2.minlife.me)
-            
-            if [ "$http_status" -eq 200 ]; then
-              echo "✅ API Server is ready! (HTTP 200)"
+
+            if [ "$http_status" -ne 502 ]; then
+              echo "✅ API Server responded Continuing..."
               break
             fi
 
             attempt=$((attempt+1))
             if [ $attempt -ge $max_attempts ]; then
-              echo "❌ API Server not ready after $max_attempts attempts. Exiting..."
+              echo "❌ API Server is still returning 502 after $max_attempts attempts. Exiting..."
               exit 1
             fi
 
-            echo "⏳ API Server not ready yet (HTTP Status: $http_status), retrying in 5 seconds... (Attempt: $attempt)"
+            echo "⏳ API Server still returning 502 (Bad Gateway), retrying in 5 seconds... (Attempt: $attempt)"
             sleep 5
           done
+
 
       # Postman CLI 설치
       - name: Install Postman CLI
