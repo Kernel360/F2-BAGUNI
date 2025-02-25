@@ -70,7 +70,12 @@ jobs:
             echo "restarting container..."
             docker compose down ${{ env.module-name }}
             docker compose up ${{ env.module-name }} -d
-      
+
+      # Postman CLI 설치
+      - name: Install Postman CLI
+        run: |
+          curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh
+
       # Postman 로그인
       - name: Login to Postman CLI
         run: postman login --with-api-key ${{ secrets.POSTMAN_API_KEY }}
