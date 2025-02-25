@@ -67,7 +67,11 @@ export function MobilePickRecord({ pickInfo }: MobilePickRecordProps) {
           {0 < filteredSelectedTagList.length && (
             <div className={tagListStyle}>
               {filteredSelectedTagList.map((tag) => (
-                <SelectedTagItem key={tag.name} tag={tag} />
+                <SelectedTagItem
+                  key={tag.name}
+                  name={tag.name}
+                  colorNumber={tag.colorNumber}
+                />
               ))}
             </div>
           )}

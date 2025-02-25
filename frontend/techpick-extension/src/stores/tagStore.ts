@@ -1,6 +1,7 @@
 import { createTag } from '@/apis/createTag';
 import { deleteTag } from '@/apis/deleteTag';
 import { getTagList } from '@/apis/getTagList';
+import { moveTag } from '@/apis/moveTag';
 import { updateTag } from '@/apis/updateTag';
 import { hasIndex } from '@/utils/hasIndex';
 import { create } from 'zustand';
@@ -178,6 +179,54 @@ export const useTagStore = create<TagState & TagAction>()(
               previousTagInfo;
           }
         });
+      }
+    },
+
+    moveTag: async ({ id, orderIdx }) => {
+      set((state) => {
+        const prevTagList = state.tagList;
+        const curIndex = prevTagList.findIndex((item) => item.id === id);
+
+        if (!hasIndex(curIndex)) {
+          return;
+        }
+
+        const curTag = prevTagList[curIndex];
+
+        if (!curTag) {
+          return;
+        }
+
+        const targetIndex = orderIdx;
+
+        const nextIndex =
+          curIndex < targetIndex
+            ? Math.min(targetIndex + 1, prevTagList.length)
+            : targetIndex;
+
+        if (curIndex === nextIndex) {
+          return;
+        }
+
+        if (!hasIndex(nextIndex)) {
+          return;
+        }
+
+        const beforeNextIndexList = prevTagList
+          .slice(0, nextIndex)
+          .filter((tag) => tag.id !== id);
+
+        const afterNextIndexList = prevTagList
+          .slice(nextIndex)
+          .filter((tag) => tag.id !== id);
+
+        state.tagList = [...beforeNextIndexList, curTag, ...afterNextIndexList];
+      });
+
+      try {
+        await moveTag({ id, orderIdx });
+      } catch {
+        get().fetchingTagList();
       }
     },
   })),
