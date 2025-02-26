@@ -109,14 +109,3 @@ jobs:
       - name: Run API tests
         run: |
           postman collection run "41803704-3caa037b-b45a-4dde-a57e-888df2b5c49e" -e "41803704-4000cf92-5c65-4a41-bc55-5eff8b50810c"
-
-      - name: Discord Webhook Notification
-        uses: sarisia/actions-status-discord@v1.14.7
-        if: always()
-        with:
-          webhook: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          status: ${{ job.status }}
-          title: 'TEST API SERVER DEPLOY'
-          color: 0xff91a4
-          url: 'https://github.com/sarisia/actions-status-discord'
-          username: GitHub Actions
