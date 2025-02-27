@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import baguni.common.config.RabbitmqConfig;
 import baguni.common.event.events.BookmarkCreateEvent;
 import baguni.common.event.events.LinkReadEvent;
+import baguni.domain.infrastructure.link.LinkDataHandler;
 import baguni.domain.infrastructure.link.LinkStatsRepository;
 import baguni.domain.model.link.LinkStats;
 import lombok.RequiredArgsConstructor;
@@ -22,20 +23,19 @@ import lombok.extern.slf4j.Slf4j;
 @RabbitListener(queues = {RabbitmqConfig.QUEUE.LINK_RANKING_V2})
 public class LinkRankingEventListener {
 
-	// TODO: LinkDataHandler를 써야 하나?
-	private final LinkStatsRepository linkStatsRepository;
+	private final LinkDataHandler linkDataHandler;
 
 	@RabbitHandler
 	public void updateViewCount(LinkReadEvent event) {
 		log.info("메시지 소비: topic {}, url {}", event.getTopicString(), event.getUrl());
 		var date = event.getTime().toLocalDate();
 		var url = event.getUrl();
-		var linkStats = linkStatsRepository
-			.findByDateAndUrl(date, url)
+		var linkStats = linkDataHandler
+			.findLinkStats(date, url)
 			.orElseGet(() -> new LinkStats(date, url));
 
 		linkStats.incrementViewCount();
-		linkStatsRepository.save(linkStats);
+		linkDataHandler.saveLinkStats(linkStats);
 	}
 
 	@RabbitHandler
@@ -43,12 +43,12 @@ public class LinkRankingEventListener {
 		log.info("메시지 소비: topic {}, url {}", event.getTopicString(), event.getUrl());
 		var date = event.getTime().toLocalDate();
 		var url = event.getUrl();
-		var linkStats = linkStatsRepository
-			.findByDateAndUrl(date, url)
+		var linkStats = linkDataHandler
+			.findLinkStats(date, url)
 			.orElseGet(() -> new LinkStats(date, url));
 
 		linkStats.incrementBookmarkedCount();
-		linkStatsRepository.save(linkStats);
+		linkDataHandler.saveLinkStats(linkStats);
 	}
 
 	/**
