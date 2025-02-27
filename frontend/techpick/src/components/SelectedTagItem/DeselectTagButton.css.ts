@@ -1,13 +1,15 @@
 import { style } from '@vanilla-extract/css';
-import { colorVars } from 'techpick-shared';
+import {
+  actionButtonWidth,
+  selectedTagHeight,
+} from '../SelectedTagItem/SelectedTagLayout.css';
 
 export const DeselectTagButtonStyle = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  width: '20px',
-  height: '20px',
+  width: actionButtonWidth,
+  height: selectedTagHeight,
   backgroundColor: 'transparent',
   cursor: 'pointer',
-  color: colorVars.color.font,
 });

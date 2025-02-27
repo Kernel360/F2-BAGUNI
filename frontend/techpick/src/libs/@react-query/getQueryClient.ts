@@ -9,6 +9,7 @@ const makeQueryClient = () => {
     defaultOptions: {
       queries: {
         staleTime: 60 * 1000,
+        refetchOnWindowFocus: 'always',
       },
       dehydrate: {
         shouldDehydrateQuery: (query) =>

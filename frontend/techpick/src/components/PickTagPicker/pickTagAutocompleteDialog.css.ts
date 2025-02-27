@@ -48,7 +48,7 @@ export const tagListItemStyle = style({
   justifyContent: 'space-between',
   alignItems: 'center',
   backgroundColor: 'transparent',
-  padding: '4px',
+  padding: '4px 0',
 
   // 선택된 상태일 때
   selectors: {
@@ -61,18 +61,10 @@ export const tagListItemStyle = style({
   },
 });
 
-export const tagListItemContentStyle = style({
-  maxWidth: 'calc(288px - 38px)', // 26px은 생성 텍스트의 영역 12px는 패딩
-  height: '20px',
-  lineHeight: '20px',
-  borderRadius: '4px',
-  padding: '0 4px',
-  fontSize: '14px',
-  whiteSpace: 'nowrap', // 줄 바꿈 방지
-  overflow: 'hidden', // 넘치는 내용 숨김
-  textOverflow: 'ellipsis', // 생략 부호 추가
-  color: color.font,
-});
+export const createTagListItemStyle = style([
+  tagListItemStyle,
+  { justifyContent: 'start' },
+]);
 
 export const tagCreateTextStyle = style({
   width: '28px',
@@ -82,4 +74,22 @@ export const tagCreateTextStyle = style({
 
 export const dialogOverlayStyle = style({
   zIndex: 1,
+});
+
+export const displayFlex = style({
+  display: 'flex',
+});
+
+export const alignItemCenter = style({
+  alignItems: 'center',
+});
+
+export const dragHandlerStyle = style({
+  width: '20px',
+  height: '20px',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  color: '#9F9E9B',
+  cursor: 'pointer',
 });

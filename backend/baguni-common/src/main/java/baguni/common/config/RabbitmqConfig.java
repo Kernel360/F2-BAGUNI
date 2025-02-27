@@ -29,6 +29,7 @@ public class RabbitmqConfig {
 
 	public static final class QUEUE {
 		public static final String LINK_RANKING = "queue.link-ranking";
+		public static final String LINK_RANKING_BATCH = "queue.link-ranking-batch";
 		public static final String LINK_UPDATE = "queue.link-analyze";
 	}
 
@@ -59,6 +60,11 @@ public class RabbitmqConfig {
 	}
 
 	@Bean
+	Queue linkRankingBatch() {
+		return new Queue(QUEUE.LINK_RANKING_BATCH, false);
+	}
+
+	@Bean
 	Queue linkUpdate() {
 		return new Queue(QUEUE.LINK_UPDATE, false);
 	}
@@ -66,9 +72,14 @@ public class RabbitmqConfig {
 	@Bean
 	Declarables bindings() {
 		return new Declarables(
-			// link ranking
+			// link ranking v1 (기존 랭킹 서버)
 			BindingBuilder.bind(linkRanking()).to(exchange()).with("bookmark.create"),
 			BindingBuilder.bind(linkRanking()).to(exchange()).with("link.read"),
+
+			// link ranking v2 (batch)
+			BindingBuilder.bind(linkRankingBatch()).to(exchange()).with("bookmark.create"),
+			BindingBuilder.bind(linkRankingBatch()).to(exchange()).with("link.read"),
+
 			// link analyze
 			BindingBuilder.bind(linkUpdate()).to(exchange()).with("bookmark.create"),
 			BindingBuilder.bind(linkUpdate()).to(exchange()).with("link.*")
