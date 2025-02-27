@@ -1,5 +1,6 @@
 package baguni.domain.infrastructure.link;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import baguni.common.exception.base.ServiceException;
 import baguni.domain.exception.link.LinkErrorCode;
 import baguni.domain.model.link.Link;
+import baguni.domain.model.link.LinkStats;
 import io.opentelemetry.instrumentation.annotations.WithSpan;
 import lombok.RequiredArgsConstructor;
 
@@ -17,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class LinkDataHandler {
 	private final LinkRepository linkRepository;
+	private final LinkStatsRepository linkStatsRepository;
 
 	@WithSpan
 	@Transactional(readOnly = true)
@@ -55,5 +58,17 @@ public class LinkDataHandler {
 		return linkRepository.findAllRssBlogArticlesOrderByPublishedDate(
 			PageRequest.of(0, limit)
 		);
+	}
+
+	@WithSpan
+	@Transactional(readOnly = true)
+	public Optional<LinkStats> findLinkStats(LocalDate date, String url) {
+		return linkStatsRepository.findByDateAndUrl(date, url);
+	}
+
+	@WithSpan
+	@Transactional
+	public LinkStats saveLinkStats(LinkStats linkStats) {
+		return linkStatsRepository.save(linkStats);
 	}
 }
