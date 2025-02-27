@@ -20,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-@RabbitListener(queues = {RabbitmqConfig.QUEUE.LINK_RANKING_V2})
+@RabbitListener(queues = {RabbitmqConfig.QUEUE.LINK_RANKING_BATCH})
 public class LinkRankingEventListener {
 
 	private final LinkDataHandler linkDataHandler;
