@@ -51,12 +51,9 @@ public class RankingApiController {
 	})
 	public ResponseEntity<RankingResponse> getSuggestionByViewCount(
 	) {
-		int LIMIT = 10;
-		var result = rankingService.getUrlRanking(LIMIT);
 		var response = new RankingResponse(
-			rankingDataToLinkInfo(result.dailyUrlViewRanking()),
-			rankingDataToLinkInfo(result.weeklyUrlViewRanking()),
-			rankingDataToLinkInfo(result.monthlyUrlPickRanking())
+			rankingDataToLinkInfo(rankingService.getWeeklyViewRank()),
+			rankingDataToLinkInfo(rankingService.getMonthlyBookmarkedRank())
 		);
 		return ResponseEntity.ok(response);
 	}
