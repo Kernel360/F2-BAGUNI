@@ -41,7 +41,6 @@ public class PickService {
 	private final PickQuery pickQuery;
 	private final PickMapper pickMapper;
 	private final FolderDataHandler folderDataHandler;
-	private final RankingService rankingService;
 	private final LinkDataHandler linkDataHandler;
 
 	@WithSpan

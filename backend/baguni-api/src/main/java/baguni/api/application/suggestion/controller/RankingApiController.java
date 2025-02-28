@@ -19,9 +19,6 @@ import baguni.api.service.link.service.LinkService;
 import baguni.api.service.ranking.service.RankingService;
 import baguni.common.dto.UrlWithCount;
 
-/**
- * baguni-ranking 서버로 부터 데이터를 받아와 뿌려준다.
- */
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -50,9 +47,10 @@ public class RankingApiController {
 	})
 	public ResponseEntity<RankingResponse> getSuggestionByViewCount(
 	) {
+		int LIMIT = 10;
 		var response = new RankingResponse(
-			rankingDataToLinkInfo(rankingService.getWeeklyViewRank()),
-			rankingDataToLinkInfo(rankingService.getMonthlyBookmarkedRank())
+			rankingDataToLinkInfo(rankingService.getWeeklyViewRank(LIMIT)),
+			rankingDataToLinkInfo(rankingService.getMonthlyBookmarkedRank(LIMIT))
 		);
 		return ResponseEntity.ok(response);
 	}
