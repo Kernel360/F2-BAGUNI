@@ -41,9 +41,8 @@ public class RankingApiController {
 		summary = "인기 픽 Top 10",
 		description = """
 				각 주제 별로 인기 조회수 글을 10개씩 획득 합니다.
-				1. 오늘 하루에 대한 실시간 링크 조회수 랭킹
-				2. 지난 7일 동안 링크 조회수 랭킹
-				3. 지난 한달간 픽된 (=북마크된) 링크 랭킹
+				1. 지난 7일 (오늘 제외) 동안 링크 조회수 Top 10
+				2. 지난 한달간 북마크 된 링크 Top 10
 			"""
 	)
 	@ApiResponses(value = {
@@ -51,12 +50,9 @@ public class RankingApiController {
 	})
 	public ResponseEntity<RankingResponse> getSuggestionByViewCount(
 	) {
-		int LIMIT = 10;
-		var result = rankingService.getUrlRanking(LIMIT);
 		var response = new RankingResponse(
-			rankingDataToLinkInfo(result.dailyUrlViewRanking()),
-			rankingDataToLinkInfo(result.weeklyUrlViewRanking()),
-			rankingDataToLinkInfo(result.monthlyUrlPickRanking())
+			rankingDataToLinkInfo(rankingService.getWeeklyViewRank()),
+			rankingDataToLinkInfo(rankingService.getMonthlyBookmarkedRank())
 		);
 		return ResponseEntity.ok(response);
 	}

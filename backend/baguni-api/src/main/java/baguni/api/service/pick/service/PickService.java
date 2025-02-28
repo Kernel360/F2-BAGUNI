@@ -1,11 +1,8 @@
 package baguni.api.service.pick.service;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.data.domain.Slice;
@@ -15,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import baguni.common.exception.base.ServiceException;
 import baguni.domain.exception.folder.FolderErrorCode;
 import baguni.domain.exception.pick.PickErrorCode;
-import baguni.domain.exception.sharedFolder.SharedFolderErrorCode;
 import baguni.domain.exception.tag.TagErrorCode;
 import baguni.domain.infrastructure.pick.PickQuery;
 import io.opentelemetry.instrumentation.annotations.WithSpan;
@@ -30,7 +26,6 @@ import baguni.domain.infrastructure.folder.FolderDataHandler;
 import baguni.domain.infrastructure.link.LinkDataHandler;
 import baguni.domain.infrastructure.pick.PickDataHandler;
 import baguni.domain.infrastructure.tag.TagDataHandler;
-import baguni.common.dto.UrlWithCount;
 import baguni.domain.model.folder.Folder;
 import baguni.domain.model.folder.FolderType;
 import baguni.domain.model.pick.Pick;
@@ -199,20 +194,6 @@ public class PickService {
 					  .map(pickMapper::toPickResult)
 					  .toList();
 		return pickMapper.toPickResultList(folderId, pickResultList);
-	}
-
-	/**
-	 * 랭킹 서버가 다운되어 있어도 내 픽 리스트는 조회가 가능하도록 처리.
-	 */
-	private Map<String, UrlWithCount> getViewRankingFromRankingServer() {
-		try {
-			return rankingService.getUrlRanking(10)
-								 .weeklyUrlViewRanking().stream()
-								 .collect(Collectors.toMap(UrlWithCount::url, Function.identity()));
-		} catch (Exception e) {
-			log.error("내 픽이 인기 픽인지 조회하려 했으나, 랭킹 서버와 통신할 수 없습니다! {}", e.getMessage(), e);
-			return Map.of();
-		}
 	}
 
 	private boolean isParentFolderChanged(Long originalFolderId, Long destinationFolderId) {

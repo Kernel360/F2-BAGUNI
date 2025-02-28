@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Limit;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,5 +71,21 @@ public class LinkDataHandler {
 	@Transactional
 	public LinkStats saveLinkStats(LinkStats linkStats) {
 		return linkStatsRepository.save(linkStats);
+	}
+
+	@WithSpan
+	@Transactional(readOnly = true)
+	public List<LinkStats> getViewRank(LocalDate startDate, LocalDate endDate, Integer limit) {
+		return linkStatsRepository.findByDateBetweenAndViewCountGreaterThanOrderByViewCountDesc(
+			startDate, endDate, 0, Limit.of(limit)
+		);
+	}
+
+	@WithSpan
+	@Transactional(readOnly = true)
+	public List<LinkStats> getBookmarkedRank(LocalDate startDate, LocalDate endDate, Integer limit) {
+		return linkStatsRepository.findByDateBetweenAndBookmarkedCountGreaterThanOrderByBookmarkedCountDesc(
+			startDate, endDate, 0, Limit.of(limit)
+		);
 	}
 }
