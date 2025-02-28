@@ -76,12 +76,16 @@ public class LinkDataHandler {
 	@WithSpan
 	@Transactional(readOnly = true)
 	public List<LinkStats> getViewRank(LocalDate startDate, LocalDate endDate, Integer limit) {
-		return linkStatsRepository.findByDateBetweenOrderByViewCountDesc(startDate, endDate, Limit.of(limit));
+		return linkStatsRepository.findByDateBetweenAndViewCountGreaterThanOrderByViewCountDesc(
+			startDate, endDate, 0, Limit.of(limit)
+		);
 	}
 
 	@WithSpan
 	@Transactional(readOnly = true)
 	public List<LinkStats> getBookmarkedRank(LocalDate startDate, LocalDate endDate, Integer limit) {
-		return linkStatsRepository.findByDateBetweenOrderByBookmarkedCountDesc(startDate, endDate, Limit.of(limit));
+		return linkStatsRepository.findByDateBetweenAndBookmarkedCountGreaterThanOrderByBookmarkedCountDesc(
+			startDate, endDate, 0, Limit.of(limit)
+		);
 	}
 }

@@ -13,7 +13,15 @@ public interface LinkStatsRepository extends JpaRepository<LinkStats, Long> {
 
 	Optional<LinkStats> findByDateAndUrl(LocalDate date, String url);
 
-	List<LinkStats> findByDateBetweenOrderByViewCountDesc(LocalDate start, LocalDate end, Limit limit);
+	List<LinkStats> findByDateBetweenAndViewCountGreaterThanOrderByViewCountDesc(
+		LocalDate start, LocalDate end,
+		int minCount, // 최소 기준 조회 수
+		Limit limit
+	);
 
-	List<LinkStats> findByDateBetweenOrderByBookmarkedCountDesc(LocalDate start, LocalDate end, Limit limit);
+	List<LinkStats> findByDateBetweenAndBookmarkedCountGreaterThanOrderByBookmarkedCountDesc(
+		LocalDate start, LocalDate end,
+		int minCount, // 최소 기준 북마크 횟수
+		Limit limit
+	);
 }
