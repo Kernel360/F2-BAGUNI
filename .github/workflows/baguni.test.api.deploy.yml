@@ -114,4 +114,5 @@ jobs:
           newman run ${{ secrets.POSTMAN_COLLECTION_URL }} \
             -r htmlextra,slackmsg \
             --reporter-htmlextra-export report.html \
-            --reporter-slackmsg-webhookurl ${{ secrets.SLACK_TEST_WEBHOOK_URL }}
+            --reporter-slackmsg-webhookurl ${{ secrets.SLACK_TEST_WEBHOOK_URL }} \
+            --reporter-slackmsg-verbose
