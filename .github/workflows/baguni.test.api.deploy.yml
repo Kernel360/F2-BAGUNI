@@ -96,16 +96,23 @@ jobs:
             sleep 5
           done
 
-      # Postman CLI 설치
-      - name: Install Postman CLI
-        run: |
-          curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh
+      # Node 설치
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
 
-      # Postman 로그인
-      - name: Login to Postman CLI
-        run: postman login --with-api-key ${{ secrets.POSTMAN_API_KEY }}
-
-      # Postman Collection API Test
-      - name: Run API tests
+      # Newman 설치, slack을 위한 메시지 내용 옵션 추가
+      - name: Install Newman + reporters
         run: |
-          postman collection run "41803704-3caa037b-b45a-4dde-a57e-888df2b5c49e" -e "41803704-4000cf92-5c65-4a41-bc55-5eff8b50810c"
+          npm install -g newman newman-reporter-htmlextra newman-reporter-slackmsg
+
+      # Newman API 테스트 실행
+      - name: Run Newman tests
+        id: newman-run
+        run: |
+          newman run ${{ secrets.POSTMAN_COLLECTION_URL }} \
+            -r htmlextra,slackmsg \
+            --reporter-htmlextra-export report.html \
+            --reporter-slackmsg-webhookurl ${{ secrets.SLACK_TEST_WEBHOOK_URL }} \
+            --reporter-slackmsg-verbose

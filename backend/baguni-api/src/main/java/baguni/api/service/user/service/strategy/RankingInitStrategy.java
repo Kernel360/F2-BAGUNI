@@ -1,6 +1,5 @@
 package baguni.api.service.user.service.strategy;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -8,7 +7,7 @@ import java.util.Objects;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import baguni.common.exception.base.ServiceException;
+import baguni.api.service.ranking.service.RankingService;
 import baguni.domain.infrastructure.user.dto.UserInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +15,6 @@ import baguni.domain.infrastructure.link.dto.LinkInfo;
 import baguni.api.service.link.service.LinkService;
 import baguni.domain.infrastructure.pick.dto.PickCommand;
 import baguni.api.service.pick.service.PickService;
-import baguni.api.service.ranking.service.RankingApi;
 import baguni.common.dto.UrlWithCount;
 
 @Slf4j
@@ -27,20 +25,14 @@ public class RankingInitStrategy implements ContentInitStrategy {
 
 	private static final Integer LOAD_LIMIT = 5;
 
-	private final RankingApi rankingApi;
 	private final PickService pickService;
 	private final LinkService linkService;
+	private final RankingService rankingService;
 
 	@Override
 	public void initContent(UserInfo info, Long folderId) {
-		var currentDay = LocalDate.now();
-		var before1Day = currentDay.minusDays(1);
-		var before30Days = currentDay.minusDays(30);
-
 		try {
-			var monthlyRanking = rankingApi
-				.getUrlRankingByViewCount(before30Days, before1Day, LOAD_LIMIT)
-				.getBody();
+			var monthlyRanking = rankingService.getMonthlyBookmarkedRank(LOAD_LIMIT);
 			savePickFromRankingList(info.id(), monthlyRanking, folderId);
 		} catch (Exception e) {
 			log.error("랭킹 정보를 이용한 사용자 폴더 초기화 실패.", e);
