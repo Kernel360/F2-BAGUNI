@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "바구니 익스텐션",
   "description": "태그와 함께 북마크하세요. 저장하고 수집한 뒤에 나중에 바구니에서 저장된 북마크를 확인해보세요!",
-  "version": "1.1.0",
+  "version": "1.0.2",
   "icons": {
     "16": "./pick16.png",
     "32": "./pick32.png",

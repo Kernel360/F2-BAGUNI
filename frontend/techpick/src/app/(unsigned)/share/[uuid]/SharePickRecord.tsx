@@ -25,6 +25,7 @@ import { SelectedTagListLayout } from '@/components/SelectedTagListLayout/Select
 import { useImageLoader } from '@/hooks/useImageLoader';
 import { useOpenUrlInNewTab } from '@/hooks/useOpenUrlInNewTab';
 import type { components } from '@/schema';
+import type { TagType } from '@/types/TagType';
 import { formatDateString } from '@/utils/formatDateString';
 import { ExternalLink as ExternalLinkIcon } from 'lucide-react';
 import Image from 'next/image';
@@ -103,8 +104,7 @@ export function SharePickRecord({
               {pickInfo.tagIdxList?.map((tagIdx) => (
                 <SelectedTagItem
                   key={tagIdx}
-                  name={tagList[tagIdx].name}
-                  colorNumber={tagList[tagIdx].colorNumber}
+                  tag={{ id: tagIdx, ...tagList[tagIdx] } as TagType}
                 />
               ))}
             </SelectedTagListLayout>

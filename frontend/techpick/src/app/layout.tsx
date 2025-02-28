@@ -1,4 +1,4 @@
-import { QueryProvider } from '@/libs/@react-query/QueryProvider';
+import { QueryProvider } from '@/providers/QueryProvider';
 import { Noto_Sans_KR } from 'next/font/google';
 import '@/styles/reset.css';
 import { PORTAL_CONTAINER_ID } from '@/constants/portalContainerId';

@@ -71,41 +71,13 @@ jobs:
             docker compose down ${{ env.module-name }}
             docker compose up ${{ env.module-name }} -d
 
-      # 서버가 완전히 기동될 때까지 대기하는 단계
-      - name: Wait for API Server to be Ready
-        run: |
-          echo "🔍 Checking API server status..."
-          attempt=0
-          max_attempts=10
-
-          while true; do
-            http_status=$(curl -o /dev/null -s -w "%{http_code}" https://v2.minlife.me)
-
-            if [ "$http_status" -ne 502 ]; then
-              echo "✅ API Server responded Continuing..."
-              break
-            fi
-
-            attempt=$((attempt+1))
-            if [ $attempt -ge $max_attempts ]; then
-              echo "❌ API Server is still returning 502 after $max_attempts attempts. Exiting..."
-              exit 1
-            fi
-
-            echo "⏳ API Server still returning 502 (Bad Gateway), retrying in 5 seconds... (Attempt: $attempt)"
-            sleep 5
-          done
-
-      # Postman CLI 설치
-      - name: Install Postman CLI
-        run: |
-          curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh
-
-      # Postman 로그인
-      - name: Login to Postman CLI
-        run: postman login --with-api-key ${{ secrets.POSTMAN_API_KEY }}
-
-      # Postman Collection API Test
-      - name: Run API tests
-        run: |
-          postman collection run "41803704-3caa037b-b45a-4dde-a57e-888df2b5c49e" -e "41803704-4000cf92-5c65-4a41-bc55-5eff8b50810c"
+      - name: Discord Webhook Notification
+        uses: sarisia/actions-status-discord@v1.14.7
+        if: always()
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          status: ${{ job.status }}
+          title: 'TEST API SERVER DEPLOY'
+          color: 0xff91a4
+          url: 'https://github.com/sarisia/actions-status-discord'
+          username: GitHub Actions

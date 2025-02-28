@@ -36,14 +36,12 @@ export const popoverOverlayStyle = style({
   zIndex: 9999,
 });
 
-export const popoverTriggerSize = '20px';
-
 export const popoverTriggerButtonStyle = style({
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  width: popoverTriggerSize,
-  height: popoverTriggerSize,
+  width: '20px',
+  height: '20px',
   border: '1px solid transparent',
   backgroundColor: 'transparent',
   cursor: 'pointer',

@@ -43,11 +43,7 @@ export const TagPicker = forwardRef<HTMLDivElement>(
           )}
           <SelectedTagListLayout height="fixed">
             {selectedTagList.map((tag) => (
-              <SelectedTagItem
-                key={tag.name}
-                name={tag.name}
-                colorNumber={tag.colorNumber}
-              />
+              <SelectedTagItem key={tag.name} tag={tag} />
             ))}
           </SelectedTagListLayout>
         </div>

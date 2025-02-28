@@ -73,11 +73,7 @@ export function MobileSharedPickRecord({
           {0 < filteredSelectedTagList.length && (
             <div className={tagListStyle}>
               {filteredSelectedTagList.map((tag) => (
-                <SelectedTagItem
-                  key={tag.name}
-                  name={tag.name}
-                  colorNumber={tag.colorNumber}
-                />
+                <SelectedTagItem key={tag.name} tag={tag} />
               ))}
             </div>
           )}

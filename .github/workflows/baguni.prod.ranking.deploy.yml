@@ -69,3 +69,14 @@ jobs:
             echo "restarting container..."
             docker compose down ${{ env.module-name }}
             docker compose up ${{ env.module-name }} -d
+
+      - name: Discord Webhook Notification
+        uses: sarisia/actions-status-discord@v1.14.7
+        if: always()
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          status: ${{ job.status }}
+          title: 'TEST RANKING SERVER DEPLOY'
+          color: 0xff91a4
+          url: 'https://github.com/sarisia/actions-status-discord'
+          username: GitHub Actions

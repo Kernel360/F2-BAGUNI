@@ -1,14 +1,10 @@
 import { style } from '@vanilla-extract/css';
-
-export const selectedTagMaxWidth = '264px';
-export const selectedTagHeight = '20px';
-export const actionButtonWidth = '20px';
+import { SelectedTagCommonStyle } from './SelectedTagCommonStyle.css';
 
 export const selectedTagLayoutStyle = style({
   display: 'inline-flex',
   alignItems: 'center',
-  maxWidth: selectedTagMaxWidth,
-  height: selectedTagHeight,
-  margin: 0,
+  maxWidth: `calc(${SelectedTagCommonStyle.width})`,
+  height: '20px',
   borderRadius: '4px',
 });

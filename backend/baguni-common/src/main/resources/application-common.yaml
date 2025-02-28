@@ -16,9 +16,6 @@ spring:
 server-url: # 테크픽 서버간 통신을 위한 주소
   api-server: http://localhost:8080/api # 운영 api 서버
   ranking-server: http://localhost:8082/api # 랭킹 서버
-otel: # 로컬에선 opentelemetry 수집/전송 끄기
-  sdk:
-    disabled: true
 ---
 spring:
   config:

@@ -9,7 +9,7 @@ export const API_URLS = {
   },
   getTagsUrl: () => 'tags',
   getMoveTagsUrl: function () {
-    return `${this.getTagsUrl()}/location`;
+    return `${this.getTagsUrl}/location`;
   },
   getLinkUrl: () => 'links',
   getExtensionUrl: () => 'extension',
