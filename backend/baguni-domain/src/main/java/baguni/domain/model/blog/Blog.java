@@ -1,4 +1,4 @@
-package baguni.domain.model.rss;
+package baguni.domain.model.blog;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

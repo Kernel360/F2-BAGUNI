@@ -69,6 +69,11 @@ export const tagListItemStyle = style({
   },
 });
 
+export const createTagListItemStyle = style([
+  tagListItemStyle,
+  { justifyContent: 'start' },
+]);
+
 export const tagListItemContentStyle = style({
   maxWidth: `calc(${SelectedTagCommonStyle.width} - 38px)`, // 26px은 생성 텍스트의 영역 12px는 패딩
   height: '20px',
@@ -86,4 +91,22 @@ export const tagCreateTextStyle = style({
   width: '28px',
   fontSize: '14px',
   color: color.font,
+});
+
+export const displayFlex = style({
+  display: 'flex',
+});
+
+export const alignItemCenter = style({
+  alignItems: 'center',
+});
+
+export const dragHandlerStyle = style({
+  width: '20px',
+  height: '20px',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  color: '#9F9E9B',
+  cursor: 'pointer',
 });

@@ -69,8 +69,7 @@ export function useUpdatePickInfo() {
         pickKeys.folderInfinite(pickParentFolderId),
         prevInfiniteData,
       );
-    },
-    onSettled: (_data, _error, { pickParentFolderId }) => {
+
       queryClient.invalidateQueries({
         queryKey: pickKeys.folderInfinite(pickParentFolderId),
       });
