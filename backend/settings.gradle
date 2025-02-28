@@ -4,5 +4,4 @@ include 'baguni-domain'
 
 include 'baguni-api'
 include 'baguni-batch'
-include 'baguni-ranking'
 
