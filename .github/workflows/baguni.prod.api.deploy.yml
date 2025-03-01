@@ -18,6 +18,7 @@ jobs:
       docker-hub-repo: 'baguni'
       docker-hub-password: ${{ secrets.DOCKERHUB_PASSWORD_MAIN }}
       module-name: 'baguni-api'
+      project-directory: '/home/project/baguni/release' # path to docker-compose.yaml
 
     steps:
       # 저장소 Checkout
@@ -66,7 +67,7 @@ jobs:
             docker pull ${{ env.docker-hub-username }}/${{ env.docker-hub-repo }}:${{ env.module-name }}
             
             echo "moving to project directory..."
-            cd /home/project/baguni/release
+            cd ${{ env.project-directory }}
             
             echo "restarting container..."
             docker compose down ${{ env.module-name }}
