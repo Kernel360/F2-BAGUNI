@@ -7,16 +7,16 @@
 #*************************************************#
 
 networks:
-  baguni-dev-network:
-    name: baguni-dev-network
+  baguni-local-network:
+    name: baguni-local-network
     driver: bridge
 
 services:
   # **********************************
-  #   BAGUNI MYSQL 운영 DB
+  #   BAGUNI MYSQL 서비스 DB
   # **********************************
   baguni-mysql:
-    container_name: baguni.${PROFILE_MODE}.infra.database
+    container_name: baguni.local.infra.database
     image: mysql:8.0
     restart: unless-stopped
     ports:
@@ -42,7 +42,7 @@ services:
   # **********************************
   baguni-rabbitmq:
     image: rabbitmq:3-management
-    container_name: baguni.${PROFILE_MODE}.infra.message-queue
+    container_name: baguni.local.infra.message-queue
     hostname: baguni
     environment:
       - RABBITMQ_ERLANG_COOKIE=${DOCKER_RABBITMQ_ERLANG_COOKIE}
@@ -52,7 +52,7 @@ services:
       - "25672:15672" # 관리 UI 포트
       - "35672:5672" # AMQP 포트
     networks:
-      - baguni-dev-network
+      - baguni-local-network
 
   # **********************************
   #        BAGUNI API SERVER
@@ -61,7 +61,7 @@ services:
     build:
       context: ./baguni-api
       dockerfile: Dockerfile
-    container_name: baguni.${PROFILE_MODE}.server.api
+    container_name: baguni.local.server.api
     volumes:
       - ./logs/api:/app/logs
     ports:
@@ -69,9 +69,9 @@ services:
     env_file:
       - .env
     environment:
-      - SPRING_PROFILES_ACTIVE=${PROFILE_MODE}
+      - SPRING_PROFILES_ACTIVE=local
     networks:
-      - baguni-dev-network
+      - baguni-local-network
     depends_on:
       - baguni-mysql
       - baguni-rabbitmq
@@ -83,7 +83,7 @@ services:
     build:
       context: ./baguni-batch
       dockerfile: Dockerfile
-    container_name: baguni.${PROFILE_MODE}.server.batch
+    container_name: baguni.local.server.batch
     volumes:
       - ./logs/batch:/app/logs
     ports:
@@ -91,8 +91,8 @@ services:
     env_file:
       - .env
     environment:
-      - SPRING_PROFILES_ACTIVE=${PROFILE_MODE}
+      - SPRING_PROFILES_ACTIVE=local
     networks:
-      - baguni-dev-network
+      - baguni-local-network
     depends_on:
       - baguni-mysql
