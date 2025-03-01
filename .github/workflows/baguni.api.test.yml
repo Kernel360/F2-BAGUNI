@@ -67,4 +67,3 @@ jobs:
             --reporter-influxdb-measurement newman_metrics \
             --reporter-influxdb-server influxdb.minlife.me \
             --reporter-influxdb-mode https \
-            --reporter-influxdb-port 8086
