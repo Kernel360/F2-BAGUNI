@@ -1,13 +1,9 @@
-name: Baguni Test Client CI/CD
-
-# *****************************************
-# NOTE: 추후 도커 허브 레포를 baguni로 변경할 예정
-# *****************************************
+name: Baguni Develop Client CI/CD
 
 on:
   push:
     branches:
-      - 'develop'
+      - 'develop' # 배포 대상 브랜치
     paths:
       - 'frontend/techpick/**'
       - 'frontend/techpick-shared/**'
@@ -17,9 +13,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      docker-hub-username: 'minkyeu'
-      docker-hub-repo: 'baguni' # TODO: change to baguni
+      docker-hub-username: 'shd2768' # 송해덕
+      docker-hub-repo: 'baguni'
+      docker-hub-password: ${{ secrets.DOCKERHUB_PASSWORD_DEVELOP }}
       module-name: 'baguni-client'
+
     steps:
       - # 저장소 Checkout
         name: Checkout source code
@@ -52,7 +50,7 @@ jobs:
         uses: docker/login-action@v3
         with:
           username: ${{ env.docker-hub-username }}
-          password: ${{ secrets.DOCKERHUB_REPO_BAGUNI_TOKEN }}
+          password: ${{ env.docker-hub-password }}
       - # Docker hub 업로드
         name: Publish to docker hub
         run: docker push ${{ env.docker-hub-username }}/${{ env.docker-hub-repo }}:${{ env.module-name }}
@@ -67,7 +65,7 @@ jobs:
           script: |
 
             echo "login docker hub for private repository access ..."
-            echo ${{ secrets.DOCKERHUB_REPO_BAGUNI_TOKEN }} | docker login -u ${{ env.docker-hub-username }} --password-stdin
+            echo ${{ env.docker-hub-password }} | docker login -u ${{ env.docker-hub-username }} --password-stdin
 
             echo "docker - pulling..."
             docker pull ${{ env.docker-hub-username }}/${{ env.docker-hub-repo }}:${{ env.module-name }}

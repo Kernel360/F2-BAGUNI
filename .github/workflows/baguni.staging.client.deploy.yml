@@ -1,0 +1,80 @@
+name: Baguni Staging Client CI/CD
+
+on:
+  push:
+    branches:
+      - 'staging' # 배포 대상 브랜치
+    paths:
+      - 'frontend/techpick/**'
+      - 'frontend/techpick-shared/**'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      docker-hub-username: 'minkyeu' # 김민규
+      docker-hub-repo: 'baguni'
+      docker-hub-password: ${{ secrets.DOCKERHUB_PASSWORD_STAGING }}
+      module-name: 'baguni-client'
+
+    steps:
+      - # 저장소 Checkout
+        name: Checkout source code
+        uses: actions/checkout@v4
+
+      - # .env 파일 설정
+        name: Create .env.production
+        run: |
+          cd ./frontend/techpick
+          touch .env.production
+          echo "NEXT_PUBLIC_API=${{ secrets.FRONT_NEXT_PUBLIC_API }}" >> .env.production
+          echo "NEXT_PUBLIC_DOMAIN=${{ secrets.FRONT_NEXT_PUBLIC_DOMAIN }}" >> .env.production
+          echo "NEXT_PUBLIC_REDIRECT_URL=${{secrets.FRONT_NEXT_PUBLIC_REDIRECT_URL}}" >> .env.production
+          echo "NEXT_PUBLIC_MIXPANEL_TOKEN=${{secrets.FRONT_NEXT_PUBLIC_MIXPANEL_TOKEN}}" >> .env.production
+          echo "NEXT_PUBLIC_IMAGE_URL=${{secrets.FRONT_NEXT_PUBLIC_IMAGE_URL}}" >> .env.production
+
+      - # .env.sentry-build-plugin 설정
+        name: Create .env.sentry-build-plugin
+        run: |
+          cd ./frontend/techpick
+          touch .env.sentry-build-plugin
+          echo "SENTRY_AUTH_TOKEN=${{secrets.FRONT_SENTRY_AUTH_TOKEN}}" >> .env.sentry-build-plugin
+
+      - # Docker image 빌드
+        name: Build docker image
+        run: |
+          docker build -t ${{ env.docker-hub-username }}/${{ env.docker-hub-repo }}:${{ env.module-name }} frontend
+      - # Docker hub 로그인
+        name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ env.docker-hub-username }}
+          password: ${{ env.docker-hub-password }}
+      - # Docker hub 업로드
+        name: Publish to docker hub
+        run: docker push ${{ env.docker-hub-username }}/${{ env.docker-hub-repo }}:${{ env.module-name }}
+      - # 서버 ssh 접속 후 방금 올린 이미지 pull 받고 실행
+        name: Deploy on Test-Server
+        uses: appleboy/ssh-action@master
+        with:
+          host: minlife.me # test home server
+          port: 4242
+          username: root # root user
+          password: ${{ secrets.SSH_TEST_SERVER_KYEU_PASSWORD }}
+          script: |
+
+            echo "login docker hub for private repository access ..."
+            echo ${{ env.docker-hub-password }} | docker login -u ${{ env.docker-hub-username }} --password-stdin
+
+            echo "docker - pulling..."
+            docker pull ${{ env.docker-hub-username }}/${{ env.docker-hub-repo }}:${{ env.module-name }}
+
+            echo "moving to project directory..."
+            cd /home/project/baguni/develop
+
+            docker compose down ${{ env.module-name }}
+            docker compose up ${{ env.module-name }} -d
+
+            echo "docker - pruning images that passed 24h ..."
+            docker image prune -af --filter "until=24h"

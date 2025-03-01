@@ -1,4 +1,4 @@
-name: Baguni Prod Api-Module CI/CD
+name: Baguni Production Api-Module CI/CD
 
 on:
   push:
@@ -14,8 +14,9 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     env:
-      docker-hub-username: 'sangwon917'
+      docker-hub-username: 'sangwon917' # 양상원
       docker-hub-repo: 'baguni'
+      docker-hub-password: ${{ secrets.DOCKERHUB_PASSWORD_MAIN }}
       module-name: 'baguni-api'
 
     steps:
@@ -45,7 +46,7 @@ jobs:
         uses: docker/login-action@v3
         with:
           username: ${{ env.docker-hub-username }}
-          password: ${{ secrets.DOCKERHUB_REPO_BAGUNI_OTHER_TOKEN }}
+          password: ${{ env.docker-hub-password }}
       - # Docker hub 업로드
         name: Publish to docker hub
         run: docker push ${{ env.docker-hub-username }}/${{ env.docker-hub-repo }}:${{ env.module-name }}
@@ -59,7 +60,7 @@ jobs:
           password: ${{ secrets.SSH_TEST_SERVER_KYEU_PASSWORD }}
           script: |
             echo "login docker hub for private repository access ..."
-            echo ${{ secrets.DOCKERHUB_REPO_BAGUNI_OTHER_TOKEN }} | docker login -u ${{ env.docker-hub-username }} --password-stdin
+            echo ${{ env.docker-hub-password }} | docker login -u ${{ env.docker-hub-username }} --password-stdin
             
             echo "docker - pulling..."
             docker pull ${{ env.docker-hub-username }}/${{ env.docker-hub-repo }}:${{ env.module-name }}

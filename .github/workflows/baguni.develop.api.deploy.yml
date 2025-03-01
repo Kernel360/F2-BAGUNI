@@ -1,4 +1,4 @@
-name: Baguni Test Api-Module CI/CD
+name: Baguni Develop Api-Module CI/CD
 
 on:
   push:
@@ -14,8 +14,9 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     env:
-      docker-hub-username: 'minkyeu'
-      docker-hub-repo: 'baguni' # TODO: change to baguni
+      docker-hub-username: 'shd2768' # 송해덕
+      docker-hub-repo: 'baguni'
+      docker-hub-password: ${{ secrets.DOCKERHUB_PASSWORD_DEVELOP }}
       module-name: 'baguni-api'
 
     steps:
@@ -45,7 +46,7 @@ jobs:
         uses: docker/login-action@v3
         with:
           username: ${{ env.docker-hub-username }}
-          password: ${{ secrets.DOCKERHUB_REPO_BAGUNI_TOKEN }}
+          password: ${{ env.docker-hub-password }}
       - # Docker hub 업로드
         name: Publish to docker hub
         run: docker push ${{ env.docker-hub-username }}/${{ env.docker-hub-repo }}:${{ env.module-name }}
@@ -59,13 +60,13 @@ jobs:
           password: ${{ secrets.SSH_TEST_SERVER_KYEU_PASSWORD }}
           script: |
             echo "login docker hub for private repository access ..."
-            echo ${{ secrets.DOCKERHUB_REPO_BAGUNI_TOKEN }} | docker login -u ${{ env.docker-hub-username }} --password-stdin
+            echo ${{ env.docker-hub-password }} | docker login -u ${{ env.docker-hub-username }} --password-stdin
             
             echo "docker - pulling..."
             docker pull ${{ env.docker-hub-username }}/${{ env.docker-hub-repo }}:${{ env.module-name }}
             
             echo "moving to project directory..."
-            cd /home/project/baguni/develop
+            cd /home/project/baguni/release
             
             echo "restarting container..."
             docker compose down ${{ env.module-name }}
