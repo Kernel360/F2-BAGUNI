@@ -3,11 +3,9 @@ spring:
     include:
       - domain
       - common
-  application:
-    name: baguni.${PROFILE_MODE}.server.api
 springdoc:
   swagger-ui:
-#    path: /swagger-custom.html # swagger-ui 접근 경로, 외부에서 쉽게 접근하지 못하게 하려면 변경
+    #    path: /swagger-custom.html # swagger-ui 접근 경로, 외부에서 쉽게 접근하지 못하게 하려면 변경
     groups-order: DESC # 각 API의 그룹 표시 순서 (springdoc.swagger-ui.urls에 정의된 부분만 정렬)
 
     # alpha: 알파벳 순 정렬
@@ -62,10 +60,15 @@ oauth2-attribute-config-provider:
       name: "id" # use `id` attribute as name
       email: "email"
 ---
+# -----------------------------
+#       LOCAL SETTINGS
+# -----------------------------
 spring:
   config:
     activate:
       on-profile: local
+  application:
+    name: baguni.local.server.api
   security:
     oauth2:
       client:
@@ -81,36 +84,68 @@ security:
   cookie-domain: localhost
   default-redirect-url: http://localhost:8080/swagger-ui/index.html
   base-url: http://localhost:8080
-server:
-  port: 8080
 ---
+# -----------------------------
+#       DEVELOPMENT SETTINGS
+# -----------------------------
 spring:
   config:
     activate:
       on-profile: dev
+  application:
+    name: baguni.dev.server.api
   security:
     oauth2:
       client:
         registration:
           google:
-            redirect-uri: https://v2.minlife.me/api/login/oauth2/code/google
+            redirect-uri: https://api.dev.minlife.me/api/login/oauth2/code/google
           kakao:
-            redirect-uri: https://v2.minlife.me/api/login/oauth2/code/kakao
+            redirect-uri: https://api.dev.minlife.me/api/login/oauth2/code/kakao
 security:
   cors-patterns:
     - chrome-extension://*
     - https://*.minlife.me
     - https://local.minlife.me:3000
   cookie-domain: minlife.me
-  default-redirect-url: https://app.minlife.me
-  base-url: https://v2.minlife.me
-server:
-  port: 8080
+  default-redirect-url: https://app.dev.minlife.me
+  base-url: https://api.dev.minlife.me
 ---
+# -----------------------------
+#       STAGING SETTINGS
+# -----------------------------
+spring:
+  config:
+    activate:
+      on-profile: staging
+  application:
+    name: baguni.staging.server.api
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            redirect-uri: https://api.staging.minlife.me/api/login/oauth2/code/google
+          kakao:
+            redirect-uri: https://api.staging.minlife.me/api/login/oauth2/code/kakao
+security:
+  cors-patterns:
+    - chrome-extension://*
+    - https://*.minlife.me
+    - https://local.minlife.me:3000
+  cookie-domain: minlife.me
+  default-redirect-url: https://app.staging.minlife.me
+  base-url: https://api.staging.minlife.me
+---
+# -----------------------------
+#       PRODUCTION SETTINGS
+# -----------------------------
 spring:
   config:
     activate:
       on-profile: prod
+  application:
+    name: baguni.prod.server.api
   security:
     oauth2:
       client:
@@ -131,6 +166,4 @@ springdoc: # 운영 환경에서 스웨거 접근 못하도록 막는 설정
     enabled: false # false로 변경하면, swagger api-docs(정적 json 파일) 접근 불가
   swagger-ui:
     enabled: false # false로 변경하면, swagger 접근 불가
-server:
-  port: 8080
 ---

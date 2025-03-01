@@ -56,7 +56,7 @@ public class SecurityConfig {
 	@Bean
 	@Profile({"prod"})
 	public SecurityFilterChain ProductionConfig(HttpSecurity http) throws Exception {
-		log.info("운영 환경 SECURITY 설정을 적용 합니다 [#SecurityConfig.ProductionConfig]");
+		log.info("운영 환경 SECURITY 설정을 적용 합니다. [#SecurityConfig.ProductionConfig]");
 		http
 			.csrf(AbstractHttpConfigurer::disable)
 			.cors(cors -> cors.configurationSource(corsConfigurationSource()))
@@ -104,18 +104,18 @@ public class SecurityConfig {
 		return http.build();
 	}
 
-	/* ********************************************
-	 *       DEVELOPMENT SECURITY SETTING
-	 * ********************************************
+	/* ******************************************************
+	 *       DEVELOPMENT + STAGING SECURITY SETTING
+	 * ******************************************************
 	 * (1)  테스트 자동화를 위한 API KEY 필터 추가
 	 *      - testUserAuthenticationFilter
 	 *
 	 * (2)  Swagger 경로는 모두 허용
 	 */
 	@Bean
-	@Profile({"local", "dev"})
+	@Profile({"local", "dev", "staging"})
 	public SecurityFilterChain DevelopmentConfig(HttpSecurity http) throws Exception {
-		log.info("로컬/개발 환경 SECURITY 설정을 적용 합니다 [#SecurityConfig.DevelopmentConfig]");
+		log.info("로컬/개발/스테이징 환경 SECURITY 설정을 적용 합니다 [#SecurityConfig.DevelopmentConfig]");
 		http
 			.csrf(AbstractHttpConfigurer::disable)
 			.cors(cors -> cors.configurationSource(corsConfigurationSource()))

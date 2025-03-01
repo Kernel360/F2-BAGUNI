@@ -78,6 +78,27 @@ decorator:
       enable-logging: true
 ---
 # -----------------------------
+#     DEVELOPMENT SETTINGS
+# -----------------------------
+spring:
+  config:
+    activate:
+      on-profile: staging
+  jpa:
+    hibernate:
+      ddl-auto: none
+  datasource:
+    url: ${DOCKER_STAGING_MYSQL_URL}
+  flyway:
+    url: ${DOCKER_STAGING_MYSQL_URL}
+    baseline-on-migrate: true
+    enabled: true
+decorator:
+  datasource:
+    p6spy: # 스테이징 서버에서는 p6spy 로깅을 사용하지 않음
+      enable-logging: false
+---
+# -----------------------------
 #     PRODUCTION SETTINGS
 # -----------------------------
 spring:
