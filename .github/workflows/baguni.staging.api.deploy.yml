@@ -52,6 +52,7 @@ jobs:
         name: Publish to docker hub
         run: docker push ${{ env.docker-hub-username }}/${{ env.docker-hub-repo }}:${{ env.module-name }}
 
+
       - name: Deploy on Test-Server
         uses: appleboy/ssh-action@master
         with:
@@ -81,7 +82,7 @@ jobs:
           max_attempts=10
 
           while true; do
-            http_status=$(curl -o /dev/null -s -w "%{http_code}" https://v2.minlife.me)
+            http_status=$(curl -o /dev/null -s -w "%{http_code}" https://api.staging.minlife.me)
 
             if [ "$http_status" -ne 502 ]; then
               echo "✅ API Server responded Continuing..."
