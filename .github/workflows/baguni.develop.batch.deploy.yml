@@ -1,9 +1,9 @@
-name: Baguni Prod Batch-Module CI/CD
+name: Baguni Develop Batch-Module CI/CD
 
 on:
   push:
     branches:
-      - 'main' # 배포 대상 브랜치
+      - 'develop_be' # 배포 대상 브랜치
     paths:
       - 'backend/baguni-common/**'
       - 'backend/baguni-domain/**'
@@ -14,11 +14,11 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     env:
-      docker-hub-username: 'sangwon917' # 양상원
+      docker-hub-username: 'shd2768' # 송해덕
       docker-hub-repo: 'baguni'
-      docker-hub-password: ${{ secrets.DOCKERHUB_PASSWORD_MAIN }}
+      docker-hub-password: ${{ secrets.DOCKERHUB_PASSWORD_DEVELOP }}
       module-name: 'baguni-batch'
-      project-directory: '/home/project/baguni/release' # path to docker-compose.yaml
+      project-directory: '/home/project/baguni/develop' # path to docker-compose.yaml
 
     steps:
       # 저장소 Checkout
