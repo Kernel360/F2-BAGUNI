@@ -3,7 +3,7 @@ name: Baguni Develop Client CI/CD
 on:
   push:
     branches:
-      - 'develop' # 배포 대상 브랜치
+      - 'develop_fe' # 배포 대상 브랜치
     paths:
       - 'frontend/techpick/**'
       - 'frontend/techpick-shared/**'

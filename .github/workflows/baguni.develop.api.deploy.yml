@@ -3,7 +3,7 @@ name: Baguni Develop Api-Module CI/CD
 on:
   push:
     branches:
-      - 'develop' # 배포 대상 브랜치
+      - 'develop_be' # 배포 대상 브랜치
     paths:
       - 'backend/baguni-common/**'
       - 'backend/baguni-domain/**'
