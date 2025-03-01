@@ -56,7 +56,7 @@ public class SecurityConfig {
 	@Bean
 	@Profile({"prod"})
 	public SecurityFilterChain ProductionConfig(HttpSecurity http) throws Exception {
-		log.info("운영 환경 SECURITY 설정을 적용 합니다. \n[#SecurityConfig.ProductionConfig]");
+		log.info("운영 환경 SECURITY 설정을 적용 합니다. [#SecurityConfig.ProductionConfig]");
 		http
 			.csrf(AbstractHttpConfigurer::disable)
 			.cors(cors -> cors.configurationSource(corsConfigurationSource()))
@@ -115,7 +115,7 @@ public class SecurityConfig {
 	@Bean
 	@Profile({"local", "dev", "staging"})
 	public SecurityFilterChain DevelopmentConfig(HttpSecurity http) throws Exception {
-		log.info("로컬/개발/스테이징 환경 SECURITY 설정을 적용 합니다 \n[#SecurityConfig.DevelopmentConfig]");
+		log.info("로컬/개발/스테이징 환경 SECURITY 설정을 적용 합니다 [#SecurityConfig.DevelopmentConfig]");
 		http
 			.csrf(AbstractHttpConfigurer::disable)
 			.cors(cors -> cors.configurationSource(corsConfigurationSource()))
