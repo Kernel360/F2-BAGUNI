@@ -4,8 +4,6 @@ spring:
     include:
       - domain
       - common
-  application:
-    name: baguni.${PROFILE_MODE}.server.batch
 ---
 # -----------------------------
 #       LOCAL SETTINGS
@@ -14,6 +12,8 @@ spring:
   config:
     activate:
       on-profile: local
+  application:
+    name: baguni.local.server.batch
 server:
   port: 8081 # 로컬에선 api 서버가 8080 포트를 사용하기 때문
 ---
@@ -24,6 +24,8 @@ spring:
   config:
     activate:
       on-profile: dev
+  application:
+    name: baguni.dev.server.batch
 server:
   port: 8080
 ---
@@ -34,6 +36,8 @@ spring:
   config:
     activate:
       on-profile: staging
+  application:
+    name: baguni.staging.server.batch
 server:
   port: 8080
 ---
@@ -44,5 +48,7 @@ spring:
   config:
     activate:
       on-profile: prod
+  application:
+    name: baguni.prod.server.batch
 server:
   port: 8080

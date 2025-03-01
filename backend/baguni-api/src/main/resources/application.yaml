@@ -3,8 +3,6 @@ spring:
     include:
       - domain
       - common
-  application:
-    name: baguni.${PROFILE_MODE}.server.api
 springdoc:
   swagger-ui:
     #    path: /swagger-custom.html # swagger-ui 접근 경로, 외부에서 쉽게 접근하지 못하게 하려면 변경
@@ -69,6 +67,8 @@ spring:
   config:
     activate:
       on-profile: local
+  application:
+    name: baguni.local.server.api
   security:
     oauth2:
       client:
@@ -92,6 +92,8 @@ spring:
   config:
     activate:
       on-profile: dev
+  application:
+    name: baguni.dev.server.api
   security:
     oauth2:
       client:
@@ -116,6 +118,8 @@ spring:
   config:
     activate:
       on-profile: staging
+  application:
+    name: baguni.staging.server.api
   security:
     oauth2:
       client:
@@ -140,6 +144,8 @@ spring:
   config:
     activate:
       on-profile: prod
+  application:
+    name: baguni.prod.server.api
   security:
     oauth2:
       client:
