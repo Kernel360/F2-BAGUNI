@@ -2,7 +2,7 @@ name: Baguni Automation Api-Test CI/CD
 
 on:
   schedule:
-    # 매 3시간마다 (UTC 기준, 0분에 실행)
+    # 매 1시간마다 (UTC 기준, 0분에 실행)
     - cron: '0 */1 * * *'
   workflow_dispatch: # 수동으로 workflow 실행 시 필요
 
