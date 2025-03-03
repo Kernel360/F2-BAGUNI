@@ -7,8 +7,8 @@ import java.util.List;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import baguni.domain.model.user.Role;
-import baguni.domain.model.util.IDToken;
+import baguni.infra.model.user.Role;
+import baguni.infra.model.util.IDToken;
 import baguni.security.config.JwtProperties;
 import baguni.security.exception.SecurityException;
 import baguni.security.exception.AuthErrorCode;

@@ -2,18 +2,16 @@ package baguni.api.application.mobile.controller;
 
 import java.util.List;
 
-import org.springframework.data.domain.Slice;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import baguni.api.application.folder.dto.FolderApiMapper;
 import baguni.api.application.folder.dto.FolderApiResponse;
 import baguni.api.service.folder.service.FolderService;
 import baguni.api.service.sharedFolder.service.SharedFolderService;
-import baguni.domain.infrastructure.folder.dto.FolderResult;
+import baguni.infra.infrastructure.folder.dto.FolderResult;
 import baguni.security.annotation.LoginUserId;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

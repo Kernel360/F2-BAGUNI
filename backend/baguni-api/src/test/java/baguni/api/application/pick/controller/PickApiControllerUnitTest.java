@@ -22,9 +22,9 @@ import baguni.api.service.pick.service.PickSearchService;
 import baguni.api.service.pick.service.PickService;
 import baguni.common.event.BookmarkCreateEvent;
 import baguni.common.event.EventMessenger;
-import baguni.domain.infrastructure.link.dto.LinkInfo;
-import baguni.domain.infrastructure.pick.dto.PickCommand;
-import baguni.domain.infrastructure.pick.dto.PickResult;
+import baguni.infra.infrastructure.link.dto.LinkInfo;
+import baguni.infra.infrastructure.pick.dto.PickCommand;
+import baguni.infra.infrastructure.pick.dto.PickResult;
 
 /**
  * 컨트롤러 단위 테스트는 해당 클래스 참고 부탁드립니다.

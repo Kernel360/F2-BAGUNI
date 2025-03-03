@@ -5,9 +5,9 @@ import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import baguni.domain.model.folder.Folder;
-import baguni.domain.model.sharedFolder.SharedFolder;
-import baguni.domain.model.user.User;
+import baguni.infra.model.folder.Folder;
+import baguni.infra.model.sharedFolder.SharedFolder;
+import baguni.infra.model.user.User;
 import lombok.Builder;
 import lombok.Getter;
 

@@ -9,8 +9,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import baguni.BaguniBatchApplication;
-import baguni.domain.infrastructure.rss.BlogRepository;
-import baguni.domain.model.rss.Blog;
+import baguni.infra.infrastructure.rss.BlogRepository;
+import baguni.infra.model.rss.Blog;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

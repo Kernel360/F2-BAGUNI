@@ -12,20 +12,20 @@ import org.springframework.transaction.annotation.Transactional;
 import baguni.common.exception.base.ServiceException;
 import baguni.common.exception.error_code.FolderErrorCode;
 import baguni.common.exception.error_code.SharedFolderErrorCode;
-import baguni.domain.model.folder.Folder;
-import baguni.domain.model.folder.FolderType;
-import baguni.domain.model.pick.Pick;
-import baguni.domain.model.sharedFolder.SharedFolder;
+import baguni.infra.model.folder.Folder;
+import baguni.infra.model.folder.FolderType;
+import baguni.infra.model.pick.Pick;
+import baguni.infra.model.sharedFolder.SharedFolder;
 import io.opentelemetry.instrumentation.annotations.WithSpan;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import baguni.domain.infrastructure.link.dto.LinkMapper;
-import baguni.domain.infrastructure.sharedFolder.dto.SharedFolderMapper;
-import baguni.domain.infrastructure.sharedFolder.dto.SharedFolderResult;
-import baguni.domain.infrastructure.folder.FolderDataHandler;
-import baguni.domain.infrastructure.pick.PickDataHandler;
-import baguni.domain.infrastructure.sharedFolder.SharedFolderDataHandler;
-import baguni.domain.infrastructure.tag.TagDataHandler;
+import baguni.infra.infrastructure.link.dto.LinkMapper;
+import baguni.infra.infrastructure.sharedFolder.dto.SharedFolderMapper;
+import baguni.infra.infrastructure.sharedFolder.dto.SharedFolderResult;
+import baguni.infra.infrastructure.folder.FolderDataHandler;
+import baguni.infra.infrastructure.pick.PickDataHandler;
+import baguni.infra.infrastructure.sharedFolder.SharedFolderDataHandler;
+import baguni.infra.infrastructure.tag.TagDataHandler;
 
 @Slf4j
 @Service

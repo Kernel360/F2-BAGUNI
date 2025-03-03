@@ -16,15 +16,15 @@ import baguni.common.exception.base.ServiceException;
 import baguni.common.exception.error_code.FolderErrorCode;
 import io.opentelemetry.instrumentation.annotations.WithSpan;
 import lombok.RequiredArgsConstructor;
-import baguni.domain.annotation.LoginUserIdDistributedLock;
-import baguni.domain.infrastructure.folder.dto.FolderCommand;
-import baguni.domain.infrastructure.folder.dto.FolderMapper;
-import baguni.domain.infrastructure.folder.dto.FolderResult;
-import baguni.domain.infrastructure.folder.FolderDataHandler;
-import baguni.domain.infrastructure.pick.PickDataHandler;
-import baguni.domain.infrastructure.sharedFolder.SharedFolderDataHandler;
-import baguni.domain.model.folder.Folder;
-import baguni.domain.model.folder.FolderType;
+import baguni.infra.annotation.LoginUserIdDistributedLock;
+import baguni.infra.infrastructure.folder.dto.FolderCommand;
+import baguni.infra.infrastructure.folder.dto.FolderMapper;
+import baguni.infra.infrastructure.folder.dto.FolderResult;
+import baguni.infra.infrastructure.folder.FolderDataHandler;
+import baguni.infra.infrastructure.pick.PickDataHandler;
+import baguni.infra.infrastructure.sharedFolder.SharedFolderDataHandler;
+import baguni.infra.model.folder.Folder;
+import baguni.infra.model.folder.FolderType;
 
 @Service
 @RequiredArgsConstructor

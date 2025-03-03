@@ -13,7 +13,7 @@ import baguni.common.config.RabbitmqConfig;
 import baguni.common.event.BookmarkCreateEvent;
 import baguni.common.event.LinkCreateEvent;
 import baguni.common.event.LinkReadEvent;
-import baguni.domain.infrastructure.link.dto.LinkResult;
+import baguni.infra.infrastructure.link.dto.LinkResult;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

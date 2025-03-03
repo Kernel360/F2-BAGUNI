@@ -1,6 +1,5 @@
 package baguni.api.application.sharedFolder.controller;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
 import java.time.LocalDateTime;
@@ -19,9 +18,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import baguni.api.application.sharedFolder.dto.SharedFolderApiMapper;
 import baguni.api.application.sharedFolder.dto.SharedFolderApiResponse;
 import baguni.api.service.sharedFolder.service.SharedFolderService;
-import baguni.domain.infrastructure.folder.dto.FolderResult;
-import baguni.domain.infrastructure.sharedFolder.dto.SharedFolderResult;
-import baguni.domain.model.folder.FolderType;
+import baguni.infra.infrastructure.folder.dto.FolderResult;
+import baguni.infra.infrastructure.sharedFolder.dto.SharedFolderResult;
+import baguni.infra.model.folder.FolderType;
 
 @DisplayName("공유 폴더 컨트롤러 - 단위 테스트")
 @ExtendWith(MockitoExtension.class)

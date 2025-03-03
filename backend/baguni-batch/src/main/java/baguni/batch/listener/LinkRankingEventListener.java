@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 import baguni.common.config.RabbitmqConfig;
 import baguni.common.event.BookmarkCreateEvent;
 import baguni.common.event.LinkReadEvent;
-import baguni.domain.infrastructure.link.LinkDataHandler;
-import baguni.domain.model.link.LinkStats;
+import baguni.infra.infrastructure.link.LinkDataHandler;
+import baguni.infra.model.link.LinkStats;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

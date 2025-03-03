@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import baguni.domain.model.link.Link;
+import baguni.infra.model.link.Link;
 import lombok.Builder;
 import lombok.Getter;
 

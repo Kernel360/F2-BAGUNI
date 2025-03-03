@@ -11,9 +11,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import baguni.api.service.user.service.UserService;
-import baguni.domain.infrastructure.user.dto.UserInfo;
-import baguni.domain.model.user.Role;
-import baguni.domain.model.util.IDToken;
+import baguni.infra.infrastructure.user.dto.UserInfo;
+import baguni.infra.model.user.Role;
+import baguni.infra.model.util.IDToken;
 import baguni.security.util.AuthHeaderTokenExtractor;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

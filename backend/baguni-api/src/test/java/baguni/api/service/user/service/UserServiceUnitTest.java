@@ -15,11 +15,11 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import baguni.api.fixture.UserFixture;
-import baguni.domain.infrastructure.user.UserDataHandler;
-import baguni.domain.infrastructure.folder.FolderDataHandler;
-import baguni.domain.model.user.User;
-import baguni.domain.model.util.IDToken;
-import baguni.domain.model.util.IdTokenConversionException;
+import baguni.infra.infrastructure.user.UserDataHandler;
+import baguni.infra.infrastructure.folder.FolderDataHandler;
+import baguni.infra.model.user.User;
+import baguni.infra.model.util.IDToken;
+import baguni.infra.model.util.IdTokenConversionException;
 import baguni.security.exception.ApiAuthException;
 import baguni.security.model.OAuth2UserInfo;
 
