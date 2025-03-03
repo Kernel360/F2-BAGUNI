@@ -7,14 +7,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import baguni.common.lib.cache.CacheType;
-import baguni.domain.infrastructure.link.dto.BlogLinkInfo;
-import baguni.domain.model.link.Link;
+import baguni.infra.infrastructure.link.dto.BlogLinkInfo;
+import baguni.infra.infrastructure.link.dto.LinkCommand;
+import baguni.infra.model.link.Link;
 import io.opentelemetry.instrumentation.annotations.WithSpan;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import baguni.domain.infrastructure.link.dto.LinkInfo;
-import baguni.domain.infrastructure.link.dto.LinkMapper;
-import baguni.domain.infrastructure.link.LinkDataHandler;
+import baguni.infra.infrastructure.link.dto.LinkInfo;
+import baguni.infra.infrastructure.link.dto.LinkMapper;
+import baguni.infra.infrastructure.link.LinkDataHandler;
 
 @Slf4j
 @Service
@@ -42,6 +43,12 @@ public class LinkService {
 	public LinkInfo saveLink(String url) {
 		Link link = linkDataHandler.getOptionalLink(url).orElseGet(() -> Link.createLink(url));
 		return linkMapper.of(linkDataHandler.saveLink(link));
+	}
+
+	@WithSpan
+	@Transactional
+	public void updateLink(LinkCommand.Update command) {
+		linkDataHandler.updateLink(command);
 	}
 
 	@WithSpan

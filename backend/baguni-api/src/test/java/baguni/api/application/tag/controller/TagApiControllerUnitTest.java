@@ -17,9 +17,9 @@ import baguni.api.application.tag.dto.TagApiMapper;
 import baguni.api.application.tag.dto.TagApiRequest;
 import baguni.api.application.tag.dto.TagApiResponse;
 import baguni.api.service.tag.service.TagService;
-import baguni.domain.exception.tag.ApiTagException;
-import baguni.domain.infrastructure.tag.dto.TagCommand;
-import baguni.domain.infrastructure.tag.dto.TagResult;
+import baguni.infra.exception.tag.ApiTagException;
+import baguni.infra.infrastructure.tag.dto.TagCommand;
+import baguni.infra.infrastructure.tag.dto.TagResult;
 
 @DisplayName("태그 컨트롤러 - 단위 테스트")
 @ExtendWith(MockitoExtension.class)

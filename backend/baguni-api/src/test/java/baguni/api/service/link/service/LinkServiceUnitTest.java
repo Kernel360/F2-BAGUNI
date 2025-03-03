@@ -14,9 +14,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import baguni.api.fixture.LinkFixture;
-import baguni.domain.infrastructure.link.LinkDataHandler;
-import baguni.domain.infrastructure.link.dto.LinkMapper;
-import baguni.domain.model.link.Link;
+import baguni.infra.infrastructure.link.LinkDataHandler;
+import baguni.infra.infrastructure.link.dto.LinkMapper;
+import baguni.infra.model.link.Link;
 
 @DisplayName("링크 서비스 - 단위 테스트")
 @ExtendWith(MockitoExtension.class)

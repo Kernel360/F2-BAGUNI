@@ -1,26 +1,24 @@
 package baguni.api.service.user.service.strategy;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import baguni.api.fixture.FolderFixture;
 import baguni.api.fixture.UserFixture;
-import baguni.domain.infrastructure.folder.FolderDataHandler;
-import baguni.domain.infrastructure.folder.dto.FolderCommand;
-import baguni.domain.infrastructure.user.dto.UserInfo;
-import baguni.domain.model.folder.Folder;
-import baguni.domain.model.folder.FolderType;
-import baguni.domain.model.user.User;
-import baguni.domain.model.util.IDToken;
+import baguni.infra.infrastructure.folder.FolderDataHandler;
+import baguni.infra.infrastructure.folder.dto.FolderCommand;
+import baguni.infra.infrastructure.user.dto.UserInfo;
+import baguni.infra.model.folder.Folder;
+import baguni.infra.model.folder.FolderType;
+import baguni.infra.model.user.User;
+import baguni.infra.model.util.IDToken;
 
 @DisplayName("시작하기 폴더 - 단위 테스트")
 @ExtendWith(MockitoExtension.class)

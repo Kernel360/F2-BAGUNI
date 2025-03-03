@@ -1,6 +1,5 @@
 package baguni.api.application.sharedFolder.controller;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -31,17 +30,15 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import baguni.BaguniApiApplication;
-import baguni.api.application.folder.dto.FolderApiMapperImpl;
 import baguni.api.application.sharedFolder.dto.SharedFolderApiMapper;
 import baguni.api.application.sharedFolder.dto.SharedFolderApiMapperImpl;
-import baguni.api.application.sharedFolder.dto.SharedFolderApiResponse;
 import baguni.api.service.sharedFolder.service.SharedFolderService;
 import baguni.api.service.user.service.UserService;
-import baguni.domain.infrastructure.folder.dto.FolderResult;
-import baguni.domain.infrastructure.sharedFolder.dto.SharedFolderResult;
-import baguni.domain.infrastructure.user.dto.UserInfo;
-import baguni.domain.model.folder.FolderType;
-import baguni.domain.model.util.IDToken;
+import baguni.infra.infrastructure.folder.dto.FolderResult;
+import baguni.infra.infrastructure.sharedFolder.dto.SharedFolderResult;
+import baguni.infra.infrastructure.user.dto.UserInfo;
+import baguni.infra.model.folder.FolderType;
+import baguni.infra.model.util.IDToken;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

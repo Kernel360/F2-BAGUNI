@@ -14,8 +14,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import baguni.api.application.event.dto.EventApiRequest;
 import baguni.api.service.link.service.LinkService;
-import baguni.common.event.messenger.EventMessenger;
-import baguni.common.event.events.LinkReadEvent;
+import baguni.common.event.EventMessenger;
+import baguni.common.event.LinkReadEvent;
 import baguni.security.annotation.LoginUserId;
 
 @RestController

@@ -2,12 +2,12 @@ package baguni.api.service.user.service.strategy;
 
 import org.springframework.stereotype.Component;
 
-import baguni.domain.infrastructure.user.dto.UserInfo;
+import baguni.infra.infrastructure.user.dto.UserInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import baguni.domain.infrastructure.folder.dto.FolderCommand;
-import baguni.domain.infrastructure.folder.FolderDataHandler;
-import baguni.domain.model.folder.Folder;
+import baguni.infra.infrastructure.folder.dto.FolderCommand;
+import baguni.infra.infrastructure.folder.FolderDataHandler;
+import baguni.infra.model.folder.Folder;
 
 @Slf4j
 @Component

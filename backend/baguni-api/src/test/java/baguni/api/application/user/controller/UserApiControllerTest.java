@@ -18,7 +18,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,8 +31,8 @@ import baguni.BaguniApiApplication;
 import baguni.api.application.user.controller.dto.UserApiMapper;
 import baguni.api.application.user.controller.dto.UserApiMapperImpl;
 import baguni.api.service.user.service.UserService;
-import baguni.domain.infrastructure.user.dto.UserInfo;
-import baguni.domain.model.util.IDToken;
+import baguni.infra.infrastructure.user.dto.UserInfo;
+import baguni.infra.model.util.IDToken;
 import baguni.security.util.CookieUtil;
 import lombok.extern.slf4j.Slf4j;
 

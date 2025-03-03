@@ -15,11 +15,11 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import baguni.api.fixture.UserFixture;
-import baguni.api.infrastructure.user.UserDataHandler;
-import baguni.domain.infrastructure.folder.FolderDataHandler;
-import baguni.domain.model.user.User;
-import baguni.domain.model.util.IDToken;
-import baguni.domain.model.util.IdTokenConversionException;
+import baguni.infra.infrastructure.user.UserDataHandler;
+import baguni.infra.infrastructure.folder.FolderDataHandler;
+import baguni.infra.model.user.User;
+import baguni.infra.model.util.IDToken;
+import baguni.infra.model.util.IdTokenConversionException;
 import baguni.security.exception.ApiAuthException;
 import baguni.security.model.OAuth2UserInfo;
 
@@ -42,7 +42,7 @@ class UserServiceUnitTest {
 
 	@BeforeEach
 	void setUp() {
-		 attributes = Map.of(
+		attributes = Map.of(
 			"email", "user@example.com",
 			"name", "Test User"
 		);
@@ -55,7 +55,11 @@ class UserServiceUnitTest {
 	@DisplayName("유저 생성")
 	void create_user() {
 		// given
-		given(userDataHandler.createSocialUser(userInfo)).willReturn(user);
+		given(userDataHandler.createSocialUser(
+			userInfo.getProvider(),
+			userInfo.getProviderId(),
+			userInfo.getEmail()
+		)).willReturn(user);
 
 		// when
 		userService.createSocialUser(userInfo);
@@ -78,7 +82,11 @@ class UserServiceUnitTest {
 	@DisplayName("유저 생성 실패")
 	void fail_create_user() {
 		// given
-		given(userDataHandler.createSocialUser(userInfo)).willReturn(user);
+		given(userDataHandler.createSocialUser(
+			userInfo.getProvider(),
+			userInfo.getProviderId(),
+			userInfo.getEmail()
+		)).willReturn(user);
 		willThrow(new RuntimeException("폴더 생성 실패"))
 			.given(folderDataHandler).createMandatoryFolder(user);
 
@@ -92,7 +100,8 @@ class UserServiceUnitTest {
 	@DisplayName("유저 존재 여부 확인")
 	void exist_user() {
 		// given
-		given(userDataHandler.findSocialUser(userInfo.getProvider(), userInfo.getProviderId())).willReturn(Optional.of(user));
+		given(userDataHandler.findSocialUser(userInfo.getProvider(), userInfo.getProviderId())).willReturn(
+			Optional.of(user));
 
 		// when
 		userService.isSocialUserExists(userInfo);

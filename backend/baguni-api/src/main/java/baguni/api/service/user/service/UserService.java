@@ -3,10 +3,10 @@ package baguni.api.service.user.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import baguni.domain.infrastructure.folder.FolderDataHandler;
-import baguni.api.infrastructure.user.UserDataHandler;
-import baguni.domain.infrastructure.user.dto.UserInfo;
-import baguni.domain.model.util.IDToken;
+import baguni.infra.infrastructure.folder.FolderDataHandler;
+import baguni.infra.infrastructure.user.UserDataHandler;
+import baguni.infra.infrastructure.user.dto.UserInfo;
+import baguni.infra.model.util.IDToken;
 import baguni.security.exception.SecurityException;
 import baguni.security.exception.AuthErrorCode;
 import baguni.security.model.OAuth2UserInfo;
@@ -25,7 +25,11 @@ public class UserService {
 	@WithSpan
 	@Transactional
 	public UserInfo createSocialUser(OAuth2UserInfo oAuthInfo) {
-		var user = userDataHandler.createSocialUser(oAuthInfo);
+		var user = userDataHandler.createSocialUser(
+			oAuthInfo.getProvider(),
+			oAuthInfo.getProviderId(),
+			oAuthInfo.getEmail()
+		);
 		try {
 			folderDataHandler.createMandatoryFolder(user);
 			return UserInfo.from(user);

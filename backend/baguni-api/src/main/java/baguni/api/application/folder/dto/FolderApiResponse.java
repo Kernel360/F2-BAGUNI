@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import baguni.domain.model.folder.FolderType;
+import baguni.infra.model.folder.FolderType;
 
 public record FolderApiResponse(
 	Long id,

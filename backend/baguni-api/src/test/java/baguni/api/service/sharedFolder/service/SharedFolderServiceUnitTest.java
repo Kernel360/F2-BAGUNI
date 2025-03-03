@@ -1,7 +1,6 @@
 package baguni.api.service.sharedFolder.service;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
 import java.util.ArrayList;
@@ -23,22 +22,21 @@ import baguni.api.fixture.PickFixture;
 import baguni.api.fixture.SharedFolderFixture;
 import baguni.api.fixture.TagFixture;
 import baguni.api.fixture.UserFixture;
-import baguni.domain.exception.folder.ApiFolderException;
-import baguni.domain.exception.sharedFolder.ApiSharedFolderException;
-import baguni.domain.infrastructure.folder.FolderDataHandler;
-import baguni.domain.infrastructure.link.dto.LinkInfo;
-import baguni.domain.infrastructure.link.dto.LinkMapper;
-import baguni.domain.infrastructure.pick.PickDataHandler;
-import baguni.domain.infrastructure.sharedFolder.SharedFolderDataHandler;
-import baguni.domain.infrastructure.sharedFolder.dto.SharedFolderMapper;
-import baguni.domain.infrastructure.sharedFolder.dto.SharedFolderResult;
-import baguni.domain.infrastructure.tag.TagDataHandler;
-import baguni.domain.model.folder.Folder;
-import baguni.domain.model.folder.FolderType;
-import baguni.domain.model.pick.Pick;
-import baguni.domain.model.sharedFolder.SharedFolder;
-import baguni.domain.model.tag.Tag;
-import baguni.domain.model.user.User;
+import baguni.infra.exception.folder.ApiFolderException;
+import baguni.infra.exception.sharedFolder.ApiSharedFolderException;
+import baguni.infra.infrastructure.folder.FolderDataHandler;
+import baguni.infra.infrastructure.link.dto.LinkMapper;
+import baguni.infra.infrastructure.pick.PickDataHandler;
+import baguni.infra.infrastructure.sharedFolder.SharedFolderDataHandler;
+import baguni.infra.infrastructure.sharedFolder.dto.SharedFolderMapper;
+import baguni.infra.infrastructure.sharedFolder.dto.SharedFolderResult;
+import baguni.infra.infrastructure.tag.TagDataHandler;
+import baguni.infra.model.folder.Folder;
+import baguni.infra.model.folder.FolderType;
+import baguni.infra.model.pick.Pick;
+import baguni.infra.model.sharedFolder.SharedFolder;
+import baguni.infra.model.tag.Tag;
+import baguni.infra.model.user.User;
 
 @DisplayName("공유 폴더 서비스 - 단위 테스트")
 @ExtendWith(MockitoExtension.class)

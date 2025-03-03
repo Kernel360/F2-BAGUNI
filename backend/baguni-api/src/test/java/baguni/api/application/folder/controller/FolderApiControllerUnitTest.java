@@ -21,9 +21,9 @@ import baguni.api.application.folder.dto.FolderApiRequest;
 import baguni.api.application.folder.dto.FolderApiResponse;
 import baguni.api.service.folder.service.FolderService;
 import baguni.api.service.sharedFolder.service.SharedFolderService;
-import baguni.domain.infrastructure.folder.dto.FolderCommand;
-import baguni.domain.infrastructure.folder.dto.FolderResult;
-import baguni.domain.model.folder.FolderType;
+import baguni.infra.infrastructure.folder.dto.FolderCommand;
+import baguni.infra.infrastructure.folder.dto.FolderResult;
+import baguni.infra.model.folder.FolderType;
 
 @DisplayName("폴더 컨트롤러 - 단위 테스트")
 @ExtendWith(MockitoExtension.class)

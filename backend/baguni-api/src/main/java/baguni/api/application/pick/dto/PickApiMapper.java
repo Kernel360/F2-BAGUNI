@@ -5,13 +5,12 @@ import java.util.List;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Named;
 import org.mapstruct.ReportingPolicy;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
 
-import baguni.domain.infrastructure.pick.dto.PickCommand;
-import baguni.domain.infrastructure.pick.dto.PickResult;
+import baguni.infra.infrastructure.pick.dto.PickCommand;
+import baguni.infra.infrastructure.pick.dto.PickResult;
 
 @Mapper(
 	componentModel = "spring",

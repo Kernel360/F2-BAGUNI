@@ -11,7 +11,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -36,9 +35,9 @@ import baguni.api.service.ranking.dto.RankingResult;
 import baguni.api.service.ranking.service.RankingService;
 import baguni.api.service.user.service.UserService;
 import baguni.common.dto.UrlWithCount;
-import baguni.domain.infrastructure.link.dto.LinkInfo;
-import baguni.domain.infrastructure.user.dto.UserInfo;
-import baguni.domain.model.util.IDToken;
+import baguni.infra.infrastructure.link.dto.LinkInfo;
+import baguni.infra.infrastructure.user.dto.UserInfo;
+import baguni.infra.model.util.IDToken;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

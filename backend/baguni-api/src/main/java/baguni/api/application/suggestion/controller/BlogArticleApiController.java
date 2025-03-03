@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import baguni.api.service.link.service.LinkService;
-import baguni.domain.infrastructure.link.dto.BlogLinkInfo;
+import baguni.infra.infrastructure.link.dto.BlogLinkInfo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;

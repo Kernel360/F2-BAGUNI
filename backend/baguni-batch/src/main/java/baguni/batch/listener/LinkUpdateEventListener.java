@@ -10,10 +10,10 @@ import org.springframework.stereotype.Component;
 
 import baguni.batch.domain.link.service.LinkService;
 import baguni.common.config.RabbitmqConfig;
-import baguni.common.event.events.BookmarkCreateEvent;
-import baguni.common.event.events.LinkCreateEvent;
-import baguni.common.event.events.LinkReadEvent;
-import baguni.domain.infrastructure.link.dto.LinkResult;
+import baguni.common.event.BookmarkCreateEvent;
+import baguni.common.event.LinkCreateEvent;
+import baguni.common.event.LinkReadEvent;
+import baguni.infra.infrastructure.link.dto.LinkResult;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
