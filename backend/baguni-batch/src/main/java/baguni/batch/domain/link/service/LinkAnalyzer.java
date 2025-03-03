@@ -13,7 +13,7 @@ import baguni.common.lib.opengraph.Metadata;
 import baguni.common.lib.opengraph.OpenGraph;
 import baguni.common.lib.opengraph.OpenGraphException;
 import baguni.common.lib.opengraph.OpenGraphReader;
-import baguni.domain.exception.link.LinkErrorCode;
+import baguni.common.exception.error_code.LinkErrorCode;
 import io.opentelemetry.instrumentation.annotations.WithSpan;
 import lombok.extern.slf4j.Slf4j;
 

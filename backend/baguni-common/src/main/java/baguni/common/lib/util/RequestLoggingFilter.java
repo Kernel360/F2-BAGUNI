@@ -1,9 +1,7 @@
-package baguni.common.util;
+package baguni.common.lib.util;
 
 import java.io.IOException;
-import java.util.UUID;
 
-import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 

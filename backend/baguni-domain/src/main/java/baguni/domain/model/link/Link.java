@@ -8,7 +8,7 @@ import java.util.Objects;
 import org.hibernate.annotations.ColumnDefault;
 
 import baguni.common.exception.base.ServiceException;
-import baguni.domain.exception.link.LinkErrorCode;
+import baguni.common.exception.error_code.LinkErrorCode;
 import baguni.domain.model.common.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

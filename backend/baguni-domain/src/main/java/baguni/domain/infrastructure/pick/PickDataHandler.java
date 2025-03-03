@@ -10,10 +10,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import baguni.common.exception.base.ServiceException;
-import baguni.domain.exception.folder.FolderErrorCode;
-import baguni.domain.exception.pick.PickErrorCode;
-import baguni.domain.exception.tag.TagErrorCode;
-import baguni.domain.exception.user.UserErrorCode;
+import baguni.common.exception.error_code.FolderErrorCode;
+import baguni.common.exception.error_code.PickErrorCode;
+import baguni.common.exception.error_code.TagErrorCode;
+import baguni.common.exception.error_code.UserErrorCode;
 import baguni.domain.infrastructure.folder.FolderQuery;
 import io.opentelemetry.instrumentation.annotations.WithSpan;
 import lombok.RequiredArgsConstructor;

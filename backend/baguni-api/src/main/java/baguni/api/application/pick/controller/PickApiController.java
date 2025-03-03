@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import baguni.common.event.events.BookmarkCreateEvent;
-import baguni.common.event.messenger.EventMessenger;
+import baguni.common.event.BookmarkCreateEvent;
+import baguni.common.event.EventMessenger;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

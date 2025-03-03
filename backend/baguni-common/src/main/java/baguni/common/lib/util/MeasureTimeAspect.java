@@ -1,4 +1,4 @@
-package baguni.common.util;
+package baguni.common.lib.util;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;

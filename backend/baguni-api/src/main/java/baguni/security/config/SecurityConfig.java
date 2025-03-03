@@ -18,7 +18,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import baguni.common.util.RequestLoggingFilter;
+import baguni.common.lib.util.RequestLoggingFilter;
 import baguni.security.filter.TestUserAuthenticationFilter;
 import baguni.security.handler.BaguniOAuth2FlowFailureHandler;
 import baguni.security.handler.BaguniApiAuthExceptionEntrypoint;

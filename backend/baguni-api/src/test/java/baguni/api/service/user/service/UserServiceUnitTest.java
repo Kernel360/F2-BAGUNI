@@ -15,7 +15,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import baguni.api.fixture.UserFixture;
-import baguni.api.infrastructure.user.UserDataHandler;
+import baguni.domain.infrastructure.user.UserDataHandler;
 import baguni.domain.infrastructure.folder.FolderDataHandler;
 import baguni.domain.model.user.User;
 import baguni.domain.model.util.IDToken;
@@ -42,7 +42,7 @@ class UserServiceUnitTest {
 
 	@BeforeEach
 	void setUp() {
-		 attributes = Map.of(
+		attributes = Map.of(
 			"email", "user@example.com",
 			"name", "Test User"
 		);
@@ -92,7 +92,8 @@ class UserServiceUnitTest {
 	@DisplayName("유저 존재 여부 확인")
 	void exist_user() {
 		// given
-		given(userDataHandler.findSocialUser(userInfo.getProvider(), userInfo.getProviderId())).willReturn(Optional.of(user));
+		given(userDataHandler.findSocialUser(userInfo.getProvider(), userInfo.getProviderId())).willReturn(
+			Optional.of(user));
 
 		// when
 		userService.isSocialUserExists(userInfo);

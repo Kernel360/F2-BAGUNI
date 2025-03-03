@@ -1,4 +1,4 @@
-package baguni.common.event.events;
+package baguni.common.event;
 
 import lombok.Getter;
 

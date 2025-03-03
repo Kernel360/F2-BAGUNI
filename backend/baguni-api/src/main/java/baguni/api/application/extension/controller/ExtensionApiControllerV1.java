@@ -10,8 +10,8 @@ import baguni.api.application.extension.dto.ExtensionApiMapper;
 import baguni.api.application.extension.dto.ExtensionApiRequest;
 import baguni.api.application.extension.dto.ExtensionApiResponse;
 import baguni.api.service.pick.service.PickService;
-import baguni.common.event.events.BookmarkCreateEvent;
-import baguni.common.event.messenger.EventMessenger;
+import baguni.common.event.BookmarkCreateEvent;
+import baguni.common.event.EventMessenger;
 import baguni.security.annotation.LoginUserId;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -36,10 +36,10 @@ public class ExtensionApiControllerV1 {
 	@Operation(
 		summary = "[익스텐션 v1] 픽 생성",
 		description = """
-			익스텐션에서 픽 생성합니다.
-			익스텐션 메이저 버전을 명시합니다. (ex. /v1, /v2, /v3)
-			또한, 픽 생성 이벤트가 랭킹 서버에 집계됩니다.
-		"""
+				익스텐션에서 픽 생성합니다.
+				익스텐션 메이저 버전을 명시합니다. (ex. /v1, /v2, /v3)
+				또한, 픽 생성 이벤트가 랭킹 서버에 집계됩니다.
+			"""
 	)
 	@ApiResponses(value = {
 		@ApiResponse(responseCode = "200", description = "픽 생성 성공"),

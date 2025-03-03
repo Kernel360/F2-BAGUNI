@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import baguni.common.exception.base.ServiceException;
-import baguni.domain.exception.folder.FolderErrorCode;
-import baguni.domain.exception.sharedFolder.SharedFolderErrorCode;
+import baguni.common.exception.error_code.FolderErrorCode;
+import baguni.common.exception.error_code.SharedFolderErrorCode;
 import baguni.domain.model.folder.Folder;
 import baguni.domain.model.folder.FolderType;
 import baguni.domain.model.pick.Pick;

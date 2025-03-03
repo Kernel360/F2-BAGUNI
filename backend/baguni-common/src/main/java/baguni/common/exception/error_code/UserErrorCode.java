@@ -1,4 +1,4 @@
-package baguni.domain.exception.user;
+package baguni.common.exception.error_code;
 
 import org.springframework.http.HttpStatus;
 
