@@ -5,10 +5,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import baguni.batch.domain.link.dto.LinkAnalyzeResult;
-import baguni.domain.model.link.Link;
-import baguni.domain.infrastructure.link.LinkDataHandler;
-import baguni.domain.infrastructure.link.dto.LinkMapper;
-import baguni.domain.infrastructure.link.dto.LinkResult;
+import baguni.infra.model.link.Link;
+import baguni.infra.infrastructure.link.LinkDataHandler;
+import baguni.infra.infrastructure.link.dto.LinkMapper;
+import baguni.infra.infrastructure.link.dto.LinkResult;
 import io.opentelemetry.instrumentation.annotations.WithSpan;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -33,10 +33,10 @@ import baguni.api.application.tag.dto.TagApiMapperImpl;
 import baguni.api.application.tag.dto.TagApiRequest;
 import baguni.api.service.tag.service.TagService;
 import baguni.api.service.user.service.UserService;
-import baguni.domain.infrastructure.tag.dto.TagCommand;
-import baguni.domain.infrastructure.tag.dto.TagResult;
-import baguni.domain.infrastructure.user.dto.UserInfo;
-import baguni.domain.model.util.IDToken;
+import baguni.infra.infrastructure.tag.dto.TagCommand;
+import baguni.infra.infrastructure.tag.dto.TagResult;
+import baguni.infra.infrastructure.user.dto.UserInfo;
+import baguni.infra.model.util.IDToken;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

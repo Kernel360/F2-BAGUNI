@@ -22,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 import baguni.api.application.folder.dto.FolderApiMapper;
 import baguni.api.application.folder.dto.FolderApiRequest;
 import baguni.api.application.folder.dto.FolderApiResponse;
-import baguni.domain.infrastructure.folder.dto.FolderResult;
+import baguni.infra.infrastructure.folder.dto.FolderResult;
 import baguni.api.service.folder.service.FolderService;
 import baguni.api.service.sharedFolder.service.SharedFolderService;
 import baguni.security.annotation.LoginUserId;

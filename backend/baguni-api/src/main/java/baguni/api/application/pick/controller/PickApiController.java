@@ -27,7 +27,7 @@ import baguni.api.application.pick.dto.PickApiMapper;
 import baguni.api.application.pick.dto.PickApiRequest;
 import baguni.api.application.pick.dto.PickApiResponse;
 import baguni.api.application.pick.dto.PickSliceResponse;
-import baguni.domain.infrastructure.pick.dto.PickResult;
+import baguni.infra.infrastructure.pick.dto.PickResult;
 import baguni.api.service.pick.service.PickSearchService;
 import baguni.api.service.pick.service.PickService;
 import baguni.security.annotation.LoginUserId;

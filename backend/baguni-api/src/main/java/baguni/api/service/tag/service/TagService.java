@@ -9,12 +9,12 @@ import baguni.common.exception.base.ServiceException;
 import baguni.common.exception.error_code.TagErrorCode;
 import io.opentelemetry.instrumentation.annotations.WithSpan;
 import lombok.RequiredArgsConstructor;
-import baguni.domain.annotation.LoginUserIdDistributedLock;
-import baguni.domain.infrastructure.tag.dto.TagCommand;
-import baguni.domain.infrastructure.tag.dto.TagMapper;
-import baguni.domain.infrastructure.tag.dto.TagResult;
-import baguni.domain.infrastructure.tag.TagDataHandler;
-import baguni.domain.model.tag.Tag;
+import baguni.infra.annotation.LoginUserIdDistributedLock;
+import baguni.infra.infrastructure.tag.dto.TagCommand;
+import baguni.infra.infrastructure.tag.dto.TagMapper;
+import baguni.infra.infrastructure.tag.dto.TagResult;
+import baguni.infra.infrastructure.tag.TagDataHandler;
+import baguni.infra.model.tag.Tag;
 
 @Service
 @RequiredArgsConstructor

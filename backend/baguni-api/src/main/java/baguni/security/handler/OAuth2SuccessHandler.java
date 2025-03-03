@@ -6,7 +6,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
-import baguni.domain.infrastructure.user.UserDataHandler;
+import baguni.infra.infrastructure.user.UserDataHandler;
 import baguni.security.config.JwtProperties;
 import baguni.security.exception.AuthErrorCode;
 import baguni.security.util.AccessToken;

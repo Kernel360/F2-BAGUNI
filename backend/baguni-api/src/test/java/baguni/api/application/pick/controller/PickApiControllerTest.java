@@ -40,11 +40,11 @@ import baguni.api.service.pick.service.PickService;
 import baguni.api.service.user.service.UserService;
 import baguni.common.event.BookmarkCreateEvent;
 import baguni.common.event.EventMessenger;
-import baguni.domain.infrastructure.link.dto.LinkInfo;
-import baguni.domain.infrastructure.pick.dto.PickCommand;
-import baguni.domain.infrastructure.pick.dto.PickResult;
-import baguni.domain.infrastructure.user.dto.UserInfo;
-import baguni.domain.model.util.IDToken;
+import baguni.infra.infrastructure.link.dto.LinkInfo;
+import baguni.infra.infrastructure.pick.dto.PickCommand;
+import baguni.infra.infrastructure.pick.dto.PickResult;
+import baguni.infra.infrastructure.user.dto.UserInfo;
+import baguni.infra.model.util.IDToken;
 import lombok.extern.slf4j.Slf4j;
 
 /**

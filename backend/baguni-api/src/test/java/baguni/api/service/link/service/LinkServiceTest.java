@@ -13,16 +13,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import baguni.BaguniApiApplication;
-import baguni.domain.infrastructure.folder.FolderRepository;
-import baguni.domain.infrastructure.link.LinkDataHandler;
-import baguni.domain.infrastructure.link.LinkRepository;
-import baguni.domain.infrastructure.link.dto.BlogLinkInfo;
-import baguni.domain.infrastructure.link.dto.LinkInfo;
-import baguni.domain.infrastructure.link.dto.LinkMapper;
-import baguni.domain.infrastructure.pick.PickRepository;
-import baguni.domain.infrastructure.pick.PickTagRepository;
-import baguni.domain.infrastructure.tag.TagRepository;
-import baguni.domain.model.link.Link;
+import baguni.infra.infrastructure.folder.FolderRepository;
+import baguni.infra.infrastructure.link.LinkDataHandler;
+import baguni.infra.infrastructure.link.LinkRepository;
+import baguni.infra.infrastructure.link.dto.BlogLinkInfo;
+import baguni.infra.infrastructure.link.dto.LinkInfo;
+import baguni.infra.infrastructure.link.dto.LinkMapper;
+import baguni.infra.infrastructure.pick.PickRepository;
+import baguni.infra.infrastructure.pick.PickTagRepository;
+import baguni.infra.infrastructure.tag.TagRepository;
+import baguni.infra.model.link.Link;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
