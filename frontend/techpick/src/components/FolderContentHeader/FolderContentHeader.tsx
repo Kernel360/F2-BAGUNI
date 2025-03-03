@@ -4,9 +4,10 @@ import { useFetchFolders } from '@/queries/useFetchFolders';
 import type { FolderIdType } from '@/types/FolderIdType';
 import { getBasicFolderInfoByFolderId } from '@/utils/getBasicFolderInfoByFolderId';
 import { getFolderInfoByFolderId } from '@/utils/getFolderInfoByFolderId';
-import { ChromeExtensionLinkButton } from '../ChromeExtensionLinkButton/ChromeExtensionLinkButton';
+import { ChromeExtensionLinkButton } from './ChromeExtensionLinkButton';
 import { CurrentFolderNameSection } from './CurrentFolderNameSection';
 import { CurrentPathIndicator } from './CurrentPathIndicator';
+import { DeleteAllPicksFromRecycleBin } from './DeleteAllPicksFromRecycleBin';
 import {
   createPickPopoverButtonLayoutStyle,
   currentPathIndicatorLayoutStyle,
@@ -34,8 +35,10 @@ export function FolderContentHeader({ folderId }: FolderContentHeaderProps) {
           </div>
         </div>
         <div className={createPickPopoverButtonLayoutStyle}>
-          {folderInfo?.folderType !== 'RECYCLE_BIN' && (
+          {folderInfo?.folderType !== 'RECYCLE_BIN' ? (
             <ChromeExtensionLinkButton />
+          ) : (
+            <DeleteAllPicksFromRecycleBin />
           )}
         </div>
       </div>

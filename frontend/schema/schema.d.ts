@@ -312,6 +312,30 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/development/users": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * 테스트 회원 가입
+         * @description 테스트용 회원을 생성합니다.
+         */
+        post: operations["createTestUser"];
+        /**
+         * 회원 탈퇴
+         * @description 회원 탈퇴를 하면 모든 폴더, 픽, 태그가 삭제됩니다.
+         */
+        delete: operations["deleteUser"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/tags/location": {
         parameters: {
             query?: never;
@@ -386,11 +410,7 @@ export interface paths {
         get: operations["getUserInfo"];
         put?: never;
         post?: never;
-        /**
-         * 회원 탈퇴
-         * @description 회원 탈퇴를 하면 모든 폴더, 픽, 태그가 삭제됩니다.
-         */
-        delete: operations["deleteUser"];
+        delete?: never;
         options?: never;
         head?: never;
         patch?: never;
@@ -406,9 +426,8 @@ export interface paths {
         /**
          * 인기 픽 Top 10
          * @description 	각 주제 별로 인기 조회수 글을 10개씩 획득 합니다.
-         *     	1. 오늘 하루에 대한 실시간 링크 조회수 랭킹
-         *     	2. 지난 7일 동안 링크 조회수 랭킹
-         *     	3. 지난 한달간 픽된 (=북마크된) 링크 랭킹
+         *     	1. 지난 7일 (오늘 제외) 동안 링크 조회수 Top 10
+         *     	2. 지난 한달간 북마크 된 링크 Top 10
          *
          */
         get: operations["getSuggestionByViewCount"];
@@ -797,6 +816,14 @@ export interface components {
              */
             pickId: number;
         };
+        "baguni.api.application.user.controller.dto.UserInfoApiResponse": {
+            /** @description 사용자 식별 토큰 */
+            idToken: string;
+            /** @description 사용자 이메일 */
+            email: string;
+            /** @description 사용자 이름 */
+            name?: string;
+        };
         "baguni.api.application.tag.dto.TagApiRequest$Update": {
             /**
              * Format: int64
@@ -912,14 +939,6 @@ export interface components {
              */
             orderIdx?: number;
         };
-        "baguni.api.application.user.controller.dto.UserInfoApiResponse": {
-            /** @description 사용자 식별 토큰 */
-            idToken: string;
-            /** @description 사용자 이메일 */
-            email: string;
-            /** @description 사용자 이름 */
-            name?: string;
-        };
         "baguni.api.application.tag.dto.TagApiResponse$Read": {
             /** Format: int64 */
             id?: number;
@@ -927,24 +946,13 @@ export interface components {
             /** Format: int32 */
             colorNumber?: number;
         };
-        /** @description 지난 30일동안 링크가 픽된 횟수 Top 10 */
-        "baguni.api.application.suggestion.dto.LinkInfoWithCount": {
-            url: string;
-            title?: string;
-            description?: string;
-            imageUrl?: string;
-            /** Format: int64 */
-            count?: number;
-        };
         "baguni.api.application.suggestion.dto.RankingResponse": {
-            /** @description 오늘 하루 동안 인기 있는 링크 Top 10 */
-            dailyViewRanking?: components["schemas"]["baguni.api.application.suggestion.dto.LinkInfoWithCount"][];
             /** @description 지난 7일동안 링크 조회 수 Top 10 */
-            weeklyViewRanking?: components["schemas"]["baguni.api.application.suggestion.dto.LinkInfoWithCount"][];
+            weeklyViewRanking?: components["schemas"]["baguni.domain.infrastructure.link.dto.LinkInfo"][];
             /** @description 지난 30일동안 링크가 픽된 횟수 Top 10 */
-            monthlyPickRanking?: components["schemas"]["baguni.api.application.suggestion.dto.LinkInfoWithCount"][];
+            monthlyPickRanking?: components["schemas"]["baguni.domain.infrastructure.link.dto.LinkInfo"][];
         };
-        "baguni.domain.infrastructure.link.dto.RssLinkInfo": {
+        "baguni.domain.infrastructure.link.dto.BlogLinkInfo": {
             /** @example https://velog.io/@hyeok_1212/Java-Record-%EC%82%AC%EC%9A%A9%ED%95%98%EC%8B%9C%EB%82%98%EC%9A%94 */
             url: string;
             /** @example [Java] Record 사용하시나요? */
@@ -1709,6 +1717,48 @@ export interface operations {
             };
         };
     };
+    createTestUser: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description 테스트 계정 생성 성공 */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["baguni.api.application.user.controller.dto.UserInfoApiResponse"];
+                };
+            };
+        };
+    };
+    deleteUser: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": number;
+            };
+        };
+        responses: {
+            /** @description 회원 탈퇴 성공 */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     moveTag: {
         parameters: {
             query?: never;
@@ -1830,24 +1880,6 @@ export interface operations {
             };
         };
     };
-    deleteUser: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description 회원 탈퇴 성공 */
-            204: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-        };
-    };
     getSuggestionByViewCount: {
         parameters: {
             query?: never;
@@ -1883,7 +1915,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["baguni.domain.infrastructure.link.dto.RssLinkInfo"][];
+                    "*/*": components["schemas"]["baguni.domain.infrastructure.link.dto.BlogLinkInfo"][];
                 };
             };
         };

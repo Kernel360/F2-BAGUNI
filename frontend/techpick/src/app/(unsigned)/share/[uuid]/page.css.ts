@@ -112,3 +112,12 @@ export const mobileAndTabletVisibleStyle = style({
 export const mobilePickRecordListStyle = style({
   padding: '0 12px',
 });
+
+export const currentFolderNameSectionStyle = style({
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: 8,
+  flex: '1 0',
+  maxWidth: '100%',
+  minWidth: 0,
+});

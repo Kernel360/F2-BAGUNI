@@ -1,5 +1,5 @@
 import { PlusIcon } from 'lucide-react';
-import { chromeExtensionLinkButtonStyle } from './chromeExtensionLinkButton.css';
+import { chromeExtensionLinkButtonStyle } from './folderContentHeaderButton.css';
 
 export function ChromeExtensionLinkButton() {
   return (

@@ -1,5 +1,4 @@
 import { getShareFolderById } from '@/apis/folder/getShareFolderById';
-import { currentFolderNameSectionStyle } from '@/components/FolderContentHeader/currentFolderNameSection.css';
 import { FolderContentLayout } from '@/components/FolderContentLayout';
 import { MobileEmptyPickRecordImage } from '@/components/MobileEmptyPickRecordImage';
 import { PickContentLayout } from '@/components/PickContentLayout';
@@ -17,6 +16,7 @@ import { SharePickRecord } from './SharePickRecord';
 import { SignUpLinkButton } from './SignUpLinkButton';
 import {
   buttonSectionStyle,
+  currentFolderNameSectionStyle,
   desktopVisibleStyle,
   folderContentHeaderStyle,
   folderNameStyle,
