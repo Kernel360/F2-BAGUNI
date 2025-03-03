@@ -1,5 +1,6 @@
 import { dialogContentLayoutStyle } from '@/styles/dialogStyle.css';
 import { style } from '@vanilla-extract/css';
+import { desktop } from 'techpick-shared';
 
 export const dialogContent = style([
   dialogContentLayoutStyle,
@@ -8,7 +9,11 @@ export const dialogContent = style([
     padding: '16px',
     width: '100%',
     minWidth: '300px',
-    maxWidth: '800px',
+    '@media': {
+      [desktop]: {
+        maxWidth: '800px',
+      },
+    },
   },
 ]);
 
