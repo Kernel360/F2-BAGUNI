@@ -51,9 +51,8 @@ public class LinkDataHandler {
 	@WithSpan
 	@Transactional
 	public void updateLink(LinkCommand.Update command) {
-		Link link = linkRepository.findByImageUrl(command.imageUrl())
-								  .orElseThrow(() -> new ServiceException(LinkErrorCode.LINK_IMAGE_NOT_FOUND));
-		link.updateMetadata(link.getTitle(), link.getDescription(), command.updateImageUrl());
+		List<Link> links = linkRepository.findAllByImageUrl(command.imageUrl());
+		links.forEach(link -> link.updateMetadata(link.getTitle(), link.getDescription(), command.updateImageUrl()));
 	}
 
 	@WithSpan
