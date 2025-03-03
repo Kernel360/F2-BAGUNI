@@ -12,6 +12,7 @@ export const redSolidButtonStyle = style([
     color: 'white',
     ':hover': { backgroundColor: colorVars.red10 },
     ':active': { backgroundColor: colorVars.red11 },
+    ':focus': { backgroundColor: colorVars.red11 },
   },
 ]);
 
