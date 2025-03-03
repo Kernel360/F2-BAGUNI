@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import baguni.common.lib.cache.CacheType;
 import baguni.infra.infrastructure.link.dto.BlogLinkInfo;
+import baguni.infra.infrastructure.link.dto.LinkCommand;
 import baguni.infra.model.link.Link;
 import io.opentelemetry.instrumentation.annotations.WithSpan;
 import lombok.RequiredArgsConstructor;
@@ -42,6 +43,12 @@ public class LinkService {
 	public LinkInfo saveLink(String url) {
 		Link link = linkDataHandler.getOptionalLink(url).orElseGet(() -> Link.createLink(url));
 		return linkMapper.of(linkDataHandler.saveLink(link));
+	}
+
+	@WithSpan
+	@Transactional
+	public void updateLink(LinkCommand.Update command) {
+		linkDataHandler.updateLink(command);
 	}
 
 	@WithSpan

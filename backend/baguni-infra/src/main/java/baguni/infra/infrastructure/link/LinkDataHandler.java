@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import baguni.common.exception.base.ServiceException;
 import baguni.common.exception.error_code.LinkErrorCode;
+import baguni.infra.infrastructure.link.dto.LinkCommand;
 import baguni.infra.model.link.Link;
 import baguni.infra.model.link.LinkStats;
 import io.opentelemetry.instrumentation.annotations.WithSpan;
@@ -48,10 +49,19 @@ public class LinkDataHandler {
 	}
 
 	@WithSpan
+	@Transactional
+	public void updateLink(LinkCommand.Update command) {
+		Link link = linkRepository.findByImageUrl(command.imageUrl())
+								  .orElseThrow(() -> new ServiceException(LinkErrorCode.LINK_IMAGE_NOT_FOUND));
+		link.updateMetadata(link.getTitle(), link.getDescription(), command.updateImageUrl());
+	}
+
+	@WithSpan
 	@Transactional(readOnly = true)
 	public boolean existsByUrl(String url) {
 		return linkRepository.existsByUrl(url);
 	}
+
 
 	@WithSpan
 	@Transactional(readOnly = true)

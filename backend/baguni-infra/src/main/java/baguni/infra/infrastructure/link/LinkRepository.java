@@ -13,6 +13,8 @@ public interface LinkRepository extends JpaRepository<Link, Long> {
 
 	Optional<Link> findByUrl(String url);
 
+	Optional<Link> findByImageUrl(String imageUrl);
+
 	List<Link> findByUrlIn(List<String> urlList);
 
 	boolean existsByUrl(String url);
