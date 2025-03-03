@@ -1,10 +1,11 @@
 'use client';
 import { useEventLogger } from '@/libs/@eventlog/useEventLogger';
 import { useCreatePick } from '@/queries/useCreatePick';
+import { useFetchBasicFolders } from '@/queries/useFetchBasicFolders';
 import { useDraggingRecommendPickStore } from '@/stores/draggingRecommendPickStore';
 import { isPickToFolderDroppableObject } from '@/utils/isPickToFolderDroppableObject';
 import { isRecommendPickDraggableObject } from '@/utils/isRecommendPickDraggableObject';
-import { notifySuccess } from '@/utils/toast';
+import { notifyError, notifySuccess } from '@/utils/toast';
 import { useDndMonitor } from '@dnd-kit/core';
 import type {
   DragEndEvent,
@@ -16,6 +17,7 @@ import type {
  * @description 추천 목록에서 folder로 dnd를 할 때의 이벤트를 감지하고 동작하는 hook입니다.
  */
 export function useRecommendPickToFolderDndMonitor() {
+  const { data: basicFolderRecord } = useFetchBasicFolders();
   const { mutate: createPick } = useCreatePick();
   const { setIsDragging, setDraggingPickInfo } =
     useDraggingRecommendPickStore();
@@ -63,6 +65,11 @@ export function useRecommendPickToFolderDndMonitor() {
       return;
 
     const { url, title, imageUrl, description } = activeObject;
+
+    if (overObject.id === basicFolderRecord?.RECYCLE_BIN.id) {
+      notifyError('휴지통에는 추가할 수 없습니다!');
+      return;
+    }
 
     createPick(
       {
