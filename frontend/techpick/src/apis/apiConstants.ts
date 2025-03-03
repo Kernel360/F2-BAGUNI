@@ -18,6 +18,7 @@ const API_ENDPOINTS = {
   BLOG_ARTICLE: 'blog-articles',
   PAGINATION: 'pagination',
   MOBILE: 'mobile',
+  RECYCLE_BIN: 'recycle-bin',
 };
 
 export const API_URLS = {
@@ -31,6 +32,7 @@ export const API_URLS = {
   GET_ALL_PICKS_BY_FOLDER_ID: (folderId: number) =>
     `${API_ENDPOINTS.PICKS}?folderIdList=${folderId}`,
   DELETE_PICKS: API_ENDPOINTS.PICKS,
+  DELETE_ALL_PICKS_FROM_RECYCLE_BIN: `${API_ENDPOINTS.PICKS}/${API_ENDPOINTS.RECYCLE_BIN}`,
   GET_PICKS_BY_FOLDER_ID: (folderId: FolderIdType, cursor: number, size = 20) =>
     `${API_ENDPOINTS.PICKS}/${API_ENDPOINTS.PAGINATION}?folderId=${folderId}&cursor=${cursor}&size=${size}`,
   SEARCH_PICKS_BY_QUERY_PARAM: (
