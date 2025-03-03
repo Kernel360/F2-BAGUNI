@@ -13,15 +13,16 @@ const styles = {
 
 async function isValidImageUrl(url: string): Promise<boolean> {
   try {
-    const res = await fetch(url, { method: 'HEAD' });
-    return (
-      res.ok && res.headers.get('Content-Type')?.startsWith('image/') === true
-    );
+    const res = await fetch(url, { method: 'GET' });
+    if (!res.ok) return false;
+
+    const contentType = res.headers.get('Content-Type');
+    const validTypes = ['image/png', 'image/jpeg', 'image/webp'];
+    return validTypes.some((type) => contentType?.startsWith(type));
   } catch {
     return false;
   }
 }
-
 const getImageStyle = (index: number) => {
   return styles[index as keyof typeof styles] || styles[16];
 };
