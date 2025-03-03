@@ -25,7 +25,11 @@ public class UserService {
 	@WithSpan
 	@Transactional
 	public UserInfo createSocialUser(OAuth2UserInfo oAuthInfo) {
-		var user = userDataHandler.createSocialUser(oAuthInfo);
+		var user = userDataHandler.createSocialUser(
+			oAuthInfo.getProvider(),
+			oAuthInfo.getProviderId(),
+			oAuthInfo.getEmail()
+		);
 		try {
 			folderDataHandler.createMandatoryFolder(user);
 			return UserInfo.from(user);

@@ -55,7 +55,11 @@ class UserServiceUnitTest {
 	@DisplayName("유저 생성")
 	void create_user() {
 		// given
-		given(userDataHandler.createSocialUser(userInfo)).willReturn(user);
+		given(userDataHandler.createSocialUser(
+			userInfo.getProvider(),
+			userInfo.getProviderId(),
+			userInfo.getEmail()
+		)).willReturn(user);
 
 		// when
 		userService.createSocialUser(userInfo);
@@ -78,7 +82,11 @@ class UserServiceUnitTest {
 	@DisplayName("유저 생성 실패")
 	void fail_create_user() {
 		// given
-		given(userDataHandler.createSocialUser(userInfo)).willReturn(user);
+		given(userDataHandler.createSocialUser(
+			userInfo.getProvider(),
+			userInfo.getProviderId(),
+			userInfo.getEmail()
+		)).willReturn(user);
 		willThrow(new RuntimeException("폴더 생성 실패"))
 			.given(folderDataHandler).createMandatoryFolder(user);
 

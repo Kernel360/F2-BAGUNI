@@ -16,7 +16,6 @@ import baguni.domain.infrastructure.tag.TagRepository;
 import baguni.domain.model.user.Role;
 import baguni.domain.model.user.SocialProvider;
 import baguni.domain.model.util.IDToken;
-import baguni.security.model.OAuth2UserInfo;
 import io.opentelemetry.instrumentation.annotations.WithSpan;
 import lombok.RequiredArgsConstructor;
 import baguni.domain.model.user.User;
@@ -56,9 +55,9 @@ public class UserDataHandler {
 
 	@WithSpan
 	@Transactional
-	public User createSocialUser(OAuth2UserInfo oAuthInfo) {
+	public User createSocialUser(SocialProvider provider, String socialProviderId, String email) {
 		return userRepository.save(
-			User.SocialUser(oAuthInfo.getProvider(), oAuthInfo.getProviderId(), oAuthInfo.getEmail())
+			User.SocialUser(provider, socialProviderId, email)
 		);
 	}
 
