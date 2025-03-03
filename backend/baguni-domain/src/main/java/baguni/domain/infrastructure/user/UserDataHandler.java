@@ -1,4 +1,4 @@
-package baguni.api.infrastructure.user;
+package baguni.domain.infrastructure.user;
 
 import java.util.List;
 import java.util.Optional;
@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import baguni.common.exception.base.ServiceException;
-import baguni.domain.exception.user.UserErrorCode;
+import baguni.common.exception.error_code.UserErrorCode;
 import baguni.domain.infrastructure.folder.FolderRepository;
 import baguni.domain.infrastructure.pick.PickRepository;
 import baguni.domain.infrastructure.pick.PickTagRepository;
@@ -16,11 +16,9 @@ import baguni.domain.infrastructure.tag.TagRepository;
 import baguni.domain.model.user.Role;
 import baguni.domain.model.user.SocialProvider;
 import baguni.domain.model.util.IDToken;
-import baguni.security.model.OAuth2UserInfo;
 import io.opentelemetry.instrumentation.annotations.WithSpan;
 import lombok.RequiredArgsConstructor;
 import baguni.domain.model.user.User;
-import baguni.domain.infrastructure.user.UserRepository;
 
 @Component
 @RequiredArgsConstructor
@@ -57,9 +55,9 @@ public class UserDataHandler {
 
 	@WithSpan
 	@Transactional
-	public User createSocialUser(OAuth2UserInfo oAuthInfo) {
+	public User createSocialUser(SocialProvider provider, String socialProviderId, String email) {
 		return userRepository.save(
-			User.SocialUser(oAuthInfo.getProvider(), oAuthInfo.getProviderId(), oAuthInfo.getEmail())
+			User.SocialUser(provider, socialProviderId, email)
 		);
 	}
 

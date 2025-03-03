@@ -1,4 +1,4 @@
-package baguni.common.util;
+package baguni.common.lib.util;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;

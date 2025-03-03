@@ -20,8 +20,8 @@ import baguni.api.application.pick.dto.PickApiRequest;
 import baguni.api.application.pick.dto.PickApiResponse;
 import baguni.api.service.pick.service.PickSearchService;
 import baguni.api.service.pick.service.PickService;
-import baguni.common.event.events.BookmarkCreateEvent;
-import baguni.common.event.messenger.EventMessenger;
+import baguni.common.event.BookmarkCreateEvent;
+import baguni.common.event.EventMessenger;
 import baguni.domain.infrastructure.link.dto.LinkInfo;
 import baguni.domain.infrastructure.pick.dto.PickCommand;
 import baguni.domain.infrastructure.pick.dto.PickResult;
@@ -117,13 +117,15 @@ class PickApiControllerUnitTest {
 			List.of(
 				new PickResult.Pick(pickId, "pick1", linkInfo, folderIdList.get(0), tagIdList, LocalDateTime.now(),
 					LocalDateTime.now()),
-				new PickResult.Pick(otherPickId, "pick2", otherLinkInfo, folderIdList.get(0), tagIdList, LocalDateTime.now(),
+				new PickResult.Pick(otherPickId, "pick2", otherLinkInfo, folderIdList.get(0), tagIdList,
+					LocalDateTime.now(),
 					LocalDateTime.now())
 			)
 		);
 		var slicePickApiResponse = new SliceImpl<>(
 			List.of(
-				new PickApiResponse.Pick(pickId, "pick1", linkInfo, folderIdList.get(0), tagIdList, LocalDateTime.now(),
+				new PickApiResponse.Pick(pickId, "pick1", linkInfo, folderIdList.get(0), tagIdList,
+					LocalDateTime.now(),
 					LocalDateTime.now()),
 				new PickApiResponse.Pick(otherPickId, "pick2", otherLinkInfo, folderIdList.get(0), tagIdList,
 					LocalDateTime.now(),
@@ -140,7 +142,9 @@ class PickApiControllerUnitTest {
 		pickApiController.searchPickPagination(userId, folderIdList, searchTokenList, tagIdList, cursor, size);
 
 		// then
-		then(pickApiMapper).should(times(1)).toSearchPaginationCommand(userId, folderIdList, searchTokenList, tagIdList, cursor, size);
+		then(pickApiMapper)
+			.should(times(1))
+			.toSearchPaginationCommand(userId, folderIdList, searchTokenList, tagIdList, cursor, size);
 		then(pickSearchService).should(times(1)).searchPickPagination(command);
 		then(pickApiMapper).should(times(1)).toSliceApiResponse(pickResultList);
 	}
@@ -169,8 +173,10 @@ class PickApiControllerUnitTest {
 		// given
 		var request = new PickApiRequest.Create("pick1", new ArrayList<>(), folderIdList.get(0), linkInfo);
 		var command = new PickCommand.Create(userId, "pick1", new ArrayList<>(), folderIdList.get(0), linkInfo);
-		var result = new PickResult.Pick(pickId, "pick1", linkInfo, folderIdList.get(0), new ArrayList<>(), LocalDateTime.now(), LocalDateTime.now());
-		var response = new PickApiResponse.Pick(pickId, "pick1", linkInfo, folderIdList.get(0), new ArrayList<>(), LocalDateTime.now(), LocalDateTime.now());
+		var result = new PickResult.Pick(pickId, "pick1", linkInfo, folderIdList.get(0), new ArrayList<>(),
+			LocalDateTime.now(), LocalDateTime.now());
+		var response = new PickApiResponse.Pick(pickId, "pick1", linkInfo, folderIdList.get(0), new ArrayList<>(),
+			LocalDateTime.now(), LocalDateTime.now());
 
 		given(pickApiMapper.toCreateCommand(userId, request)).willReturn(command);
 		given(pickService.saveNewPick(command)).willReturn(result);
@@ -194,7 +200,8 @@ class PickApiControllerUnitTest {
 		var command = new PickCommand.Extension(userId, linkInfo.title(), linkInfo.url());
 		var result = new PickResult.Extension(pickId, "pick1", 1L, linkInfo.url(), folderIdList.get(0),
 			new ArrayList<>(), LocalDateTime.now(), LocalDateTime.now());
-		var response = new PickApiResponse.Extension(pickId, "pick1", folderIdList.get(0), new ArrayList<>(), LocalDateTime.now(), LocalDateTime.now());
+		var response = new PickApiResponse.Extension(pickId, "pick1", folderIdList.get(0), new ArrayList<>(),
+			LocalDateTime.now(), LocalDateTime.now());
 
 		given(pickApiMapper.toExtensionCommand(userId, linkInfo.title(), linkInfo.url())).willReturn(command);
 		given(pickService.savePickToUnclassified(command)).willReturn(result);
@@ -214,10 +221,12 @@ class PickApiControllerUnitTest {
 	@DisplayName("익스텐션 픽 수정")
 	void extension_update_test() {
 		// given
-		var request = new PickApiRequest.UpdateFromExtension(pickId, "pick", folderIdList.get(0), List.of(1L, 2L)) ;
-		var command = new PickCommand.Update(userId, pickId,"pick", folderIdList.get(0), List.of(1L, 2L)) ;
-		var result = new PickResult.Pick(pickId, "pick", linkInfo, folderIdList.get(0), List.of(1L, 2L), LocalDateTime.now(), LocalDateTime.now());
-		var response = new PickApiResponse.Pick(pickId, "pick", linkInfo, folderIdList.get(0), List.of(1L, 2L), LocalDateTime.now(), LocalDateTime.now());
+		var request = new PickApiRequest.UpdateFromExtension(pickId, "pick", folderIdList.get(0), List.of(1L, 2L));
+		var command = new PickCommand.Update(userId, pickId, "pick", folderIdList.get(0), List.of(1L, 2L));
+		var result = new PickResult.Pick(pickId, "pick", linkInfo, folderIdList.get(0), List.of(1L, 2L),
+			LocalDateTime.now(), LocalDateTime.now());
+		var response = new PickApiResponse.Pick(pickId, "pick", linkInfo, folderIdList.get(0), List.of(1L, 2L),
+			LocalDateTime.now(), LocalDateTime.now());
 
 		given(pickApiMapper.toUpdateCommand(userId, request)).willReturn(command);
 		given(pickService.updatePick(command)).willReturn(result);
@@ -237,9 +246,11 @@ class PickApiControllerUnitTest {
 	void pick_update_test() {
 		// given
 		var request = new PickApiRequest.Update(pickId, "pick", new ArrayList<>());
-		var command = new PickCommand.Update(userId, pickId,"pick", folderIdList.get(0), List.of(1L, 2L)) ;
-		var result = new PickResult.Pick(pickId, "pick", linkInfo, folderIdList.get(0), List.of(1L, 2L), LocalDateTime.now(), LocalDateTime.now());
-		var response = new PickApiResponse.Pick(pickId, "pick", linkInfo, folderIdList.get(0), List.of(1L, 2L), LocalDateTime.now(), LocalDateTime.now());
+		var command = new PickCommand.Update(userId, pickId, "pick", folderIdList.get(0), List.of(1L, 2L));
+		var result = new PickResult.Pick(pickId, "pick", linkInfo, folderIdList.get(0), List.of(1L, 2L),
+			LocalDateTime.now(), LocalDateTime.now());
+		var response = new PickApiResponse.Pick(pickId, "pick", linkInfo, folderIdList.get(0), List.of(1L, 2L),
+			LocalDateTime.now(), LocalDateTime.now());
 
 		given(pickApiMapper.toUpdateCommand(userId, request)).willReturn(command);
 		given(pickService.updatePick(command)).willReturn(result);

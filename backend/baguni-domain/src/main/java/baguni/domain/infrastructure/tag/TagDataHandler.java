@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import baguni.common.exception.base.ServiceException;
-import baguni.domain.exception.tag.TagErrorCode;
-import baguni.domain.exception.user.UserErrorCode;
+import baguni.common.exception.error_code.TagErrorCode;
+import baguni.common.exception.error_code.UserErrorCode;
 import baguni.domain.infrastructure.pick.PickRepository;
 import baguni.domain.infrastructure.pick.PickTagRepository;
 import baguni.domain.model.tag.Tag;

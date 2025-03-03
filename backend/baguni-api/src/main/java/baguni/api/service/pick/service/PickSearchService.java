@@ -11,9 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import baguni.common.exception.base.ServiceException;
-import baguni.domain.exception.folder.FolderErrorCode;
-import baguni.domain.exception.sharedFolder.SharedFolderErrorCode;
-import baguni.domain.exception.tag.TagErrorCode;
+import baguni.common.exception.error_code.FolderErrorCode;
+import baguni.common.exception.error_code.TagErrorCode;
 import io.opentelemetry.instrumentation.annotations.WithSpan;
 import lombok.RequiredArgsConstructor;
 import baguni.domain.infrastructure.pick.dto.PickCommand;

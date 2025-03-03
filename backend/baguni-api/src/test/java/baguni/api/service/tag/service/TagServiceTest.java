@@ -26,7 +26,7 @@ import baguni.BaguniApiApplication;
 import baguni.domain.infrastructure.tag.dto.TagCommand;
 import baguni.domain.infrastructure.tag.dto.TagResult;
 import baguni.domain.exception.tag.ApiTagException;
-import baguni.api.infrastructure.user.UserDataHandler;
+import baguni.domain.infrastructure.user.UserDataHandler;
 import baguni.domain.model.user.Role;
 import baguni.domain.model.user.SocialProvider;
 import baguni.domain.model.user.User;

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import baguni.common.exception.base.ServiceException;
-import baguni.domain.exception.link.LinkErrorCode;
+import baguni.common.exception.error_code.LinkErrorCode;
 import baguni.domain.model.link.Link;
 import baguni.domain.model.link.LinkStats;
 import io.opentelemetry.instrumentation.annotations.WithSpan;
