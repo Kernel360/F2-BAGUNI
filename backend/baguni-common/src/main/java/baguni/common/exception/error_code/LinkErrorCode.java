@@ -28,6 +28,9 @@ public class LinkErrorCode extends ErrorCode {
 	public static final ErrorCode LINK_ANALYZE_FAILURE = new LinkErrorCode(
 		"LI-005", HttpStatus.URI_TOO_LONG, "링크 분석에 실패했습니다", ErrorLevel.CAN_HAPPEN()
 	);
+	public static final ErrorCode LINK_IMAGE_NOT_FOUND = new LinkErrorCode(
+		"LI-006", HttpStatus.NOT_FOUND, "존재하지 않는 이미지 링크", ErrorLevel.SHOULD_NOT_HAPPEN()
+	);
 
 	protected LinkErrorCode(String code, HttpStatus status, String message, ErrorLevel errorLevel) {
 		super(code, status, message, errorLevel);
