@@ -96,17 +96,29 @@ export async function GET(req: NextRequest) {
       }}
     >
       {images.map((url: string, index: number) => (
-        <img
-          // biome-ignore lint/a11y/noRedundantAlt: <explanation>
-          alt="open graph image"
-          // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-          key={index}
-          src={url}
-          style={{
-            ...getImageStyle(imageCount),
-            objectFit: 'cover',
-          }}
-        />
+        // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+        <div key={index} style={{ display: 'flex', position: 'relative' }}>
+          <img
+            alt=""
+            src={url}
+            style={{
+              ...getImageStyle(imageCount),
+              objectFit: 'cover',
+              opacity: '0.5',
+            }}
+          />
+          <img
+            alt=""
+            src={url}
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              objectFit: 'scale-down',
+            }}
+          />
+        </div>
       ))}
     </div>,
     { width, height },
