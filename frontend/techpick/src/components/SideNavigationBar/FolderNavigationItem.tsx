@@ -18,10 +18,10 @@ export function FolderNavigationItem({ folderId }: FolderNavigationItemProps) {
   const isShared = !!folderInfo?.folderAccessToken;
   let folderIcon = FolderClosedIcon;
 
-  if (isActive) {
-    folderIcon = FolderOpenIcon;
-  } else if (isShared) {
+  if (isShared) {
     folderIcon = FolderUpIcon;
+  } else if (isActive) {
+    folderIcon = FolderOpenIcon;
   }
 
   return (
