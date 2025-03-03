@@ -13,16 +13,15 @@ const styles = {
 
 async function isValidImageUrl(url: string): Promise<boolean> {
   try {
-    const res = await fetch(url, { method: 'GET' });
-    if (!res.ok) return false;
-
-    const contentType = res.headers.get('Content-Type');
-    const validTypes = ['image/png', 'image/jpeg', 'image/webp'];
-    return validTypes.some((type) => contentType?.startsWith(type));
+    const res = await fetch(url, { method: 'HEAD' });
+    return (
+      res.ok && res.headers.get('Content-Type')?.startsWith('image/') === true
+    );
   } catch {
     return false;
   }
 }
+
 const getImageStyle = (index: number) => {
   return styles[index as keyof typeof styles] || styles[16];
 };
@@ -96,29 +95,17 @@ export async function GET(req: NextRequest) {
       }}
     >
       {images.map((url: string, index: number) => (
-        // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-        <div key={index} style={{ display: 'flex', position: 'relative' }}>
-          <img
-            alt=""
-            src={url}
-            style={{
-              ...getImageStyle(imageCount),
-              objectFit: 'cover',
-              opacity: '0.5',
-            }}
-          />
-          <img
-            alt=""
-            src={url}
-            style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              objectFit: 'scale-down',
-            }}
-          />
-        </div>
+        <img
+          // biome-ignore lint/a11y/noRedundantAlt: <explanation>
+          alt="open graph image"
+          // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+          key={index}
+          src={url}
+          style={{
+            ...getImageStyle(imageCount),
+            objectFit: 'cover',
+          }}
+        />
       ))}
     </div>,
     { width, height },

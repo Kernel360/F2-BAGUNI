@@ -54,7 +54,6 @@ export function UpdateFolderNameInput({
           !containerRef.current.contains(event.target as Node)
         ) {
           onSubmit();
-          onCloseUpdateFolderInput();
         }
       };
 
@@ -63,7 +62,7 @@ export function UpdateFolderNameInput({
         document.removeEventListener('mousedown', handleClickOutside);
       };
     },
-    [onSubmit, onCloseUpdateFolderInput],
+    [onSubmit],
   );
 
   useEffect(
