@@ -2,7 +2,7 @@ package baguni.api.application.suggestion.dto;
 
 import java.util.List;
 
-import baguni.domain.infrastructure.link.dto.LinkInfo;
+import baguni.infra.infrastructure.link.dto.LinkInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 public record RankingResponse(

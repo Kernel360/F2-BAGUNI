@@ -16,20 +16,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import baguni.api.service.folder.service.FolderService;
-import baguni.domain.model.util.IDToken;
+import baguni.infra.model.util.IDToken;
 import jakarta.persistence.OptimisticLockException;
 import lombok.extern.slf4j.Slf4j;
 import baguni.BaguniApiApplication;
-import baguni.domain.infrastructure.folder.dto.FolderCommand;
-import baguni.domain.infrastructure.folder.dto.FolderResult;
-import baguni.domain.infrastructure.folder.FolderDataHandler;
-import baguni.domain.model.folder.Folder;
-import baguni.domain.infrastructure.folder.FolderRepository;
-import baguni.domain.model.user.Role;
-import baguni.domain.model.user.SocialProvider;
-import baguni.domain.model.user.User;
-import baguni.domain.infrastructure.user.UserRepository;
+import baguni.infra.infrastructure.folder.dto.FolderCommand;
+import baguni.infra.infrastructure.folder.dto.FolderResult;
+import baguni.infra.infrastructure.folder.FolderDataHandler;
+import baguni.infra.model.folder.Folder;
+import baguni.infra.infrastructure.folder.FolderRepository;
+import baguni.infra.model.user.Role;
+import baguni.infra.model.user.SocialProvider;
+import baguni.infra.model.user.User;
+import baguni.infra.infrastructure.user.UserRepository;
 
 @Slf4j
 @SpringBootTest(classes = BaguniApiApplication.class)

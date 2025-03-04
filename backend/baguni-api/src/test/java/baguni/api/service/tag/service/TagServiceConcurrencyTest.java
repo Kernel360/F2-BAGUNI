@@ -1,7 +1,6 @@
 package baguni.api.service.tag.service;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.concurrent.CountDownLatch;
@@ -10,27 +9,25 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.transaction.annotation.Transactional;
 
 import baguni.BaguniApiApplication;
-import baguni.domain.infrastructure.folder.FolderRepository;
-import baguni.domain.infrastructure.link.LinkRepository;
-import baguni.domain.infrastructure.pick.PickRepository;
-import baguni.domain.infrastructure.pick.PickTagRepository;
-import baguni.domain.infrastructure.tag.TagRepository;
-import baguni.domain.infrastructure.tag.dto.TagCommand;
-import baguni.domain.infrastructure.user.UserRepository;
-import baguni.domain.model.user.Role;
-import baguni.domain.model.user.SocialProvider;
-import baguni.domain.model.user.User;
-import baguni.domain.model.util.IDToken;
+import baguni.infra.infrastructure.folder.FolderRepository;
+import baguni.infra.infrastructure.link.LinkRepository;
+import baguni.infra.infrastructure.pick.PickRepository;
+import baguni.infra.infrastructure.pick.PickTagRepository;
+import baguni.infra.infrastructure.tag.TagRepository;
+import baguni.infra.infrastructure.tag.dto.TagCommand;
+import baguni.infra.infrastructure.user.UserRepository;
+import baguni.infra.model.user.Role;
+import baguni.infra.model.user.SocialProvider;
+import baguni.infra.model.user.User;
+import baguni.infra.model.util.IDToken;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

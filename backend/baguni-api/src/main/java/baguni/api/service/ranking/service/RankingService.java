@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import baguni.common.dto.UrlWithCount;
 import baguni.common.lib.cache.CacheType;
-import baguni.domain.infrastructure.link.LinkDataHandler;
+import baguni.infra.infrastructure.link.LinkDataHandler;
 import io.opentelemetry.instrumentation.annotations.WithSpan;
 import lombok.RequiredArgsConstructor;
 

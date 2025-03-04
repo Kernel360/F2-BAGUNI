@@ -1,7 +1,7 @@
 spring:
   profiles:
     include:
-      - domain
+      - infra
       - common
 springdoc:
   swagger-ui:

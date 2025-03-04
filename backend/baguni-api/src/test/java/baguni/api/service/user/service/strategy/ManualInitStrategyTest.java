@@ -1,6 +1,5 @@
 package baguni.api.service.user.service.strategy;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
 import java.util.List;
@@ -9,7 +8,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -18,12 +16,12 @@ import baguni.api.fixture.FolderFixture;
 import baguni.api.fixture.UserFixture;
 import baguni.api.service.link.service.LinkService;
 import baguni.api.service.pick.service.PickService;
-import baguni.domain.exception.link.ApiLinkException;
-import baguni.domain.infrastructure.link.dto.LinkInfo;
-import baguni.domain.infrastructure.user.dto.UserInfo;
-import baguni.domain.model.folder.Folder;
-import baguni.domain.model.user.User;
-import baguni.domain.model.util.IDToken;
+import baguni.infra.exception.link.ApiLinkException;
+import baguni.infra.infrastructure.link.dto.LinkInfo;
+import baguni.infra.infrastructure.user.dto.UserInfo;
+import baguni.infra.model.folder.Folder;
+import baguni.infra.model.user.User;
+import baguni.infra.model.util.IDToken;
 
 @DisplayName("메뉴얼 초기 전략 - 단위 테스트")
 @ExtendWith(MockitoExtension.class)
