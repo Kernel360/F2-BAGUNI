@@ -6,7 +6,7 @@ on:
       - 'develop_be' # 배포 대상 브랜치
     paths:
       - 'backend/baguni-common/**'
-      - 'backend/baguni-domain/**'
+      - 'backend/baguni-infra/**'
       - 'backend/baguni-api/**'
   workflow_dispatch:
 
