@@ -3428,14 +3428,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@playwright/test@npm:^1.47.0":
-  version: 1.48.2
-  resolution: "@playwright/test@npm:1.48.2"
+"@playwright/test@npm:^1.50.1":
+  version: 1.50.1
+  resolution: "@playwright/test@npm:1.50.1"
   dependencies:
-    playwright: "npm:1.48.2"
+    playwright: "npm:1.50.1"
   bin:
     playwright: cli.js
-  checksum: 10c0/68bab3bee8d716111e9a166785e6c3c406b6a184fc46d03b5468fcbb92b6242e5628f6a75f9d286e2491ec0e9e59af67542a1f114b6659d790b5a1f41e4d305b
+  checksum: 10c0/77c1a7cfaca7b3b88804256bb4c0e15c54b8df02690298086ef4a4fc8c2a42b99b69ba1b83906d00cc7ddb322ce8b2f19f0238f189913607c679779a4d132da1
   languageName: node
   linkType: hard
 
@@ -12297,27 +12297,27 @@ __metadata:
   languageName: node
   linkType: hard
 
-"playwright-core@npm:1.48.2":
-  version: 1.48.2
-  resolution: "playwright-core@npm:1.48.2"
+"playwright-core@npm:1.50.1":
+  version: 1.50.1
+  resolution: "playwright-core@npm:1.50.1"
   bin:
     playwright-core: cli.js
-  checksum: 10c0/511da53d9df01fec5e5798915c68e7d1574890a504d1aae05430bf538d0080efa8db86e3dafdcd450f084ce7622f6bbede23ca52e798bfc4c3b3ea8da52a51f5
+  checksum: 10c0/c158764257d870897c31807a830ddcc3f5aaf4376719e05aeada3489a01f751650b2dc43e027201a40405a1b075084e89f58cd3730a985a229efe9d8cecfe360
   languageName: node
   linkType: hard
 
-"playwright@npm:1.48.2":
-  version: 1.48.2
-  resolution: "playwright@npm:1.48.2"
+"playwright@npm:1.50.1, playwright@npm:^1.50.1":
+  version: 1.50.1
+  resolution: "playwright@npm:1.50.1"
   dependencies:
     fsevents: "npm:2.3.2"
-    playwright-core: "npm:1.48.2"
+    playwright-core: "npm:1.50.1"
   dependenciesMeta:
     fsevents:
       optional: true
   bin:
     playwright: cli.js
-  checksum: 10c0/ecde4ee4767556868b24d7700f3502692a3cb14c8ef127052b51b48833ffcce80942954fb188a9b72505122b48b1b625d1bb486721e1c4f2e980215328ba1ad5
+  checksum: 10c0/b292ee6e0d122748a3d024b85ace86a0d9c848fc4121685d90ffc5d43d6bcf13ed7dc7488b1055f69040599c420052306ccba6fabfe2f69a15fc109c55171207
   languageName: node
   linkType: hard
 
@@ -14261,7 +14261,7 @@ __metadata:
     "@gsap/react": "npm:^2.1.1"
     "@jest/globals": "npm:^29.7.0"
     "@jest/types": "npm:^29.6.3"
-    "@playwright/test": "npm:^1.47.0"
+    "@playwright/test": "npm:^1.50.1"
     "@radix-ui/react-checkbox": "npm:^1.1.3"
     "@radix-ui/react-context-menu": "npm:2.2.2"
     "@radix-ui/react-dialog": "npm:^1.1.2"
@@ -14319,6 +14319,7 @@ __metadata:
     mixpanel-browser: "npm:^2.58.0"
     next: "npm:14.2.9"
     path: "npm:^0.12.7"
+    playwright: "npm:^1.50.1"
     re-resizable: "npm:^6.10.0"
     react: "npm:^18"
     react-dom: "npm:^18"
